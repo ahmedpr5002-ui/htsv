@@ -1,0 +1,8 @@
+{
+  "initializing_system": "Initializing system...",
+  "status_maintenance": "System Under Emergency Maintenance",
+  "status_update": "Mandatory System Update Required",
+  "status_restricted": "Temporarily Restricted Access",
+  "default_maintenance_message": "System engineers are currently performing routine hydraulic upgrades and optimization. We will be back online shortly.",
+  "download_update_btn": "Download Immediate Update Now"
+}

@@ -1,0 +1,759 @@
+/* ==========================================================================
+   1. إعداد المتغيرات الأساسية (الهوية البصرية للمشروع)
+   ========================================================================== */
+:root {
+  /* --- ألوان الشعار المستخرجة بدقة --- */
+  --energy-blue-light: #5ECDF5; 
+  --energy-blue-medium: #479FD7; 
+  --energy-blue-dark: #2F5C9E;  
+
+  /* --- ألوان العناصر المفرغة والنصوص المقترحة --- */
+  --energy-plug-white: #FFFFFF; 
+  --energy-text-dark: #1E3A60;  
+
+  /* --- تدرجات الألوان (Gradients) --- */
+  --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
+  --energy-gradient-bg: linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%);
+
+  /* --- تأثيرات إضافية وهندسة التصميم --- */
+  --energy-shadow-glow: 0 8px 24px rgba(71, 159, 215, 0.2); 
+  --energy-radius-circle: 50%; 
+  --energy-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* ==========================================================================
+   2. الهيكل العام والتخطيط (Layout)
+   ========================================================================== */
+.risk-action-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background-color: #f8fafc;
+  direction: rtl;
+  font-family: sans-serif;
+}
+
+/* بنر الهيدر الأزرق العريض */
+.racon-blue-banner {
+  background: var(--energy-gradient-linear);
+  padding: 30px 40px;
+  border-radius: 12px;
+  color: var(--energy-plug-white);
+  box-shadow: var(--energy-shadow-glow);
+}
+
+.racon-blue-banner .banner-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.racon-blue-banner .banner-subtitle {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* كارت تفاصيل وعنوان الخطر العلوية */
+.risk-header-info-card {
+  display: flex;
+  background: var(--energy-plug-white);
+  border: 2px solid var(--energy-blue-dark);
+  border-radius: 12px;
+  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.info-column-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.info-column-item:not(:last-child) {
+  border-left: 1px solid #f1f5f9;
+}
+
+.flex-grow-text {
+  flex: 2;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.text-center { text-align: center; align-items: center; }
+.text-right { text-align: right; }
+.text-center-label { text-align: center; display: block; width: 100%; }
+
+.info-value-text {
+  font-size: 15px;
+  color: var(--energy-text-dark);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* بادجات قيم الكروت العلوية */
+.info-value-box {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.code-purple-badge {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+.axis-purple-badge {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+.nature-red-badge {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.icon-gap {
+  margin-left: 6px;
+  
+}
+
+/* صندوق التنبيه الأصفر للمخاطر الهيكلية */
+.structural-alert-banner {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.alert-icon-wrapper {
+  color: #d97706;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.alert-text-wrapper {
+  color: #92400e;
+  font-size: 14px;
+}
+
+.alert-text-wrapper strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.alert-text-wrapper p {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* التخطيط الشبكي للمحتوى الرئيسي */
+.main-sections-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   3. كارت خريطة الارتباط (السايدبار الأيمن)
+   ========================================================================== */
+.relation-map-sidebar-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.sidebar-card-header h3 {
+  font-size: 15px;
+  color: var(--energy-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-map-view {
+  background-color: var(--energy-plug-white);
+  border: 1px solid var(--energy-blue-medium);
+  color: var(--energy-blue-dark);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--energy-transition);
+}
+
+.btn-map-view:hover {
+  background-color: #f0f9ff;
+}
+
+.matrix-title {
+  font-size: 13px;
+  color: #475569;
+  margin: 0 0 12px 0;
+}
+
+.matrix-table-mock {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.matrix-row.header-row {
+  background-color: #f8fafc;
+  border-bottom: 1px solid #cbd5e1;
+  font-weight: 600;
+  color: #475569;
+}
+
+.matrix-row.values-row {
+  font-weight: bold;
+  color: #334155;
+  background-color: var(--energy-plug-white);
+}
+
+.dot-checked {
+  color: #16a34a;
+}
+
+.matrix-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--energy-radius-circle);
+  margin-left: 4px;
+}
+
+.legend-dot.green { background-color: #16a34a; }
+.legend-dot.gray { background-color: #cbd5e1; }
+
+.matrix-row.header-row span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   4. قسم اختيار واستدعاء الإجراءات (Dropdown List) 
+   ========================================================================== */
+.action-dropdown-selection-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.dropdown-main-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--energy-text-dark);
+  margin-bottom: 12px;
+}
+
+.custom-beautiful-dropdown {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--energy-text-dark);
+  background-color: #f8fafc;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: var(--energy-transition);
+}
+
+.custom-beautiful-dropdown:focus {
+  border-color: var(--energy-blue-medium);
+  background-color: var(--energy-plug-white);
+  box-shadow: 0 0 0 4px rgba(71, 159, 215, 0.15);
+}
+
+/* ==========================================================================
+   5. جدول الإجراءات الرئيسي المصور (طابق الأصل للصورة)
+   ========================================================================== */
+.actions-list-main-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-header-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header-inline h3 {
+  font-size: 16px;
+  color: var(--energy-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtitle-hint {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.custom-action-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.image-style-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-style-table th {
+  background-color: #f4f7fc !important;
+  color: #3f5175 !important;
+  font-size: 13px;
+  padding: 14px 10px !important;
+  border-bottom: 1px solid #e9edf5 !important;
+  font-weight: 600;
+  text-align: center;
+}
+
+.image-style-table td {
+  padding: 16px 12px !important;
+  border-bottom: 1px solid #f2f5fa !important;
+  text-align: center;
+  vertical-align: middle;
+  color: #334155;
+  cursor: pointer;
+}
+
+.custom-action-table tr.active-row td {
+  background-color: #eff6ff;
+}
+
+.custom-action-table tr:hover td {
+  transition: 0.5s;
+  background-color: #f8fafc;
+  
+}
+/* التعديل الصحيح لتلوين صفوف الجدول بالتناوب */
+.custom-action-table tr:nth-child(odd) td {
+  background-color: #d9e9f9; /* لون رمادي/أزرق ناعم جداً مريح للعين */
+}
+
+.custom-action-table tr:nth-child(even) td {
+  background-color: var(--energy-plug-white); /* اللون الأبيض الافتراضي للصفوف الزوجية */
+}
+
+/* عند تمرير الماوس فوق أي صف */
+.custom-action-table tr:hover td {
+  background-color: #eff6ff !important; /* تأثير تمرير أزرق ناعم يتوافق مع الهوية */
+}
+
+.index-cell-style {
+  font-weight: 600;
+  color: #7c8ba1;
+}
+
+.code-cell-dynamic-styled {
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.action-text-bold-style {
+  font-size: 14px;
+  color: #2c3a57;
+  font-weight: 500;
+}
+
+.rii-cell-styled {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   6. بادجات المسؤولين (البادجات الملونة الدائرية تماماً كالصورة)
+   ========================================================================== */
+.image-badge-style {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 13px;
+  min-width: 110px;
+}
+
+/* مدير المشروع - أخضر ناعم */
+.badge-manager-green {
+  background-color: #e6f9f0;
+  color: #10b981;
+}
+
+/* مهندس الموقع - أزرق ناعم */
+.badge-engineer-blue {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+/* الجهة المالكة - بيج / برتقالي مصفر */
+.badge-owner-orange {
+  background-color: #fff7ed;
+  color: #f97316;
+}
+
+/* جهة خارجية - بنفسجي ناعم */
+.badge-external-purple {
+  background-color: #f5f3ff;
+  color: #8b5cf6;
+}
+
+.badge-assignee-default {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+/* خلية التواريخ والمؤشرات */
+.badge-date-styled {
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.calendar-icon-table {
+  color: #9ca3af;
+}
+
+/* زر حذف السطر التفاعلي */
+.delete-action-row-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: var(--energy-transition);
+}
+
+.delete-action-row-btn:hover {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.no-data-inside-table {
+  color: #94a3b8;
+  font-style: italic;
+  padding: 30px !important;
+}
+
+/* ==========================================================================
+   7. الأنماط المتغيرة لرموز الإجراءات والمحاور (حسب الكود القديم)
+   ========================================================================== */
+.code-cell-dynamic {
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.badge-category-axis {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* مالي (أخضر) */
+.axis-financial-badge { background-color: #dcfce7 !important; color: #15803d !important; border: 1px solid #bbf7d0; }
+.cell-financial { color: #16a34a; }
+.dot-checked.color-green { color: #16a34a; }
+.row-financial .code-cell-dynamic { background-color: #dcfce7; color: #166534; }
+.row-financial .badge-category-axis { background-color: #e8f5e9; color: #2e7d32; }
+
+/* قانوني (بنفسجي) */
+.axis-legal-badge { background-color: #f3e8ff !important; color: #6b21a8 !important; border: 1px solid #e9d5ff; }
+.cell-legal { color: #6b21a8; }
+.dot-checked.color-purple { color: #6b21a8; }
+.row-legal .code-cell-dynamic { background-color: #f3e8ff; color: #6b21a8; }
+.row-legal .badge-category-axis { background-color: #f3e8ff; color: #7b1fa2; }
+
+/* فني (أزرق) */
+.axis-technical-badge { background-color: #e0f2fe !important; color: #0369a1 !important; border: 1px solid #bae6fd; }
+.cell-technical { color: #0284c7; }
+.dot-checked.color-blue { color: #0284c7; }
+.row-technical .code-cell-dynamic { background-color: #e0f2fe; color: #0369a1; }
+.row-technical .badge-category-axis { background-color: #e0f2fe; color: #1565c0; }
+
+/* تكاملي (برتقالي) */
+.axis-integrative-badge { background-color: #fff7ed !important; color: #c2410c !important; border: 1px solid #ffedd5; }
+.cell-integrative { color: #ea580c; }
+.row-integrative .code-cell-dynamic { background-color: #fff7ed; color: #c2410c; }
+.row-integrative .badge-category-axis { background-color: #fff3e0; color: #e65100; }
+
+/* ==========================================================================
+   8. نموذج التفاصيل السفلي (Bottom Form Card)
+   ========================================================================== */
+.bottom-details-form-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.bottom-details-form-card h3 {
+  font-size: 16px;
+  color: var(--energy-text-dark);
+  margin: 0 0 20px 0;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.form-fields-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+
+.form-group-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.form-group-item label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group-item .required {
+  color: #ef4444;
+}
+
+.form-group-item textarea {
+  width: 100%;
+  height: 140px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  resize: none;
+  background-color: #fafafa;
+}
+
+.char-count {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.form-inputs-side-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inner-icon {
+  position: absolute;
+  right: 12px;
+  color: #94a3b8;
+}
+
+.form-group-item input, .form-group-item select {
+  width: 100%;
+  padding: 10px 12px;
+  padding-right: 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--energy-plug-white);
+  color: var(--energy-text-dark);
+}
+
+/* ==========================================================================
+   9. أزرار الفوتر والتحكم بالحفظ (Buttons)
+   ========================================================================== */
+.form-actions-footer-bar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 30px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+}
+
+.btn-save-action-main {
+  background-color: #10b981; 
+  color: var(--energy-plug-white);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--energy-transition);
+}
+
+.btn-save-action-main:hover {
+  background-color: #059669;
+}
+
+.btn-cancel-action-main {
+  background-color: var(--energy-plug-white);
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--energy-transition);
+}
+
+.btn-cancel-action-main:hover {
+  background-color: #f1f5f9;
+}
+
+.system-footer-hint {
+  font-size: 12px;
+  color: #16a34a;
+  margin: 16px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-msg {
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.form-msg.success { background-color: #dcfce7; color: #15803d; }
+.form-msg.error { background-color: #fee2e2; color: #b91c1c; }
+/* ==========================================================================
+   10. تحسينات لوحة التحكم المنفصلة والإجراءات الفردية
+   ========================================================================== */
+.action-individual-inputs-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border-right: 4px solid var(--energy-blue-medium);
+  margin-bottom: 20px;
+}
+
+.form-divider-line {
+  border: 0;
+  border-top: 1px dashed #cbd5e1;
+  margin: 24px 0;
+}
+
+.no-active-action-alert {
+  background-color: #f0fdf4;
+  border: 1px dashed #bbf7d0;
+  color: #166534;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.nature-red-badge {
+  background-color: rgba(229, 62, 62, 0.15);
+  color: #ff2e2e;
+  border: 1px solid #e53e3e;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.nature-blue-badge {
+  background-color: rgba(49, 130, 206, 0.15);
+  color: #3182ce;
+  border: 1px solid #3182ce;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}

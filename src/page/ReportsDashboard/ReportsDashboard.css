@@ -1,0 +1,380 @@
+:root {
+  /* --- ألوان الشعار المستخرجة بدقة --- */
+  --energy-blue-light: #5ECDF5;  /* الأزرق السماوي الفاتح */
+  --energy-blue-medium: #479FD7; /* الأزرق المتوسط */
+  --energy-blue-dark: #2F5C9E;   /* الأزرق الداكن العميق */
+
+  /* --- ألوان العناصر والنصوص --- */
+  --energy-plug-white: #FFFFFF;  /* الأبيض النقي */
+  --energy-text-dark: #1E3A60;   /* لون داكن للنصوص ليتماشى مع الهوية */
+  --energy-text-secondary: #5275a1; /* لون نصوص فرعية */
+  --energy-border-color: #cbd5e1;
+
+  /* --- تدرجات الألوان (Gradients) --- */
+  --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
+  --energy-gradient-bg: linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%);
+
+  /* --- تأثيرات إضافية وهندسة التصميم --- */
+  --energy-shadow-glow: 0 8px 24px rgba(71, 159, 215, 0.15);
+  --energy-radius-circle: 50%;
+  --energy-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* الحاوية الأساسية - ضبط دقيق للمساحات والمحاذاة */
+.reports-dashboard-content {
+  width: 82%;
+  min-height: 100vh;
+  padding: 24px;
+  margin-right: 18%;
+  background: var(--energy-gradient-bg) !important;
+  color: var(--energy-text-dark) !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  direction: rtl; /* لضمان انسيابية العناصر العربية من اليمين للشمال */
+  float: right;
+}
+
+/* الهيدر العلوي */
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--energy-plug-white) !important;
+  padding: 20px 24px;
+  border-radius: 14px;
+  box-shadow: var(--energy-shadow-glow);
+  border: 1px solid rgba(71, 159, 215, 0.1);
+}
+
+.header-title-zone h1 {
+  font-size: 1.5rem;
+  color: var(--energy-blue-medium) !important;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.header-title-zone p {
+  font-size: 0.88rem;
+  color: var(--energy-text-secondary) !important;
+  margin: 0;
+}
+
+.header-controls-zone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-select-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-select-box label {
+  font-size: 0.9rem;
+  color: var(--energy-text-dark);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.project-select-box select {
+  background: var(--energy-plug-white) !important;
+  color: var(--energy-text-dark) !important;
+  border: 1.5px solid #cbd5e1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.88rem;
+  cursor: pointer;
+  min-width: 260px;
+  transition: var(--energy-transition);
+}
+
+.project-select-box select:focus {
+  border-color: var(--energy-blue-medium);
+  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.2);
+}
+
+.btn-refresh {
+  background: var(--energy-plug-white);
+  border: 1.5px solid #cbd5e1;
+  color: var(--energy-text-dark);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--energy-transition);
+}
+
+.btn-refresh:hover {
+  background: #f1f5f9;
+  border-color: var(--energy-blue-medium);
+  color: var(--energy-blue-dark);
+}
+
+/* شبكة الكروت الهندسية (توزيع متناسق وعربي بالكامل) */
+.reports-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+/* الكروت الذكية بتأثيرات بصرية متناسقة */
+.report-spec-card {
+  background: var(--energy-plug-white) !important;
+  border-radius: 14px;
+  border: 1px solid rgba(71, 159, 215, 0.1);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: var(--energy-transition);
+  position: relative;
+}
+
+.report-spec-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--energy-shadow-glow);
+}
+
+/* توزيع ألوان الهوية الرقمية على حدود الكروت بدلاً من الألوان العشوائية القديمة */
+.theme-blue { border-top: 4px solid var(--energy-blue-light) !important; }
+.theme-green { border-top: 4px solid var(--energy-blue-medium) !important; }
+.theme-purple { border-top: 4px solid var(--energy-blue-dark) !important; }
+.theme-red { border-top: 4px solid var(--energy-text-dark) !important; } /* تلوين التنبيه فقط بالأحمر التحذيري */
+
+/* الأيقونات الدائرية المستوحاة من دوائر الشعار */
+.icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--energy-radius-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin: 0 auto 14px auto;
+  background: #f0f9ff;
+  color: var(--energy-blue-medium);
+}
+
+.theme-red .icon-wrapper {
+  background:#f0f9ff;
+  color: var(--energy-blue-medium);
+}
+
+.card-top-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: var(--energy-text-dark) !important;
+  text-align: center;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--energy-text-secondary) !important;
+  line-height: 1.6;
+  margin: 0;
+  min-height: 55px;
+  text-align: right;
+}
+
+/* أقسام محتويات التقارير */
+.card-include-section {
+  margin: 16px 0;
+  text-align: right;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 12px;
+}
+
+.card-include-section h4 {
+  font-size: 0.82rem;
+  margin: 0 0 8px 0;
+  color: var(--energy-text-dark) !important;
+}
+
+.card-include-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-include-section ul li {
+  font-size: 0.78rem;
+  color: var(--energy-text-secondary) !important;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-include-section ul li::before {
+  content: "•";
+  color: var(--energy-blue-light);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* أزرار العمليات السفلية */
+.card-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.file-format-lbl {
+  font-size: 0.75rem;
+  color: var(--energy-text-secondary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.action-buttons-fix {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.btn-export-solid, .btn-preview-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: var(--energy-transition);
+}
+
+/* تناسق ألوان تصدير الملفات الرسمية */
+.btn-pdf { 
+  background: #fee2e2; 
+  color: #dc2626 !important; 
+  flex: 1; 
+}
+.btn-pdf:hover { 
+  background: #dc2626; 
+  color: var(--energy-plug-white) !important; 
+}
+
+.btn-excel { 
+  background: #dcfce7; 
+  color: #16a34a !important; 
+  flex: 1; 
+}
+.btn-excel:hover { 
+  background: #16a34a; 
+  color: var(--energy-plug-white) !important; 
+}
+
+/* زر المعاينة بهوية التدرج اللوني للشعار عند التمرير الماوس */
+.btn-preview-outline {
+  background: #f1f5f9;
+  color: var(--energy-text-dark) !important;
+  border: 1px solid var(--energy-border-color);
+  flex: 1.3;
+}
+.btn-preview-outline:hover { 
+  background: var(--energy-gradient-linear);
+  color: var(--energy-plug-white) !important;
+  border-color: transparent;
+}
+
+/* جدول المعاينة السفلي */
+.live-preview-section {
+  background: var(--energy-plug-white) !important;
+  border-radius: 14px;
+  border: 1px solid rgba(71, 159, 215, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--energy-shadow-glow);
+  margin-top: 12px;
+}
+
+.preview-section-title {
+  background: #f8fafc;
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--energy-text-dark) !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-data-container {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.preview-state-msg {
+  padding: 40px;
+  text-align: center;
+  color: var(--energy-text-secondary) !important;
+  font-size: 0.85rem;
+}
+
+/* تصميم الجداول والمحاذاة المباشرة */
+.live-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.live-preview-table th {
+  background: #f1f5f9 !important;
+  color: var(--energy-text-dark) !important;
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #cbd5e1;
+  font-weight: 700;
+}
+
+.live-preview-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  color: var(--energy-text-secondary) !important;
+}
+
+.live-preview-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* عناصر داعمة وعلامات تقييم المخاطر (RII) */
+.code-highlight { color: var(--energy-blue-dark) !important; font-weight: 700; }
+.text-truncate { max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.axis-badge { background: #eff6ff; color: var(--energy-blue-dark); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+.rii-bold { color: var(--energy-blue-medium) !important; font-weight: 700; }
+.score-bold { color: var(--energy-text-dark) !important; font-weight: 700; }
+
+/* أنيميشن التحديث */
+.spin-icon { animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* دعم لصفحة المعاينة المستقلة */
+.standalone-preview {
+  margin-top: 0 !important;
+  min-height: calc(100vh - 50px);
+  background: var(--energy-plug-white) !important;
+}
+
+.standalone-preview .preview-data-container {
+  max-height: none !important; 
+}

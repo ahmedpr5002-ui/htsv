@@ -1,0 +1,339 @@
+/* ==========================================================================
+   تنسيق وتخطيط صفحة استعراض الإجراءات (العرض 82%)
+   ========================================================================== */
+.view-actions-layout-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; 
+  background: var(--energy-gradient-bg);
+  min-height: 100vh;
+}
+
+.framework-82-width {
+  width: 82% !important;
+  max-width: 82% !important;
+  flex: 0 0 82% !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  direction: rtl;
+  font-family: sans-serif;
+}
+
+/* بنر الهيدر العريض بالتدرج اللوني المعتمد بالروت */
+.racon-blue-banner {
+  background: var(--energy-gradient-linear);
+  padding: 24px 32px;
+  border-radius: 12px;
+  color: var(--energy-plug-white);
+  box-shadow: var(--energy-shadow-glow);
+  transition: var(--energy-transition);
+}
+
+.header-banner-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.racon-blue-banner .banner-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.racon-blue-banner .banner-subtitle {
+  font-size: 13px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* زر العودة العلوي المطور بالبنر */
+.btn-back-header {
+  background-color: var(--energy-plug-white);
+  color: var(--energy-text-dark);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: var(--energy-transition);
+}
+
+.btn-back-header:hover {
+  transform: translateY(-2px);
+  background-color: #f8fafc;
+  color: var(--energy-blue-dark);
+}
+
+/* فلاتر البحث والاستدعاء */
+.action-dropdown-selection-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.filter-wrapper-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.dropdown-main-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--energy-text-dark);
+  margin-bottom: 10px;
+}
+
+.search-box-container {
+  flex: 1;
+}
+
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inner-icon {
+  position: absolute;
+  right: 14px;
+  color: #94a3b8;
+}
+
+.search-input-field {
+  width: 100%;
+  padding: 12px 42px 12px 12px !important;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8fafc;
+  color: var(--energy-text-dark);
+  outline: none;
+  transition: var(--energy-transition);
+}
+
+.search-input-field:focus {
+  border-color: var(--energy-blue-medium);
+  background-color: var(--energy-plug-white);
+  box-shadow: 0 0 0 4px rgba(71, 159, 215, 0.15);
+}
+
+.filter-item {
+  width: 260px;
+}
+
+.filter-select-control {
+  width: 100%;
+  padding: 11px 12px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--energy-plug-white);
+  color: var(--energy-text-dark);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: var(--energy-transition);
+}
+
+.filter-select-control:focus {
+  border-color: var(--energy-blue-medium);
+  box-shadow: 0 0 0 4px rgba(71, 159, 215, 0.15);
+}
+
+/* ==========================================================================
+   تنسيق وهندسة الجدول الاحترافي 
+   ========================================================================== */
+.actions-list-main-card {
+  background: var(--energy-plug-white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(30, 58, 96, 0.03);
+}
+
+.card-header-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header-inline h3 {
+  font-size: 16px;
+  color: var(--energy-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtitle-hint {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.custom-action-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.blueprint-table {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.blueprint-table th {
+  background: #f4f8fc !important;
+  color: var(--energy-text-dark) !important;
+  font-weight: 700 !important;
+  font-size: 13px;
+  padding: 14px 10px !important;
+  border-bottom: 2px solid #cbd5e1 !important;
+  text-align: center;
+}
+
+/* التناوب اللوني المريح للعين من الهوية */
+.blueprint-table tr:nth-child(odd) td {
+  background-color: #f0f7fc !important; 
+}
+
+.blueprint-table tr:nth-child(even) td {
+  background-color: var(--energy-plug-white) !important;
+}
+
+.blueprint-table tr:hover td {
+  background-color: #e0f2fe !important; 
+  transition: background-color 0.2s ease-in-out;
+}
+
+.blueprint-table td {
+  padding: 16px 12px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  text-align: center;
+  vertical-align: middle;
+  color: #334155;
+}
+
+.index-cell-style {
+  font-weight: 600;
+  color: #7c8ba1;
+}
+
+.action-text-bold-style {
+  font-size: 14px;
+  color: var(--energy-text-dark);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.rii-cell-styled {
+  color: #ea580c !important;
+  font-weight: 800;
+}
+
+.badge-date-styled {
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-icon-table {
+  color: #9ca3af;
+}
+
+/* ==========================================================================
+   ألوان الأكواد والبادجات المتغيرة ديناميكياً (تم تلوين الأكواد بناءً عليها)
+   ========================================================================== */
+.badge-category-axis {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* مالي */
+.axis-financial-badge { background-color: #dcfce7 !important; color: #15803d !important; border: 1px solid #bbf7d0; }
+.cell-financial { color: #16a34a !important; font-weight: 700; font-size: 15px; }
+
+/* قانوني */
+.axis-legal-badge { background-color: #f3e8ff !important; color: #6b21a8 !important; border: 1px solid #e9d5ff; }
+.cell-legal { color: #6b21a8 !important; font-weight: 700; font-size: 15px; }
+
+/* فني */
+.axis-technical-badge { background-color: #e0f2fe !important; color: #0369a1 !important; border: 1px solid #bae6fd; }
+.cell-technical { color: #0284c7 !important; font-weight: 700; font-size: 15px; }
+
+/* تكاملي (اللون البرتقالي المعتمد للروت والأيقونة السلسلة) */
+.axis-integrative-badge { background-color: #fff7ed !important; color: #c2410c !important; border: 1px solid #fed7aa !important; }
+.cell-integrative { color: #ea580c !important; font-weight: 700; font-size: 15px; }
+
+.badge-assignee-default { background-color: #f1f5f9; color: #64748b; }
+.no-data-inside-table { color: #94a3b8; font-style: italic; padding: 30px !important; }
+/* ==========================================================================
+   التنسيقات المضافة لحقول البيانات الحقيقية الكاملة (Phase & _id)
+   ========================================================================== */
+
+/* تنسيق بادج المرحلة الزمني */
+.phase-badge {
+  background-color: #f1f5f9;
+  color: var(--energy-text-dark);
+  border: 1px solid #cbd5e1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.phase-icon {
+  color: var(--energy-blue-medium);
+  font-size: 11px;
+}
+
+/* تنسيق عمود المعرف الفريد لمنع تشويه أبعاد الجدول */
+.id-header-cell {
+  font-size: 11px !important;
+  color: #64748b !important;
+}
+
+.id-body-cell {
+  font-family: monospace;
+  font-size: 11px !important;
+  color: #94a3b8;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* عند تمرير الماوس يظهر الـ ID كاملاً */
+.id-body-cell:hover {
+  color: var(--energy-blue-dark);
+}

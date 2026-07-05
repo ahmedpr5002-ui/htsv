@@ -1,0 +1,148 @@
+/* ربط ألوان الـ :root المخصصة لشعار نظامك */
+:root {
+  --energy-blue-light: #5ECDF5;
+  --energy-blue-medium: #479FD7;
+  --energy-blue-dark: #2F5C9E;
+  --energy-plug-white: #FFFFFF;
+  --energy-text-dark: #1E3A60;
+  --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
+  --energy-gradient-bg: linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%);
+  --energy-shadow-glow: 0 8px 24px rgba(71, 159, 215, 0.2);
+}
+
+/* الحاوية الأساسية بعرض 82% ومزاحة لتفادي القائمة الجانبية */
+.admin-dashboard-wrapper {
+  width: 82%;
+  margin-right: auto; /* لترك مساحة للقائمة الجانبية اليمنى */
+  padding: 30px 20px;
+  direction: rtl;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.table-header-section h3 {
+  color: var(--energy-text-dark);
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  border-bottom: 3px solid var(--energy-blue-light);
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+/* تصميم الجدول النظيف المطابق للمشروع الأصلي */
+.custom-table-responsive {
+  width: 100%;
+  background: var(--energy-plug-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #eef2f5;
+}
+
+.hvl-irs-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+}
+
+.hvl-irs-table th {
+  background-color: #f8fafc;
+  color: var(--energy-text-dark);
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.hvl-irs-table td {
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #475569;
+  border-bottom: 1px solid #edf2f7;
+  vertical-align: middle;
+}
+
+.hvl-irs-table tbody tr:hover {
+  background-color: #fcfdfe;
+}
+
+/* كود MANUAL الأزرق السماوي الهادئ */
+.manual-code-badge {
+  background: rgba(94, 205, 245, 0.15);
+  color: var(--energy-blue-dark);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: 1px solid rgba(94, 205, 245, 0.4);
+}
+
+.risk-text-cell {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.stage-text-cell {
+  color: #64748b;
+}
+
+/* بادجات المحاور بالألوان المحددة صراحة وصارمة مع الأيقونات */
+.axis-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* فني -> أزرق */
+.axis-badge.tech {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+/* مالي -> أخضر */
+.axis-badge.financial {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+/* قانوني -> بنفسجي */
+.axis-badge.legal {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+
+/* بادجات درجة الخطورة العامة */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 12px;
+}
+.score-badge.high { color: #dc2626; }
+.score-badge.medium { color: #ea580c; }
+.score-badge.low { color: #16a34a; }
+
+/* الحالات التشغيلية */
+.operational-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+.operational-status-tag.open { color: #ef4444; }
+.operational-status-tag.processed { color: #3b82f6; }
+
+/* حاويات التحميل والخطأ */
+.loading-container, .error-container {
+  width: 82%;
+  margin-right: auto;
+  padding: 50px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--energy-text-dark);
+}

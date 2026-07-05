@@ -1,0 +1,256 @@
+:root {
+  /* --- ألوان الشعار المستخرجة بدقة --- */
+  --energy-blue-light: #5ECDF5; 
+  --energy-blue-medium: #479FD7; 
+  --energy-blue-dark: #2F5C9E;  
+
+  /* --- ألوان العناصر المفرغة والنصوص المقترحة --- */
+  --energy-plug-white: #FFFFFF; 
+  --energy-text-dark: #1E3A60;  
+
+  /* --- تدرجات الألوان (Gradients) --- */
+  --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
+  --energy-gradient-bg: linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%);
+
+  /* --- تأثيرات إضافية وهندسة التصميم --- */
+  --energy-shadow-glow: 0 6px 18px rgba(47, 92, 158, 0.25); 
+  --energy-radius-circle: 50%; 
+  --energy-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* إعدادات الحاوية الرئيسية للقائمة الجانبية */
+.sidebar-container {
+    width: 18%;
+    height: 100vh; /* تأكيد ألا تتخطى طول الشاشة */
+    max-height: 100vh;
+    background: var(--energy-gradient-bg); 
+    color: var(--energy-text-dark);
+    display: flex;
+    flex-direction: column;
+    padding: 15px; /* تقليص الحواف لتوفير مساحة */
+    box-sizing: border-box;
+    position: fixed;
+    right: 0;
+    top: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-left: 1px solid rgba(71, 159, 215, 0.15);
+    box-shadow: -4px 0 20px rgba(30, 58, 96, 0.05);
+    z-index: 1000;
+    direction: rtl !important;
+}
+
+/* قسم اللوغو واسم النظام */
+.sidebar-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(71, 159, 215, 0.1);
+    flex-shrink: 0; /* يمنع اللوغو من الانضغاط */
+}
+
+.sidebar-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.sidebar-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    background: var(--energy-gradient-linear); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+/* القائمة والروابط - مع ميزة السكرول الذكي */
+.sidebar-menu {
+    flex-grow: 1;
+    overflow-y: auto; /* في حال صغرت الشاشة، يظهر شريط تمرير داخلي هنا فقط دون تخريب الصفحة */
+    margin-bottom: 15px;
+    padding-left: 4px; /* مساحة بسيطة لشريط التمرير */
+}
+
+/* تخصيص شكل شريط التمرير (Scrollbar) ليكون نحيفاً وجميلاً */
+.sidebar-menu::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(71, 159, 215, 0.3);
+    border-radius: 4px;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* تقليل المسافة بين العناصر لمنع خروجها */
+}
+
+.menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+    padding: 10px 14px; /* تقليص الحجم الداخلي للعنصر */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--energy-text-dark);
+    transition: var(--energy-transition);
+    text-align: right;
+}
+
+/* الأيقونات داخل القائمة */
+.menu-icon {
+    font-size: 1.2rem;
+    color: var(--energy-blue-medium); 
+    transition: var(--energy-transition);
+}
+
+/* التأثير عند التمرير فوق العناصر غير النشطة */
+.menu-item:hover:not(.active) {
+    background-color: rgba(94, 205, 245, 0.12); 
+    color: var(--energy-blue-dark);
+    padding-right: 18px; 
+}
+
+/* الـ li الذي تم اختياره (العنصر النشط الحالي - Active) */
+.menu-item.active {
+    background: var(--energy-gradient-linear); /* تدرج الشعار الكامل */
+    color: var(--energy-plug-white) !important;
+    font-weight: 600;
+    box-shadow: var(--energy-shadow-glow); /* توهج واضح تحت العنصر لتمييزه */
+    transform: scale(1.01); /* تكبير حجم بسيط جداً ملحوظ */
+}
+
+.menu-item.active .menu-icon {
+    color: var(--energy-plug-white); /* تحويل الأيقونة للابيض الساطع */
+}
+
+/* إضافة خط جانبي مميز ومضيء في أقصى اليمين للعنصر المختار */
+.menu-item.active::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 4px;
+    background-color: var(--energy-plug-white);
+    border-radius: 0 4px 4px 0;
+}
+
+/* الجزء السفلي (المستخدم وتسجيل الخروج) */
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 2px solid rgba(71, 159, 215, 0.1);
+    flex-shrink: 0; /* يمنع الفوتر من الانضغاط أو الاختفاء */
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--energy-radius-circle);
+    border: 2px solid var(--energy-blue-light);
+    object-fit: cover;
+    transition: 0.5s;
+    cursor: pointer;
+    
+}
+.user-avatar:hover{
+    border-top: #1E3A60 solid 2px;
+    border-bottom: #479FD7 solid 2px;
+    border-left: #5ECDF5 solid 2px;
+    border-right: #2F5C9E solid 2px;
+    scale: 1.1;
+
+}
+.user-info h4 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--energy-text-dark);
+}
+
+.user-info p {
+    margin: 1px 0 0 0;
+    font-size: 0.72rem;
+    color: var(--energy-blue-dark);
+    opacity: 0.8;
+}
+
+/* زر تسجيل الخروج */
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--energy-text-dark);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    transition: var(--energy-transition);
+}
+
+.logout-btn:hover {
+    background-color: #fef2f2; 
+    color: #ef4444; 
+}
+/* حاوية زر تبديل اللغة */
+.language-switcher-container {
+    padding: 0 4px 12px 4px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* تصميم الزر المدمج والمتناسق مع ألوان نظام الطاقة */
+.lang-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(71, 159, 215, 0.3);
+    color: var(--energy-text-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: var(--energy-transition);
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(94, 205, 245, 0.15);
+    border-color: var(--energy-blue-medium);
+    color: var(--energy-blue-dark);
+}
+
+/* إعداد ديناميكي للـ fixed sidebar ليتماشى مع التبديل بين الـ LTR والـ RTL */
+html[dir="rtl"] .sidebar-container {
+    right: 0;
+    left: auto;
+    border-left: 1px solid rgba(71, 159, 215, 0.15);
+    border-right: none;
+}
+
+html[dir="ltr"] .sidebar-container {
+    left: 0;
+    right: auto;
+    border-right: 1px solid rgba(71, 159, 215, 0.15);
+    border-left: none;
+}

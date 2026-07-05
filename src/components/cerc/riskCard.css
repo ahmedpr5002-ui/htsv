@@ -1,0 +1,96 @@
+.risk-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(71, 159, 215, 0.12);
+    border-radius: 12px;
+    padding: 16px;
+    width: 260px;
+    box-shadow: 0 4px 12px rgba(30, 58, 96, 0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    direction: rtl;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* الهيدر */
+.risk-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.risk-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1E3A60;
+}
+
+.risk-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+/* حاوية العداد الدائري */
+.risk-gauge-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+.gauge-wrapper {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* نصوص التوضيح داخل العداد */
+.CircularProgressbar .CircularProgressbar-text {
+    font-weight: 700;
+    transform: translateY(-5px); /* رفع النسبة المئوية قليلاً للأعلى */
+}
+
+.gauge-label {
+    position: absolute;
+    bottom: 38px;
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.gauge-status {
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* الفوتر */
+.risk-card-footer {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.average-text {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.footer-chart-icon {
+    font-size: 1.1rem;
+}

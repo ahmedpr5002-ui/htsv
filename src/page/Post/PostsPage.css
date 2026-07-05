@@ -1,0 +1,803 @@
+/* ==========================================================================
+   1. التنسيقات الأساسية والخطوط والصفحة (Layout & Main Styles)
+   ========================================================================== */
+.posts-container-layout {
+  width: 82%; /* التعديل المتفق عليه: جعل عرض الصفحة بنسبة 82% */
+  max-width: 1400px; /* سقف أقصى لمنع تمدد المنشورات بشكل مفرط على الشاشات الضخمة جداً Ultra-Wide */
+  margin-right: 18%;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl; /* دعم كامل للغة العربية والاتجاه من اليمين لليسار */
+  background-color: #f8fafc;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.posts-loading {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 80px 0;
+  direction: rtl;
+}
+
+/* ==========================================================================
+   2. أزرار الفلترة المقسمة (Segmented Filter Control)
+   ========================================================================== */
+.segmented-filters-container {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.segmented-control {
+  display: flex;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.segmented-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.segmented-item:active {
+  transform: scale(0.97);
+}
+
+.segmented-item.active {
+  background: #ffffff;
+  color: #1e3a8a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.filter-icon {
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   3. صندوق إنشاء منشور جديد (Create Post Card)
+   ========================================================================== */
+.create-post-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.create-post-card textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  resize: vertical;
+  outline: none;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.create-post-card textarea:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.selected-file-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  align-self: flex-start;
+  border: 1px solid #bfdbfe;
+}
+
+.create-post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-img-btn-modern {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-img-btn-modern:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.btn-icon-inside {
+  font-size: 14px;
+}
+
+.submit-post-btn-modern {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+  transition: all 0.2s ease;
+}
+
+.submit-post-btn-modern:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.3);
+}
+
+/* ==========================================================================
+   4. كارت المنشور وعناصره (Post Card, Header, Body)
+   ========================================================================== */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.post-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.user-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #cbd5e1;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.username {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* شارة التوثيق الزرقاء للآدمن */
+.verified-badge-real {
+  color: #3b82f6;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.post-date {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* زر حذف المنشور الرئيسي */
+.delete-post-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 15px;
+  cursor: pointer;
+  margin-right: auto; /* دفع الزر لأقصى اليسار في سياق الـ RTL */
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete-post-btn:hover {
+  background: #fef2f2;
+  color: #ef4444;
+  transform: scale(1.08);
+}
+
+.post-body {
+  margin-bottom: 16px;
+}
+
+.post-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0 0 14px 0;
+  white-space: pre-wrap;
+}
+
+/* غلاف ومعاينة صور المنشورات */
+.post-img-wrapper {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  max-height: 500px;
+  background: #f1f5f9;
+  border: 1px solid #f1f5f9;
+}
+
+.post-attached-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.post-img-wrapper:hover .post-attached-img {
+  transform: scale(1.015);
+}
+
+/* تلميح عند الوقوف بالفأرة فوق الصورة */
+.img-overlay-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.25);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post-img-wrapper:hover .img-overlay-hint {
+  opacity: 1;
+}
+
+/* إحصائيات التفاعل */
+.post-stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 4px;
+  font-size: 13px;
+  color: #64748b;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.comments-stat-btn {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.comments-stat-btn:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   5. أزرار التفاعل السفلية (Action Buttons)
+   ========================================================================== */
+.post-actions {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.action-btn-modern {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.action-btn-modern:hover {
+  background: #f8fafc;
+  color: #334155;
+}
+
+.action-icon {
+  font-size: 16px;
+}
+
+/* حالة اللايك النشط */
+.liked-active-btn {
+  color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+.liked-icon-pop {
+  animation: heartPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes heartPop {
+  0% { transform: scale(0.6); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.comments-active-btn {
+  color: #3b82f6 !important;
+  background: #eff6ff !important;
+}
+
+/* ==========================================================================
+   6. قسم التعليقات (Comments Section & Inputs)
+   ========================================================================== */
+.comments-section {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.comment-item:last-of-type {
+  border-bottom: none;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #cbd5e1;
+}
+
+.comment-content {
+  background: #ffffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid #e2e8f0;
+}
+
+.comment-username {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comment-badge {
+  font-size: 11px !important;
+}
+
+.comment-content p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #475569;
+  margin: 0;
+}
+
+/* زر حذف التعليق الفرعي */
+.delete-comment-btn {
+  background: transparent;
+  border: none;
+  color: #cbd5e0;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 6px;
+  align-self: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.delete-comment-btn:hover {
+  background: #ffe4e6;
+  color: #e11d48;
+}
+
+.no-comments-hint {
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+  padding: 8px 0;
+}
+
+/* صندوق إرسال تعليق جديد */
+.add-comment-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.add-comment-box input {
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.add-comment-box input:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+}
+
+.send-comment-btn-modern {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.send-comment-btn-modern:hover {
+  background: #1d4ed8;
+}
+
+/* ==========================================================================
+   7. نظام التنبيهات المنبثق التفاعلي (Toast Notification System)
+   ========================================================================== */
+.custom-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  padding: 16px 32px;
+  border-radius: 16px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  z-index: 100000;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  direction: rtl;
+}
+
+.custom-toast.success {
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  border-right: 5px solid #047857;
+}
+
+.custom-toast.error {
+  background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+  border-right: 5px solid #B91C1C;
+}
+
+.dynamic-toast-animation {
+  animation: popUpIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popUpIn {
+  from { transform: translateY(100px) scale(0.8); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   8. واجهة عارض الصور الفاخر والتحميل (Luxury Lightbox & Image Preview)
+   ========================================================================== */
+.luxury-lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 19, 32, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  animation: fadeInOverlay 0.3s ease;
+}
+
+.lightbox-wrapper-card {
+  position: relative;
+  max-width: 90%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: zoomInFrame 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lightbox-image-frame {
+  max-width: 100%;
+  max-height: 70vh;
+  overflow: hidden;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+}
+
+.lightbox-img-render {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.lightbox-img-render:hover {
+  transform: scale(1.02);
+}
+
+/* زر إغلاق المعاينة الدائري الذكي */
+.lightbox-close-circle {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.lightbox-close-circle:hover {
+  transform: scale(1.1) rotate(90deg);
+  background: #dc2626;
+}
+
+/* لوحة التنزيل والتحكم السفلية للـ Lightbox */
+.lightbox-bottom-panel {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding: 0 8px;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.lightbox-img-info {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lightbox-action-download-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, var(--energy-blue-light) 20%,#3b82f6 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(29, 78, 216, 0.35);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.lightbox-action-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(29, 78, 216, 0.5);
+  filter: brightness(1.1);
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomInFrame {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* التجاوب ودعم الشاشات الصغيرة والأجهزة المحمولة */
+@media (max-width: 992px) {
+  .posts-container-layout {
+    width: 95%; /* زيادة العرض قليلاً على الشاشات المتوسطة والصغيرة لراحة التصفح */
+  }
+}
+
+@media (max-width: 576px) {
+  .posts-container-layout {
+    width: 100%;
+    padding: 0 10px;
+    margin: 15px auto;
+  }
+  .lightbox-bottom-panel {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .lightbox-close-circle {
+    top: 10px;
+    right: 10px;
+  }
+  .create-post-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .upload-img-btn-modern {
+    justify-content: center;
+  }
+}
+/* حاوية الحذف التفاعلية المدمجة */
+.inline-action-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto; /* يدفع العناصر لليسار بشكل متناسق مع اتجاه RTL */
+}
+
+.modern-inline-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.confirm-yes-btn {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-yes-btn:hover {
+  background: #dc2626;
+}
+
+.confirm-no-btn {
+  background: #cbd5e1;
+  color: #334155;
+  border: none;
+  padding: 5px 8px;
+  font-size: 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.confirm-no-btn:hover {
+  background: #94a3b8;
+}
+
+/* أحجام مخصصة ومصغرة داخل منطقة التعليقات */
+.modern-inline-confirm.comment-confirm {
+  padding: 2px 4px;
+}
+.confirm-yes-btn.tiny {
+  padding: 3px 6px;
+  font-size: 11px;
+}
+.confirm-no-btn.tiny {
+  padding: 3px 5px;
+  font-size: 10px;
+}
+
+/* أنيميشن ناعم لظهور الخيارات */
+.animate-pop {
+  animation: inlinePop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes inlinePop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

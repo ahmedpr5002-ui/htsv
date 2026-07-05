@@ -1,0 +1,218 @@
+/* ربط واستخدام المتغيرات المحددة مسبقاً */
+.luxury-projects-container {
+  padding: 30px;
+  margin-right: 260px; /* مسافة للـ RightBar */
+  background: var(--energy-gradient-bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* الهيدر العلوي */
+.projects-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  border-bottom: 1px solid rgba(71, 159, 215, 0.2);
+  padding-bottom: 20px;
+}
+
+.header-title-zone h1 {
+  font-size: 1.8rem;
+  color: var(--energy-blue-dark);
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title-zone .title-icon {
+  color: var(--energy-blue-medium);
+}
+
+.header-title-zone p {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* أزرار مخصصة متوهجة */
+.btn-add-new-project {
+  background: var(--energy-gradient-linear);
+  color: var(--energy-plug-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--energy-shadow-glow);
+  transition: var(--energy-transition);
+}
+
+.btn-add-new-project:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(71, 159, 215, 0.35);
+}
+
+/* شبكة المشاريع العريضة المريحة للعين */
+.projects-grid-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* كارت المشروع الزجاجي الحديث */
+.project-luxury-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--energy-transition);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.project-luxury-card:hover {
+  transform: translateX(-5px);
+  border-color: var(--energy-blue-light);
+  box-shadow: 0 8px 25px rgba(71, 159, 215, 0.15);
+  background: #ffffff;
+}
+
+/* الخط الجانبي الملون الذي يعكس الهوية */
+.project-card-accent-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--energy-gradient-linear);
+}
+
+/* تفاصيل المشروع */
+.project-tag-id {
+  font-size: 0.75rem;
+  background: rgba(94, 205, 245, 0.15);
+  color: var(--energy-blue-dark);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.project-card-title {
+  font-size: 1.3rem;
+  color: var(--energy-blue-dark);
+  margin: 0 0 8px 0;
+}
+
+.project-card-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ميزات البيانات الفنية داخل الكرت */
+.project-meta-data-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  padding-right: 30px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.meta-icon {
+  width: 36px;
+  height: 36px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--energy-blue-medium);
+  font-size: 1rem;
+}
+
+.meta-text label {
+  display: block;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.meta-text span {
+  font-size: 0.9rem;
+  color: var(--energy-text-dark);
+  font-weight: 600;
+}
+
+/* زر التحرك والانتقال الدائري السلس */
+.circle-arrow-navigate-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid rgba(71, 159, 215, 0.3);
+  background: transparent;
+  color: var(--energy-blue-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: var(--energy-transition);
+}
+
+.project-luxury-card:hover .circle-arrow-navigate-btn {
+  background: var(--energy-gradient-linear);
+  color: var(--energy-plug-white);
+  border-color: transparent;
+  transform: scale(1.05);
+}
+
+/* رسائل الحالة الثابتة والتحميل */
+.projects-status-message {
+  text-align: center;
+  padding: 60px;
+  color: var(--energy-blue-dark);
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  border: 1px dashed rgba(71, 159, 215, 0.3);
+}
+
+/* تحسينات الشاشات المتوسطة والصغيرة */
+@media (max-width: 992px) {
+  .project-luxury-card {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .project-meta-data-zone {
+    border-right: none;
+    padding-right: 0;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .project-action-arrow-zone {
+    text-align: left;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

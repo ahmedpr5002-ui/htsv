@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+:root {
+  --primary-color: #00b4d8;
+  --secondary-color: #0077b6;
+  --dark-slate: #0f172a;
+  --light-slate: #f8fafc;
+  --text-main: #1e293b;
+  --text-sub: #64748b;
+  --emerald-active: #10b981;
+  --card-shadow: 0 25px 60px -15px rgba(0, 119, 182, 0.06);
+}
+
+/* تهيئة المساحة الكاملة لمنع السكرول للـ PC */
+.premium-profile-page {
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f1f5f9;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(0, 180, 216, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 119, 182, 0.03) 0%, transparent 40%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+/* الكارد الزجاجي الكبير والفاخر */
+.premium-glass-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 1180px;
+  height: 520px; /* حجم ثابت هندسياً يقتل السكرول */
+  border-radius: 32px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  overflow: hidden;
+}
+
+/* 1. تصميم عمود الهوية (يمين) */
+.premium-profile-identity {
+  flex: 1.1;
+  background-color: var(--light-slate);
+  border-left: 1px solid #e2e8f0;
+  padding: 45px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.premium-avatar-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* دائرة مضيئة خلف الصورة الدائرية */
+.circle-pulse-glow {
+  position: absolute;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.2), rgba(0, 119, 182, 0.2));
+  z-index: 1;
+}
+
+/* صورة دائرية بالكامل */
+.premium-circle-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+}
+
+/* نقطة الأونلاين الملتصقة بالدائرة */
+.premium-online-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--emerald-active);
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.premium-user-info {
+  text-align: center;
+  margin-top: -10px;
+}
+
+.premium-display-name {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--dark-slate);
+  margin-bottom: 8px;
+}
+
+.premium-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  color: var(--secondary-color);
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.01);
+}
+
+.premium-status-banner {
+  background-color: rgba(16, 115, 181, 0.05);
+  border: 1px dashed rgba(0, 180, 216, 0.3);
+  padding: 8px 25px;
+  border-radius: 12px;
+}
+
+.static-active-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+/* 2. تصميم عمود البيانات الأساسية (وسط) */
+.premium-profile-details {
+  flex: 1.8;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.premium-title-context {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--dark-slate);
+  margin-bottom: 35px;
+  position: relative;
+}
+.premium-title-context::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  width: 35px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.premium-data-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.premium-data-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 22px;
+  background-color: var(--light-slate);
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  transition: border-color 0.25s ease;
+}
+.premium-data-item:hover {
+  border-color: rgba(0, 180, 216, 0.3);
+}
+
+.premium-item-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+}
+.mail-color { background-color: rgba(0, 180, 216, 0.08); color: var(--primary-color); }
+.company-color { background-color: rgba(0, 119, 182, 0.08); color: var(--secondary-color); }
+.location-color { background-color: rgba(15, 23, 42, 0.05); color: var(--dark-slate); }
+
+.premium-item-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.data-label {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  margin-bottom: 3px;
+}
+
+.data-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* 3. تصميم عمود البوابة والإجراءات (يسار) */
+.premium-profile-actions {
+  flex: 1.3;
+  padding: 50px 40px;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.premium-project-box {
+  background-color: var(--light-slate);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.project-box-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.box-main-icon {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+}
+
+.project-box-header h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--dark-slate);
+}
+
+.project-box-header p {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* البوابة الزرقاء الفخمة بلمسة سهم متحرك */
+.premium-project-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  padding: 16px 20px;
+  border-radius: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(0, 180, 216, 0.15);
+  transition: all 0.3s ease;
+}
+.premium-project-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 180, 216, 0.25);
+}
+
+.link-text-group {
+  display: flex;
+  flex-direction: column;
+}
+.link-text-group span { font-weight: 700; font-size: 0.95rem; }
+.link-text-group small { font-size: 0.75rem; opacity: 0.8; }
+
+.link-circle-arrow {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+.premium-project-link:hover .link-circle-arrow {
+  transform: translateX(-4px) translateY(-2px);
+  background-color: #ffffff;
+  color: var(--secondary-color);
+}
+
+/* زر تسجيل الخروج السفلي الصافي */
+.premium-logout-trigger {
+  width: 100%;
+  padding: 14px;
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.premium-logout-trigger:hover {
+  background-color: rgba(239, 68, 68, 0.05);
+  border-color: #ef4444;
+}
+
+/* شاشة التحميل الافتتاحية */
+.premium-loader {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f5f9;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+/* زر العودة للوحة التحكم الفخم */
+.premium-dashboard-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.08) 0%, rgba(0, 119, 182, 0.08) 100%);
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  color: var(--secondary-color);
+  padding: 10px 24px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 85%;
+  transition: all 0.25s ease;
+  margin: 10px 0;
+}
+
+.premium-dashboard-btn:hover {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 180, 216, 0.15);
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.dashboard-icon {
+  font-size: 1.1rem;
+}

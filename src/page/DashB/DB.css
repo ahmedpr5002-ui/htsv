@@ -1,0 +1,561 @@
+/* ==========================================================================
+   1. الإعدادات العامة للمتصفح وتأمين أبعاد الشاشة
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+ overflow-x: hidden;
+  background-color: #f8fafc;
+}
+
+/* ==========================================================================
+   2. الحاوية الكلية وتوزيع الـ 82% للمحتوى الأساسي
+   ========================================================================== */
+.dashboard-wrapper {
+  direction: rtl;
+  width: 100vw;
+  height: 100vh;
+  display: flex; 
+  background-color: #f8fafc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; 
+}
+.isn{
+  color: white;
+  font-weight: 500;
+  font-size: x-large;
+  background-color: #1e3a8a;
+  padding: 5px;
+  border-radius: 50%;
+
+}
+.dashboard-content-area {
+  width: 82%; 
+  margin-right: 18%;
+  flex: 0 0 82%;
+  height: 100vh;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden; 
+}
+
+/* ==========================================================================
+   3. الفلاتر العلوية (المشروع وتوقيت التحديث)
+   ========================================================================== */
+.dashboard-filters {
+  display: flex;
+  gap: 15px;
+  background: #ffffff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  align-items: center;
+  border: 1px solid #f1f5f9;
+}
+
+.filter-group.project-select { 
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label { 
+  font-size: 11px; 
+  font-weight: bold; 
+  margin-bottom: 3px; 
+  color: #1e3a8a; 
+}
+
+.filter-group select { 
+  padding: 6px 10px; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 6px; 
+  background-color: #f8fafc; 
+  font-size: 13px; 
+  color: #334155; 
+  outline: none; 
+  cursor: pointer;
+}
+
+.last-update { 
+  display: flex; 
+  flex-direction: column; 
+  text-align: left; 
+  border-right: 1px solid #e2e8f0; 
+  padding-right: 12px; 
+}
+
+.update-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.last-update strong {
+  font-size: 12px;
+  color: #1e293b;
+}
+
+.last-update small {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ==========================================================================
+   4. بطاقات المؤشرات الدائرية ونظام التلوين الديناميكي (أخضر/أصفر/أحمر)
+   ========================================================================== */
+.metrics-grid { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 12px; 
+}
+
+.metric-card, .alert-card { 
+  background: #ffffff; 
+  border-radius: 10px; 
+  padding: 12px; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02); 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  border: 1px solid #f1f5f9; 
+  min-height: 140px;
+}
+
+.card-header, .alert-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  font-weight: 600; 
+  font-size: 12px; 
+  color: #475569; 
+}
+
+.icon-law-badge { color: #7c3aed; font-size: 14px; }
+.icon-money-badge { color: #16a34a; font-size: 14px; }
+.icon-tech-badge { color: #2563eb; font-size: 14px; }
+.bell-icon { color: #64748b; font-size: 14px; }
+
+.progress-gauge { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin: 4px 0; 
+}
+
+.circular-chart { 
+  display: block; 
+  margin: 0 auto; 
+  max-width: 70px; 
+  max-height: 70px; 
+}
+
+.circle-bg { 
+  fill: none; 
+  stroke: #f1f5f9; 
+  stroke-width: 3.5; 
+}
+
+.circle { 
+  fill: none; 
+  stroke-width: 2.8; 
+  stroke-linecap: round; 
+  transition: stroke-dasharray 0.5s ease-in-out; 
+}
+
+/* درجات الألوان المعتمدة ديناميكياً حسب الملاحظات الفنية */
+.green-chart .circle { stroke: #16a34a; }   /* أخضر: المتوسط < 60% */
+.yellow-chart .circle { stroke: #eab308; }  /* أصفر: المتوسط بين 60% و 79% */
+.red-chart .circle { stroke: #dc2626; }     /* أحمر: المتوسط >= 80% */
+
+.percentage { 
+  fill: #1e293b; 
+  font-size: 8px; 
+  text-anchor: middle; 
+  font-weight: bold; 
+}
+
+.sub-text { 
+  fill: #94a3b8; 
+  font-size: 2px; 
+  text-anchor: middle; 
+}
+
+.card-footer { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 11px; 
+  color: #64748b; 
+  border-top: 1px solid #f1f5f9; 
+  padding-top: 6px; 
+}
+
+.chart-bar-icon { font-size: 11px; }
+
+/* ==========================================================================
+   5. نظام كرت الإنذار المبكر التنشيطي (RII >= 85%)
+   ========================================================================== */
+.alert-card {
+  transition: all 0.3s ease;
+}
+
+.alert-card.trigger-active {
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  animation: pulseWarningBorder 2s infinite alternate;
+}
+
+.alert-content { 
+  text-align: center; 
+  padding: 2px 0;
+}
+
+.warning-tri { 
+  font-size: 18px; 
+  color: #ef4444; 
+  margin-bottom: 2px;
+}
+
+.alert-content h3 { 
+  margin: 2px 0; 
+  color: #991b1b; 
+  font-size: 13px; 
+  font-weight: 700;
+}
+
+.alert-content p {
+  font-size: 11px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.warning-desc-text {
+  display: block;
+  font-size: 11px;
+  color: #7f1d1d;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 190px;
+}
+
+@keyframes pulseWarningBorder {
+  0% { border-color: #fca5a5; box-shadow: 0 0 4px rgba(220, 38, 38, 0.1); }
+  100% { border-color: #ef4444; box-shadow: 0 0 10px rgba(220, 38, 38, 0.2); }
+}
+
+/* ==========================================================================
+   6. فلتر المرحلة الزمنية التفاعلي (Tabs)
+   ========================================================================== */
+.timeline-filter-section { 
+  background: #ffffff; 
+  padding: 8px 14px; 
+  border-radius: 8px; 
+  border: 1px solid #f1f5f9; 
+}
+
+.timeline-title { 
+  font-size: 11px; 
+  font-weight: bold; 
+  color: #475569; 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+}
+
+.calendar-icon { color: #1e3a8a; }
+
+.tabs-container { 
+  display: flex; 
+  gap: 8px; 
+  margin-top: 6px; 
+}
+
+.tab-btn { 
+  flex: 1; 
+  padding: 6px; 
+  border: 1px solid #e2e8f0; 
+  background: #f8fafc; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #475569;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.tab-btn:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.tab-btn.active { 
+  background: #1e3a8a; 
+  color: #ffffff; 
+  border-color: #1e3a8a; 
+  box-shadow: 0 2px 4px rgba(30, 58, 138, 0.15);
+}
+
+/* ==========================================================================
+   7. هيكلة الجزء السفلي المشترك (توزيع الجدول والـ Actions أفقياً)
+   ========================================================================== */
+.dashboard-bottom-split {
+  flex: 1; 
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  overflow: hidden; 
+}
+
+/* حاوية قسم الجدول الإحصائي (75%) */
+.table-section-container {
+  flex: 0 0 75%;
+  width: 75%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+}
+
+.table-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.trend-icon { font-size: 14px; color: #7c3aed; }
+
+.table-section-header h2 {
+  font-size: 13.5px;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* تغليف لمنع تمدد الجدول الكلي واحتواء السكرول عمودياً بمرونة */
+.custom-table-wrapper {
+  flex: 1;
+  
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.energy-modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: right;
+}
+
+.energy-modern-table th {
+  position: sticky;
+  top: 0;
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  font-size: 11.5px;
+  padding: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  z-index: 5;
+}
+
+.energy-modern-table td {
+  padding: 10px;
+  font-size: 12px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.energy-modern-table tbody tr:hover { 
+  background-color: #f8fafc; 
+}
+
+.cell-index { color: #94a3b8; font-weight: 600; }
+.cell-code { color: #1e3a8a; font-weight: 600; }
+.cell-stage { color: #64748b; font-size: 11px; }
+.cell-text { max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* تمييز أرقام خطورة الـ Risk Score بالأحمر الفاقع المتناسق */
+.cell-score-badge.text-danger-score {
+  font-weight: 700;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* كبسولات تصنيف المحاور الفنية والقانونية والمالية */
+.axis-pill-new { padding: 3px 6px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
+.axis-pill-new.law { background: #f5f3ff; color: #6d28d9; }
+.axis-pill-new.money { background: #f0fdf4; color: #166534; }
+.axis-pill-new.tech { background: #ecfeff; color: #0e7490; }
+
+
+.status-tag-new {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  
+}
+.status-type-institutional-close{
+color: rgb(107, 33, 168) !important;
+border: 0 !important;
+text-align: center;
+padding-left: 10px;
+
+}
+
+.status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.status-high { background-color: #fef2f2; color: #ef4444; }
+.status-high .status-dot { background-color: #ef4444; }
+.status-pending { background-color: #fff7ed; color: #f97316; }
+.status-pending .status-dot { background-color: #f97316; }
+.status-open { background-color: #eff6ff; color: #3b82f6; }
+.status-open .status-dot { background-color: #3b82f6; }
+
+/* ==========================================================================
+   8. الأزرار الجانبية التفاعلية (25%) مع تأثيرات التحويم البصري
+   ========================================================================== */
+.action-cards-sidebar {
+  flex: 0 0 23%;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.action-card-btn {
+  flex: 1; 
+  border-radius: 12px;
+  padding: 16px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.action-card-btn.blue-action {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.action-card-btn.green-action {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+/* تأثير تحويم ناعم يرفع الكرت لأعلى مع زيادة الظل الجانبي */
+.action-card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.action-card-content h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.action-card-content p {
+  font-size: 11px;
+  opacity: 0.85;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.action-card-icon-circle {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  align-self: flex-end;
+}
+
+/* ظهور سهم الإشارة البرمجي بشكل ذكي عند تمرير الفأرة */
+.action-arrow-hover {
+  position: absolute;
+  left: 16px;
+  top: 22px;
+  font-size: 11px;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: all 0.2s ease;
+}
+
+.action-card-btn:hover .action-arrow-hover {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* شاشات جلب وانتظار البيانات */
+.table-loading { 
+  text-align: center; 
+  padding: 40px; 
+  color: #64748b; 
+  font-size: 12.5px; 
+}
+.all-risks-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--energy-dark);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+ 
+}
+
+.all-risks-toggle-btn:hover {
+  background: rgba(0, 180, 216, 0.15);
+  border-color: #00b4d8;
+  box-shadow: 0 0 8px rgba(0, 180, 216, 0.3);
+}
+
+.btn-active-all {
+  background: #0077b6 !important;
+  color: #ffffff !important;
+  border-color: var(--energy-blue-dark) !important;
+}
+
+.btn-eye-icon {
+  font-size: 0.85rem;
+}
