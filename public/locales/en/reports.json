@@ -1,0 +1,45 @@
+{
+  "reportNames": {
+    "overdue_actions": "Overdue Actions & Early Warnings Report",
+    "lessons_learned": "Lessons Learned & Recommendations Inventory Report (RII)",
+    "risk_register": "Administrative Risk Register Report",
+    "project_comparison": "Pattern Comparison & Most Frequently Selected Risks Report",
+    "default_preview": "Live Report Preview"
+  },
+  "buttons": {
+    "back_to_reports": "Back to Reports"
+  },
+  "messages": {
+    "loading": "Processing, generating live records, and analyzing repetition patterns...",
+    "no_data_found": "No registered data currently matches the criteria for this report."
+  },
+  "labels": {
+    "no_data": "No statement available",
+    "undefined": "Undefined",
+    "no_risk_desc": "No risk description",
+    "project_manager": "Project Manager",
+    "general": "General",
+    "selection_times": "times selected"
+  },
+  "headers": {
+    "risk_code": "Risk Code",
+    "risk_description": "Risk / Analytical Description",
+    "action_codes": "Defined Action Codes",
+    "suggested_owner": "Suggested Action Owner",
+    "axis": "Axis",
+    "risk_score": "Risk Score",
+    "risk_text": "Analytical Risk Text",
+    "linked_actions": "Linked Action Codes",
+    "lessons_learned": "Extracted Lessons Learned (riskNotes)",
+    "frequent_risk_text": "Most Frequently Selected Risk Text",
+    "risk_type": "Risk Type",
+    "classification_axis": "Classification / Axis",
+    "frequency_rate": "System Frequency Rate",
+    "avg_risk_score": "Average Overall Risk Score",
+    "id_code": "Identifier / Code",
+    "description_analysis": "Statement & Analytical Description",
+    "context_stage": "Context / Stage",
+    "rii_details": "Indicator / Details (RII)",
+    "relative_weight": "Relative Weight / Risk Score"
+  }
+}

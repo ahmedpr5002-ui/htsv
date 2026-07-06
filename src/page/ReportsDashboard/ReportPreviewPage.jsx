@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import { FaTable } from "react-icons/fa6";
 import './ReportsDashboard.css'; 
 import RightBar from '../../components/rightBar/rightBar';
+
 const ReportPreviewPage = () => {
+  const { t, i18n } = useTranslation('reports'); // الالتزام بملف الترجمة reports.json
   const location = useLocation();
   const navigate = useNavigate();
   const { reportType, projectId } = location.state || { reportType: 'risk_register', projectId: 'all' };
@@ -16,7 +19,6 @@ const ReportPreviewPage = () => {
     try {
       const token = localStorage.getItem('token');
       
-      // جلب البيانات من الروت العام لضمان وجود الأكواد الحقيقية للمخاطر
       const response = await fetch('https://ahmedpr5002-irs-hvtl.hf.space/dang', {
         method: 'GET',
         headers: {
@@ -29,7 +31,6 @@ const ReportPreviewPage = () => {
         const data = await response.json();
         const risksList = Array.isArray(data) ? data : (data.risks || []);
         
-        // فلترة البيانات حسب المشروع إن لم يكن الخيار "جميع المشاريع"
         let filtered = [...risksList];
         if (projectId !== 'all') {
           filtered = filtered.filter(risk => {
@@ -41,15 +42,14 @@ const ReportPreviewPage = () => {
         let resultData = [];
 
         if (reportType === 'project_comparison') {
-          // حساب التكرارات والمتوسطات محلياً للحفاظ على الـ riskCode الأصلي
           const groups = {};
           filtered.forEach(r => {
-            const txt = r.riskText || "لا يوجد بيان";
+            const txt = r.riskText || t('labels.no_data');
             if (!groups[txt]) {
               groups[txt] = {
-                riskCode: r.riskCode || "غير محدد",
+                riskCode: r.riskCode || t('labels.undefined'),
                 riskText: txt,
-                type: r.type || "ثابت",
+                type: r.type || "ثابت", // أو اعتمد على مفاتيح ديناميكية إن لزم
                 axis: r.axis || "فني",
                 count: 0,
                 totalScore: 0
@@ -59,28 +59,25 @@ const ReportPreviewPage = () => {
             groups[txt].totalScore += (r.riskScore || 0);
           });
 
-          // تحويل الكائن إلى مصفوفة وترتيبها تنازلياً حسب التكرار
           const sortedGroups = Object.values(groups).sort((a, b) => b.count - a.count);
 
-          // أخذ أعلى 10 مخاطر تكراراً وتشكيل الأعمدة الـ 6 بدقة
           resultData = sortedGroups.slice(0, 10).map(g => ({
-            col1: g.riskCode, // كود الخطر الحقيقي الأصلي من النظام
+            col1: g.riskCode, 
             col2: g.riskText,
             col3: g.type,
             col4: g.axis,
-            col5: `${g.count} مرات اختيار`,
+            col5: `${g.count} ${t('labels.selection_times')}`, // استخدام صياغة مرنة للترجمة
             col6: `${(g.totalScore / g.count).toFixed(2)}%`
           }));
 
         } else {
-          // باقي التقارير الاعتيادية
           switch (reportType) {
             case 'overdue_actions':
               resultData = filtered.filter(r => r.operationalStatus === 'مفتوحة').map(r => ({
-                col1: r.riskCode || "غير محدد",
-                col2: r.riskText || "لا يوجد بيان للخطر",
+                col1: r.riskCode || t('labels.undefined'),
+                col2: r.riskText || t('labels.no_risk_desc'),
                 col3: r.actionIds && r.actionIds.length > 0 ? r.actionIds.map(act => act.actionId?.code || 'ACT').join(', ') : '—',
-                col4: r.riskOwner || "مدير المشروع",
+                col4: r.riskOwner || t('labels.project_manager'),
                 col5: r.axis || "فني",
                 col6: `${r.riskScore || 0}%`
               }));
@@ -88,8 +85,8 @@ const ReportPreviewPage = () => {
 
             case 'lessons_learned':
               resultData = filtered.filter(r => r.riskNotes).map(r => ({
-                col1: r.riskCode || "غير محدد",
-                col2: r.riskText || "لا يوجد بيان للخطر",
+                col1: r.riskCode || t('labels.undefined'),
+                col2: r.riskText || t('labels.no_risk_desc'),
                 col3: r.actionIds && r.actionIds.length > 0 ? r.actionIds.map(act => act.actionId?.code || 'ACT').join(', ') : '—',
                 col4: r.riskNotes || "—",
                 col5: r.axis || "فني",
@@ -100,9 +97,9 @@ const ReportPreviewPage = () => {
             case 'risk_register':
             default:
               resultData = filtered.map(r => ({
-                col1: r.riskCode || "غير محدد",
-                col2: r.riskText || "لا يوجد بيان",
-                col3: r.time || r.stage || "عام",
+                col1: r.riskCode || t('labels.undefined'),
+                col2: r.riskText || t('labels.no_data'),
+                col3: r.time || r.stage || t('labels.general'),
                 col4: r.axis || "فني",
                 col5: `${r.riiPercentage || 0}%`,
                 col6: `${r.riskScore || 0}%`
@@ -114,7 +111,7 @@ const ReportPreviewPage = () => {
         setProcessedReportData(resultData);
       }
     } catch (error) {
-      console.error("خطأ في جلب ومعالجة بيانات التقرير:", error);
+      console.error("Error fetching report data:", error);
     } finally {
       setLoading(false);
     }
@@ -124,76 +121,78 @@ const ReportPreviewPage = () => {
     fetchReportData();
   }, [reportType, projectId]);
 
-  const getReportNameArabic = (type) => {
+  const getReportName = (type) => {
     switch(type) {
-      case 'overdue_actions': return 'تقرير الإجراءات المتأخرة والإنذارات المبكرة';
-      case 'lessons_learned': return 'تقرير حصر وحفظ الدروس المستفادة والتوصيات (RII)';
-      case 'risk_register': return 'تقرير سجل المخاطر الإداري';
-      case 'project_comparison': return 'تقرير مقارنة الأنماط والمخاطر الأكثر تكراراً واختياراً من المستخدمين';
-      default: return 'المعاينة الحية للتقرير';
+      case 'overdue_actions': return t('reportNames.overdue_actions');
+      case 'lessons_learned': return t('reportNames.lessons_learned');
+      case 'risk_register': return t('reportNames.risk_register');
+      case 'project_comparison': return t('reportNames.project_comparison');
+      default: return t('reportNames.default_preview');
     }
   };
 
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <div className="reports-dashboard-content">
+    <div className="reports-dashboard-content" dir={currentDir}>
       <RightBar/>
       <div className="live-preview-section standalone-preview">
         <div className="preview-section-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FaTable /> 
-            <span>{getReportNameArabic(reportType)}</span>
+            <span>{getReportName(reportType)}</span>
           </div>
           <button className="btn-preview-outline" onClick={() => navigate(-1)} style={{ flex: 'none', padding: '6px 12px' }}>
-             العودة للتقارير
+              {t('buttons.back_to_reports')}
           </button>
         </div>
 
         <div className="preview-data-container" style={{ maxHeight: 'none', minHeight: '400px' }}>
           {loading ? (
-            <div className="preview-state-msg">جاري معالجة وتوليد السجلات الحية وتحليل أنماط التكرار...</div>
+            <div className="preview-state-msg">{t('messages.loading')}</div>
           ) : processedReportData.length === 0 ? (
-            <div className="preview-state-msg">لا توجد بيانات مسجلة مطابقة لشروط هذا التقرير حالياً.</div>
+            <div className="preview-state-msg">{t('messages.no_data_found')}</div>
           ) : (
             <table className="live-preview-table">
               <thead>
                 {reportType === 'overdue_actions' && (
                   <tr>
-                    <th style={{ width: '120px' }}>كود الخطر</th>
-                    <th>الخطر / الوصف التحليلي</th>
-                    <th style={{ width: '180px' }}>أكواد الإجراءات المحددة</th>
-                    <th style={{ width: '220px' }}>المسؤول المقترح عن المعالجة</th>
-                    <th style={{ width: '100px' }}>المحور</th>
-                    <th style={{ width: '100px' }}>درجة الخطر</th>
+                    <th style={{ width: '120px' }}>{t('headers.risk_code')}</th>
+                    <th>{t('headers.risk_description')}</th>
+                    <th style={{ width: '180px' }}>{t('headers.action_codes')}</th>
+                    <th style={{ width: '220px' }}>{t('headers.suggested_owner')}</th>
+                    <th style={{ width: '100px' }}>{t('headers.axis')}</th>
+                    <th style={{ width: '100px' }}>{t('headers.risk_score')}</th>
                   </tr>
                 )}
                 {reportType === 'lessons_learned' && (
                   <tr>
-                    <th style={{ width: '120px' }}>كود الخطر</th>
-                    <th>نص الخطر التحليلي</th>
-                    <th style={{ width: '180px' }}>أكواد الإجراءات المرتبطة</th>
-                    <th>الدروس المستفادة المستخلصة (riskNotes)</th>
-                    <th style={{ width: '100px' }}>المحور</th>
-                    <th style={{ width: '100px' }}>درجة الخطر</th>
+                    <th style={{ width: '120px' }}>{t('headers.risk_code')}</th>
+                    <th>{t('headers.risk_text')}</th>
+                    <th style={{ width: '180px' }}>{t('headers.linked_actions')}</th>
+                    <th>{t('headers.lessons_learned')}</th>
+                    <th style={{ width: '100px' }}>{t('headers.axis')}</th>
+                    <th style={{ width: '100px' }}>{t('headers.risk_score')}</th>
                   </tr>
                 )}
                 {reportType === 'project_comparison' && (
                   <tr>
-                    <th style={{ width: '120px' }}>كود الخطر</th>
-                    <th>نص الخطر المتكرر الأكثر اختياراً</th>
-                    <th style={{ width: '120px' }}>نوع الخطر</th>
-                    <th style={{ width: '120px' }}>التصنيف / المحور</th>
-                    <th style={{ width: '160px' }}>معدل التكرار بالنظام</th>
-                    <th style={{ width: '160px' }}>متوسط درجة خطورته العامة</th>
+                    <th style={{ width: '120px' }}>{t('headers.risk_code')}</th>
+                    <th>{t('headers.frequent_risk_text')}</th>
+                    <th style={{ width: '120px' }}>{t('headers.risk_type')}</th>
+                    <th style={{ width: '120px' }}>{t('headers.classification_axis')}</th>
+                    <th style={{ width: '160px' }}>{t('headers.frequency_rate')}</th>
+                    <th style={{ width: '160px' }}>{t('headers.avg_risk_score')}</th>
                   </tr>
                 )}
                 {reportType !== 'overdue_actions' && reportType !== 'lessons_learned' && reportType !== 'project_comparison' && (
                   <tr>
-                    <th>المعرف / الكود</th>
-                    <th>البيان والوصف التحليلي</th>
-                    <th>السياق / المرحلة</th>
-                    <th>التصنيف والمحور</th>
-                    <th>المؤشر / التفاصيل (RII)</th>
-                    <th>الوزن النسبي / درجة الخطر</th>
+                    <th>{t('headers.id_code')}</th>
+                    <th>{t('headers.description_analysis')}</th>
+                    <th>{t('headers.context_stage')}</th>
+                    <th>{t('headers.classification_axis')}</th>
+                    <th>{t('headers.rii_details')}</th>
+                    <th>{t('headers.relative_weight')}</th>
                   </tr>
                 )}
               </thead>

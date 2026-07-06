@@ -1,0 +1,32 @@
+{
+  "manual_risks": {
+    "page_title": "Central Risk Registry",
+    "loading": "Loading and sorting risks...",
+    "table": {
+      "code": "ID / Code",
+      "text": "Risk Description",
+      "stage": "Stage / Phase",
+      "axis": "Axis Category",
+      "score": "Overall Risk Score",
+      "status": "Operational Status"
+    },
+    "axes": {
+      "technical": "Technical",
+      "financial": "Financial",
+      "legal": "Legal"
+    },
+    "scores": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "status": {
+      "open": "Open",
+      "processed": "Processed"
+    },
+    "errors": {
+      "structure_fail": "Failed to parse data structure",
+      "fetch_fail": "Failed to fetch risks list"
+    }
+  }
+}

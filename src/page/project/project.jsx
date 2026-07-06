@@ -4,6 +4,7 @@ import {
 } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom'; 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './project.css';
@@ -11,22 +12,30 @@ import RightBar from '../../components/rightBar/rightBar';
 import PageHeade from '../../components/navBar/PageHeade';
 
 export default function ProjectForm() {
+  const { t, i18n } = useTranslation('projectForm'); // الالتزام باسم ملف الترجمة projectForm.json
+  const navigate = useNavigate();
+
   const companiesList = [
-    { id: 'NO', name: 'شمال', region: 'شمال' },
-    { id: 'SO', name: 'جنوب', region: 'جنوب' },
-    { id: 'MI', name: 'وسط', region: 'وسط' },
-    { id: 'ME', name: 'فرات أوسط', region: 'فرات أوسط' }
+    { id: 'NO', name: t('companies.NO'), region: 'شمال' },
+    { id: 'SO', name: t('companies.SO'), region: 'جنوب' },
+    { id: 'MI', name: t('companies.MI'), region: 'وسط' },
+    { id: 'ME', name: t('companies.ME'), region: 'فرات أوسط' }
   ];
 
   const governoratesByRegion = {
-    'شمال': ['نينوى', 'كركوك', 'صلاح الدين'],
-    'وسط': ['بغداد', 'ديالى', 'واسط', 'الأنبار'],
-    'فرات أوسط': ['بابل', 'النجف', 'كربلاء', 'الديوانية'],
-    'جنوب': ['البصرة', 'ذي قار', 'ميسان', 'المثنى']
+    'شمال': [t('governorates.nineveh'), t('governorates.kirkuk'), t('governorates.saladin')],
+    'وسط': [t('governorates.baghdad'), t('governorates.diyala'), t('governorates.wasit'), t('governorates.anbar')],
+    'فرات أوسط': [t('governorates.babylon'), t('governorates.najaf'), t('governorates.karbala'), t('governorates.diwaniyah')],
+    'جنوب': [t('governorates.basra'), t('governorates.dhi_qar'), t('governorates.maysan'), t('governorates.muthanna')]
   };
 
   const voltages = ['400 KV', '132 KV'];
-  const stages = ['التخطيط واعداد المناقصة', 'قيد الإحالة', 'قيد التنفيذ', 'مكتمل'];
+  const stages = [
+    t('stages.planning'),
+    t('stages.referral_pending'),
+    t('stages.under_execution'),
+    t('stages.completed')
+  ];
 
   const [formData, setFormData] = useState({
     projectId: '',
@@ -37,10 +46,10 @@ export default function ProjectForm() {
     referralDate: '',
     expectedCompletionDate: '',
     currentStage: '',
-    commonline: '', // إضافة الحقل الجديد في الـ state
+    commonline: '', 
     notes: ''
   });
-  const navigate = useNavigate();
+  
   const [errors, setErrors] = useState({});
   const [availableGovernorates, setAvailableGovernorates] = useState([]);
 
@@ -74,24 +83,24 @@ export default function ProjectForm() {
     e.preventDefault();
     let validationErrors = {};
 
-    if (!formData.projectName) validationErrors.projectName = 'اسم المشروع مطلوب';
-    if (!formData.company) validationErrors.company = 'يرجى اختيار الشركة المالكة';
-    if (!formData.governorate) validationErrors.governorate = 'يرجى اختيار المحافظة';
-    if (!formData.voltage) validationErrors.voltage = 'يرجى اختيار الجهد الكهربائي';
-    if (!formData.referralDate) validationErrors.referralDate = 'تاريخ الإحالة مطلوب';
-    if (!formData.expectedCompletionDate) validationErrors.expectedCompletionDate = 'تاريخ الإنجاز المتوقع مطلوب';
-    if (!formData.currentStage) validationErrors.currentStage = 'يرجى تحديد المرحلة الحالية';
-    if (!formData.commonline) validationErrors.commonline = 'حقل الخط المشترك مطلوب'; // نظام التحقق للحقل الجديد
+    if (!formData.projectName) validationErrors.projectName = t('validation.projectName');
+    if (!formData.company) validationErrors.company = t('validation.company');
+    if (!formData.governorate) validationErrors.governorate = t('validation.governorate');
+    if (!formData.voltage) validationErrors.voltage = t('validation.voltage');
+    if (!formData.referralDate) validationErrors.referralDate = t('validation.referralDate');
+    if (!formData.expectedCompletionDate) validationErrors.expectedCompletionDate = t('validation.expectedCompletionDate');
+    if (!formData.currentStage) validationErrors.currentStage = t('validation.currentStage');
+    if (!formData.commonline) validationErrors.commonline = t('validation.commonline'); 
 
     if (formData.referralDate && formData.expectedCompletionDate) {
       if (new Date(formData.expectedCompletionDate) <= new Date(formData.referralDate)) {
-        validationErrors.expectedCompletionDate = 'يجب أن يكون تاريخ الإنجاز بعد تاريخ الإحالة';
+        validationErrors.expectedCompletionDate = t('validation.dateOrder');
       }
     }
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      toast.error('يرجى تصحيح الأخطاء في الحقول المطلوبة');
+      toast.error(t('notifications.form_error'));
       return;
     }
 
@@ -108,22 +117,24 @@ export default function ProjectForm() {
       });
 
       if (response.ok) {
-        toast.success('تم حفظ البيانات بنجاح.');
+        toast.success(t('notifications.save_success'));
         setTimeout(() => {
-          navigate('/dashb')
+          navigate('/dashb');
         }, 2000);
       } else {
-        toast.error('حدث خطأ أثناء حفظ البيانات، يرجى المحاولة لاحقاً');
+        toast.error(t('notifications.save_error'));
       }
     } catch (error) {
-      console.error('فشل في إرسال الطلب:', error);
-      toast.error('فشل في الاتصال بالسيرفر');
+      console.error('Failed to submit request:', error);
+      toast.error(t('notifications.server_error'));
     }
   };
 
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <div className="app-layout">
-      <ToastContainer position="top-left" autoClose={3000} rtl={true} />
+    <div className="app-layout" dir={currentDir}>
+      <ToastContainer position="top-left" autoClose={3000} rtl={i18n.language === 'ar'} />
       
       <RightBar />
 
@@ -135,8 +146,8 @@ export default function ProjectForm() {
                 <FolderPlus size={22} />
               </div>
               <div>
-                <h2>بيانات المشروع</h2>
-                <p>يرجى إدخال المعلومات المطلوبة لإنشاء مشروع جديد في النظام</p>
+                <h2>{t('header.title')}</h2>
+                <p>{t('header.subtitle')}</p>
               </div>
             </div>
 
@@ -146,7 +157,7 @@ export default function ProjectForm() {
                 {/* اسم المشروع */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>اسم المشروع</span>
+                    <span>{t('labels.projectName')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
@@ -156,7 +167,7 @@ export default function ProjectForm() {
                       name="projectName"
                       value={formData.projectName}
                       onChange={handleChange}
-                      placeholder="مثال: خط 400kV نينوى - الموصل" 
+                      placeholder={t('placeholders.projectName')} 
                       className="form-control"
                     />
                   </div>
@@ -165,7 +176,7 @@ export default function ProjectForm() {
 
                 {/* رقم المشروع / الكود */}
                 <div className="form-group">
-                  <label className="label-wrapper">رقم المشروع / الكود</label>
+                  <label className="label-wrapper">{t('labels.projectId')}</label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Hash size={16} /></div>
                     <input 
@@ -173,23 +184,23 @@ export default function ProjectForm() {
                       name="projectId"
                       value={formData.projectId}
                       onChange={handleChange}
-                      placeholder="يولد تلقائياً عند اختيار الشركة" 
+                      placeholder={t('placeholders.projectId')} 
                       className="form-control"
                     />
                   </div>
-                  <span className="field-hint">يُولد تلقائياً ويقبل التعديل اليدوي</span>
+                  <span className="field-hint">{t('hints.projectId')}</span>
                 </div>
 
                 {/* الشركة المالكة */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>الشركة المالكة</span>
+                    <span>{t('labels.company')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Building2 size={16} /></div>
                     <select name="company" value={formData.company} onChange={handleChange} className="form-control">
-                      <option value="">اختر الشركة</option>
+                      <option value="">{t('placeholders.select_company')}</option>
                       {companiesList.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
@@ -199,7 +210,7 @@ export default function ProjectForm() {
                 {/* المحافظة */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>المحافظة</span>
+                    <span>{t('labels.governorate')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
@@ -211,7 +222,7 @@ export default function ProjectForm() {
                       className="form-control"
                       disabled={!formData.company}
                     >
-                      <option value="">{formData.company ? "اختر المحافظة" : "يرجى اختيار الشركة أولاً"}</option>
+                      <option value="">{formData.company ? t('placeholders.select_governorate') : t('placeholders.awaiting_company')}</option>
                       {availableGovernorates.map(gov => <option key={gov} value={gov}>{gov}</option>)}
                     </select>
                   </div>
@@ -221,13 +232,13 @@ export default function ProjectForm() {
                 {/* الجهد الكهربائي */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>الجهد الكهربائي</span>
+                    <span>{t('labels.voltage')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Zap size={16} /></div>
                     <select name="voltage" value={formData.voltage} onChange={handleChange} className="form-control">
-                      <option value="">اختر الجهد الكهربائي</option>
+                      <option value="">{t('placeholders.select_voltage')}</option>
                       {voltages.map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
@@ -237,13 +248,13 @@ export default function ProjectForm() {
                 {/* المرحلة الحالية */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>المرحلة الحالية</span>
+                    <span>{t('labels.currentStage')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Flag size={16} /></div>
                     <select name="currentStage" value={formData.currentStage} onChange={handleChange} className="form-control">
-                      <option value="">اختر المرحلة الحالية</option>
+                      <option value="">{t('placeholders.select_stage')}</option>
                       {stages.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
@@ -253,12 +264,14 @@ export default function ProjectForm() {
                 {/* تاريخ الإحالة */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>تاريخ الإحالة</span>
+                    <span>{t('labels.referralDate')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Calendar size={16} /></div>
-                    <input type="date" name="referralDate" value={formData.referralDate} onChange={handleChange} className="form-control" />
+                    <input type="date" name="referralDate" value={formData.referralDate} 
+                   
+                    onChange={handleChange} className="form-control form-control hide-date-icon" />
                   </div>
                   {errors.referralDate && <span className="error-message">{errors.referralDate}</span>}
                 </div>
@@ -266,20 +279,20 @@ export default function ProjectForm() {
                 {/* تاريخ الإنجاز المتوقع */}
                 <div className="form-group">
                   <label className="label-wrapper">
-                    <span>تاريخ الإنجاز المتوقع</span>
+                    <span>{t('labels.expectedCompletionDate')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
                     <div className="input-icon"><Calendar size={16} /></div>
-                    <input type="date" name="expectedCompletionDate" value={formData.expectedCompletionDate} onChange={handleChange} className="form-control" />
+                    <input type="date" name="expectedCompletionDate" value={formData.expectedCompletionDate} onChange={handleChange} className="form-control form-control hide-date-icon" />
                   </div>
                   {errors.expectedCompletionDate && <span className="error-message">{errors.expectedCompletionDate}</span>}
                 </div>
 
-                
+                {/* الخط المشترك */}
                 <div className="form-group full-width">
                   <label className="label-wrapper">
-                    <span>الخط</span>
+                    <span>{t('labels.commonline')}</span>
                     <span className="required-star">*</span>
                   </label>
                   <div className="input-wrapper">
@@ -289,7 +302,7 @@ export default function ProjectForm() {
                       name="commonline"
                       value={formData.commonline}
                       onChange={handleChange}
-                      placeholder="مثال: موصل-صلاح الدين" 
+                      placeholder={t('placeholders.commonline')} 
                       className="form-control"
                     />
                   </div>
@@ -299,7 +312,7 @@ export default function ProjectForm() {
                 {/* ملاحظات عامة */}
                 <div className="form-group full-width">
                   <div className="label-wrapper" style={{ justifyContent: 'space-between', width: '100%' }}>
-                    <span>ملاحظات عامة (اختياري)</span>
+                    <span>{t('labels.notes')}</span>
                     <span className="char-counter">{formData.notes.length} / 500</span>
                   </div>
                   <textarea 
@@ -307,9 +320,9 @@ export default function ProjectForm() {
                     value={formData.notes}
                     onChange={handleChange}
                     maxLength="500"
-                    placeholder="اكتب أي معلومات إضافية عن تفاصيل المشروع هنا..." 
+                    placeholder={t('placeholders.notes')} 
                     className="form-control"
-                    rows="2" // تم تقليصه لضمان عدم حدوث سكرول نهائياً
+                    rows="2"
                   ></textarea>
                 </div>
 
@@ -317,10 +330,10 @@ export default function ProjectForm() {
 
               <div className="form-actions">
                 <button type="submit" className="btn btn-submit">
-                  <Save size={16} /> حفظ بيانات المشروع
+                  <Save size={16} /> {t('buttons.save')}
                 </button>
                 <button type="button" className="btn btn-cancel" onClick={() => window.location.reload()}>
-                  <X size={16} /> إلغاء التغييرات
+                  <X size={16} /> {t('buttons.cancel')}
                 </button>
               </div>
             </form>

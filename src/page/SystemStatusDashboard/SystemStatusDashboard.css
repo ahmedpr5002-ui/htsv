@@ -1,14 +1,76 @@
+/* ==========================================================================
+   1. ميثاق الطاقة والألوان الديناميكي (النظامين الفاتح والمظلم)
+   ========================================================================== */
+
+/* ☀️ الوضع الفاتح الافتراضي (Light Theme) */
+:root, [data-theme='light'] {
+    --energy-bg-main: #fafcfe;
+    --energy-card-bg: #ffffff;
+    --energy-border-color: rgba(71, 159, 215, 0.15);
+    --energy-input-bg: #fbfdfe;
+    --energy-input-border: #dbe4ef;
+    
+    --energy-text-dark: #1e293b;
+    --energy-text-muted: #5a7394;
+    --energy-text-sub: #7f94b0;
+    
+    --energy-plug-white: #ffffff;
+    --energy-blue-medium: #479fd7;
+    --energy-blue-dark: #1e3a60;
+    
+    --energy-gradient-linear: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    --energy-shadow-glow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    --energy-transition: all 0.25s ease-in-out;
+    
+    /* بيئة المحاكاة والمستعرض */
+    --browser-top: #f1f5f9;
+    --browser-border: #e2e8f0;
+    --browser-mock-bg: #f8fafc;
+    --browser-mock-box: #e2e8f0;
+}
+
+/* 🌙 الوضع المظلم التلقائي (Dark Theme) */
+[data-theme='dark'] {
+    --energy-bg-main: #0b0f19;
+    --energy-card-bg: rgba(17, 24, 39, 0.9);
+    --energy-border-color: rgba(255, 255, 255, 0.08);
+    --energy-input-bg: #111827;
+    --energy-input-border: rgba(255, 255, 255, 0.12);
+    
+    --energy-text-dark: #f3f4f6;
+    --energy-text-muted: #9ca3af;
+    --energy-text-sub: #6b7280;
+    
+    --energy-plug-white: #ffffff;
+    --energy-blue-medium: #3b82f6;
+    --energy-blue-dark: #93c5fd;
+    
+    --energy-gradient-linear: linear-gradient(135deg, #2563eb, #1d4ed8);
+    --energy-shadow-glow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    
+    /* بيئة المحاكاة والمستعرض للوضع الليلي */
+    --browser-top: #1f2937;
+    --browser-border: rgba(255, 255, 255, 0.08);
+    --browser-mock-bg: #111827;
+    --browser-mock-box: #374151;
+}
+
+/* ==========================================================================
+   2. الحاوية الرئيسية والهيكل التنظيمي (Layout)
+   ========================================================================== */
 .status-dashboard-container {
-    width: 82%; /* حجز المساحة المتبقية بدقة */
-    margin-right: 18%; /* إزاحة المحتوى لليسار لترك مساحة للقائمة الجانبية المثبتة يميناً */
+    width: 82%; 
+    margin-inline-start: 18%; /* ترك مساحة للقائمة الجانبية الملتصقة */
     padding: 30px;
-    background-color: #fafcfe;
+    background-color: var(--energy-bg-main);
     min-height: 100vh;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    direction: rtl; /* المحاذاة من اليمين لليسار لتتوافق مع نظامك العربي */
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    direction: rtl; 
     text-align: right;
+    transition: background-color 0.3s ease;
 }
+
 /* هيدر الصفحة */
 .dashboard-header-section {
     display: flex;
@@ -38,7 +100,7 @@
 
 .dashboard-header-section p {
     margin: 0;
-    color: #5a7394;
+    color: var(--energy-text-muted);
     font-size: 0.95rem;
 }
 
@@ -52,11 +114,12 @@
 
 /* كروت الإعدادات والمعاينة */
 .settings-form-card, .preview-card-wrapper {
-    background: var(--energy-plug-white);
-    border: 1px solid rgba(71, 159, 215, 0.15);
+    background: var(--energy-card-bg);
+    border: 1px solid var(--energy-border-color);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 4px 20px rgba(30, 58, 96, 0.03);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-title {
@@ -64,11 +127,13 @@
     font-size: 1.15rem;
     font-weight: 600;
     color: var(--energy-text-dark);
-    border-bottom: 2px solid #f0f4f9;
+    border-bottom: 2px solid var(--browser-border);
     padding-bottom: 12px;
 }
 
-/* حقول الإدخال */
+/* ==========================================================================
+   3. حقول الإدخال والتحكم الذكي عناصر الفورم
+   ========================================================================== */
 .form-group {
     margin-bottom: 20px;
     display: flex;
@@ -85,11 +150,11 @@
 .energy-input, .energy-textarea {
     width: 100%;
     padding: 12px 14px;
-    border: 1.5px solid #dbe4ef;
+    border: 1.5px solid var(--energy-input-border);
     border-radius: 8px;
     font-size: 0.9rem;
     color: var(--energy-text-dark);
-    background-color: #fbfdfe;
+    background-color: var(--energy-input-bg);
     box-sizing: border-box;
     transition: var(--energy-transition);
 }
@@ -103,13 +168,13 @@
     outline: none;
     border-color: var(--energy-blue-medium);
     box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.15);
-    background-color: var(--energy-plug-white);
+    background-color: var(--energy-card-bg);
 }
 
 /* أزرار اختيار نوع الحالة الإذاعية */
 .status-type-selector {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 }
 
@@ -119,13 +184,14 @@
     align-items: center;
     gap: 8px;
     padding: 15px;
-    border: 1.5px solid #dbe4ef;
+    border: 1.5px solid var(--energy-input-border);
     border-radius: 10px;
     cursor: pointer;
     transition: var(--energy-transition);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #5a7394;
+    color: var(--energy-text-muted);
+    background-color: var(--energy-input-bg);
 }
 
 .type-box input {
@@ -136,10 +202,10 @@
     font-size: 1.4rem;
 }
 
-/* عند اختيار نوع معين يتم تلوينه بتدرجات متناسقة مع الخطر أو التنبيه */
-.selected-maintenance { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
-.selected-update { border-color: var(--energy-blue-medium); color: var(--energy-blue-dark); background: #f0f7fc; }
-.selected-announce { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
+/* تمكين التوافق مع تباين ألوان حالات الخطر والتحذير في النظامين */
+.selected-maintenance { border-color: #ef4444; color: #ef4444; background: rgba(239, 68, 68, 0.08); }
+.selected-update { border-color: var(--energy-blue-medium); color: var(--energy-blue-medium); background: rgba(59, 130, 246, 0.08); }
+.selected-announce { border-color: #f59e0b; color: #d97706; background: rgba(245, 158, 11, 0.08); }
 
 /* مفاتيح السويتش الذكية */
 .toggle-group {
@@ -158,23 +224,23 @@
 .toggle-label-desc p {
     margin: 3px 0 0 0;
     font-size: 0.78rem;
-    color: #7f94b0;
+    color: var(--energy-text-sub);
 }
 
 .bg-light-group {
-    background-color: #f8fafc;
+    background-color: var(--energy-input-bg);
     padding: 12px;
     border-radius: 8px;
-    border: 1px dashed #cbd5e1;
+    border: 1px dashed var(--energy-input-border);
 }
 
 .form-divider {
     border: none;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--browser-border);
     margin: 20px 0;
 }
 
-/* تصميم الـ Switch الزر المنزلق */
+/* تصحيح هندسة الـ Switch للـ RTL والـ LTR تلقائياً */
 .energy-switch {
     position: relative;
     display: inline-block;
@@ -190,7 +256,7 @@
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
     background-color: #cbd5e1;
-    transition: .3s;
+    transition: 0.3s;
     border-radius: 34px;
 }
 
@@ -198,21 +264,25 @@
     position: absolute;
     content: "";
     height: 18px; width: 18px;
-    left: 4px; bottom: 4px;
     background-color: white;
-    transition: .3s;
+    transition: 0.3s;
     border-radius: 50%;
+    bottom: 4px;
+    /* إعداد ديناميكي آمن للموضع لعدم تداخل الانزلاق في اللغتين */
+    right: auto;
+    left: 4px; 
 }
 
 input:checked + .energy-slider {
     background: var(--energy-gradient-linear);
 }
 
+/* النقل معتمد على نفس جهة البدء بشكل قياسي وثابت */
 input:checked + .energy-slider:before {
     transform: translateX(24px);
 }
 
-/* زر البث الفوري لحفظ المدخلات */
+/* زر البث الفوري */
 .energy-submit-btn {
     width: 100%;
     padding: 14px;
@@ -240,24 +310,27 @@ input:checked + .energy-slider:before {
     background: #cbd5e1;
     box-shadow: none;
     cursor: not-allowed;
+    color: #94a3b8;
 }
 
-/* نافذة محاكاة المتصفح (Live Preview) */
+/* ==========================================================================
+   4. نافذة محاكاة المتصفح الفاخرة (Live Preview)
+   ========================================================================== */
 .live-preview-window {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--browser-border);
     border-radius: 12px;
     overflow: hidden;
-    background: #fff;
+    background: var(--energy-card-bg);
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .browser-top-bar {
-    background: #f1f5f9;
+    background: var(--browser-top);
     padding: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--browser-border);
 }
 
 .browser-top-bar .dot {
@@ -267,26 +340,27 @@ input:checked + .energy-slider:before {
 }
 
 .mock-url {
-    background: #fff;
+    background: var(--energy-card-bg);
     padding: 2px 15px;
     border-radius: 4px;
     font-size: 0.75rem;
-    color: #94a3b8;
-    margin-right: auto;
+    color: var(--energy-text-sub);
+    margin-inline-start: auto;
     font-family: monospace;
+    border: 1px solid var(--browser-border);
 }
 
 .mock-app-content {
     height: 320px;
     position: relative;
-    background: #f8fafc;
+    background: var(--browser-mock-bg);
 }
 
 /* شاشة المحاكاة في وضع الصيانة المغلق */
 .mock-maintenance-screen {
     position: absolute;
     inset: 0;
-    background: #fff;
+    background: var(--energy-card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -299,10 +373,10 @@ input:checked + .energy-slider:before {
 .icon-big { font-size: 3rem; color: #ef4444; margin-bottom: 15px; }
 .anim-pulse { animation: pulse 2s infinite; }
 
-.mock-maintenance-screen h4 { margin: 0 0 8px 0; color: #1e293b; }
-.mock-maintenance-screen p { margin: 0; font-size: 0.8rem; color: #64748b; max-width: 80%; }
+.mock-maintenance-screen h4 { margin: 0 0 8px 0; color: var(--energy-text-dark); }
+.mock-maintenance-screen p { margin: 0; font-size: 0.8rem; color: var(--energy-text-muted); max-width: 80%; }
 
-/* البنرات العلوية للتحديثات */
+/* البنرات العلوية للتحديثات الإذاعية */
 .mock-update-banner, .mock-announcement-banner {
     padding: 8px 12px;
     font-size: 0.75rem;
@@ -315,9 +389,16 @@ input:checked + .energy-slider:before {
 .mock-update-banner { background: var(--energy-gradient-linear); color: #fff; }
 .mock-announcement-banner { background: #fffbeb; color: #b45309; border-bottom: 1px solid #fef3c7; }
 
+/* إصلاح البنر الإعلاني ليتناسب مع وضع الظلام فلا يصبح باهتاً */
+[data-theme='dark'] .mock-announcement-banner {
+    background: #78350f;
+    color: #fde68a;
+    border-bottom-color: rgba(255,255,255,0.05);
+}
+
 .mock-btn {
     background: #fff;
-    color: var(--energy-blue-dark);
+    color: #1e3a60;
     padding: 2px 8px;
     border-radius: 4px;
     text-decoration: none;
@@ -327,15 +408,16 @@ input:checked + .energy-slider:before {
 
 /* محاكاة الداتا الطبيعية الخلفية */
 .mock-dashboard-data { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-.mock-box { background: #e2e8f0; height: 15px; border-radius: 4px; }
+.mock-box { background: var(--browser-mock-box); height: 15px; border-radius: 4px; }
 .mock-box.short { width: 40%; }
 .mock-box.long { width: 90%; height: 60px; }
 .mock-box.mid { width: 65%; }
 
-/* تلميحات الـ Toast الإشعارية */
+/* تلميحات الـ Toast الإشعارية الثابتة */
 .toast-notification {
     position: fixed;
-    bottom: 20px; left: 20px;
+    bottom: 20px; 
+    left: 20px;
     padding: 12px 20px;
     border-radius: 8px;
     color: #fff;
@@ -350,9 +432,32 @@ input:checked + .energy-slider:before {
 .toast-notification.success { background: #10b981; }
 .toast-notification.error { background: #ef4444; }
 
+/* ==========================================================================
+   5. الاستجابة الشاملة وشاشات العرض المرنة (Media Queries)
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .dashboard-grid-layout {
+        grid-template-columns: 1fr; /* تحويل لعمود واحد عند صغر الشاشة لعدم انضغاط المحاكاة */
+    }
+}
+
+@media (max-width: 768px) {
+    .status-dashboard-container {
+        width: 100%;
+        margin-inline-start: 0; /* إلغاء الإزاحة في الشاشات الصغيرة لتغطية كامل المساحة */
+        padding: 15px;
+    }
+    .status-type-selector {
+        grid-template-columns: 1fr; /* ترتيب رأسي لأزرار الاختيار لسهولة النقر باللمس */
+    }
+}
+
+/* ==========================================================================
+   6. الحركات والأنيميشن القياسية
+   ========================================================================== */
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.08); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 0.85; }
     100% { transform: scale(1); opacity: 1; }
 }
 

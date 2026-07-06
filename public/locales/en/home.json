@@ -1,0 +1,27 @@
+{
+  "home": {
+    "brand_sub": "Risk Management System",
+    "status_online": "Live Data Channels: Connected",
+    "status_offline": "Live Data Channels: Disconnected",
+    "portal_tag": "Integrated Engineering Platform",
+    "main_heading_part1": "Risk Monitoring & Analysis",
+    "main_heading_part2": "Relative Importance Index (RII) Platform",
+    "portal_lead": "Automated system for calculating the Relative Importance Index (RII) and securing technical data streams for transmission hubs in Iraq.",
+    "primary_btn": "Access Central Dashboard",
+    "toast_k6_message": "k6 performance monitoring system is fully stable",
+    "features": {
+      "jwt": {
+        "title": "JWT Encryption & Secure Architecture",
+        "desc": "Complete protection for sessions and technical end-points"
+      },
+      "rii": {
+        "title": "Accurate RII Metrics",
+        "desc": "Real-time mathematical computations for financial and operational risks"
+      },
+      "stable": {
+        "title": "Stable & Flexible Environment",
+        "desc": "Lightweight and highly responsive Node.js server architecture"
+      }
+    }
+  }
+}

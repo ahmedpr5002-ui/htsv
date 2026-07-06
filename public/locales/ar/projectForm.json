@@ -1,0 +1,82 @@
+{
+  "header": {
+    "title": "بيانات المشروع",
+    "subtitle": "يرجى إدخال المعلومات المطلوبة لإنشاء مشروع جديد في النظام"
+  },
+  "labels": {
+    "projectName": "اسم المشروع",
+    "projectId": "رقم المشروع / الكود",
+    "company": "الشركة المالكة",
+    "governorate": "المحافظة",
+    "voltage": "الجهد الكهربائي",
+    "currentStage": "المرحلة الحالية",
+    "referralDate": "تاريخ الإحالة",
+    "expectedCompletionDate": "تاريخ الإنجاز المتوقع",
+    "commonline": "الخط",
+    "notes": "ملاحظات عامة (اختياري)"
+  },
+  "placeholders": {
+    "projectName": "مثال: خط 400kV نينوى - الموصل",
+    "projectId": "يولد تلقائياً عند اختيار الشركة",
+    "select_company": "اختر الشركة",
+    "select_governorate": "اختر المحافظة",
+    "awaiting_company": "يرجى اختيار الشركة أولاً",
+    "select_voltage": "اختر الجهد الكهربائي",
+    "select_stage": "اختر المرحلة الحالية",
+    "commonline": "مثال: موصل-صلاح الدين",
+    "notes": "اكتب أي معلومات إضافية عن تفاصيل المشروع هنا..."
+  },
+  "hints": {
+    "projectId": "يُولد تلقائياً ويقبل التعديل اليدوي"
+  },
+  "buttons": {
+    "save": "حفظ بيانات المشروع",
+    "cancel": "إلغاء التغييرات"
+  },
+  "companies": {
+    "NO": "شمال",
+    "SO": "جنوب",
+    "MI": "وسط",
+    "ME": "فرات أوسط"
+  },
+  "governorates": {
+    "nineveh": "نينوى",
+    "kirkuk": "كركوك",
+    "saladin": "صلاح الدين",
+    "baghdad": "بغداد",
+    "diyala": "ديالى",
+    "wasit": "واسط",
+    "anbar": "الأنبار",
+    "babylon": "بابل",
+    "najaf": "النجف",
+    "karbala": "كربلاء",
+    "diwaniyah": "الديوانية",
+    "basra": "البصرة",
+    "dhi_qar": "ذي قار",
+    "maysan": "ميسان",
+    "muthanna": "المثنى"
+  },
+  "stages": {
+    "planning": "التخطيط واعداد المناقصة",
+    "referral_pending": "قيد الإحالة",
+    "under_execution": "قيد التنفيذ",
+    "completed": "مكتمل"
+  },
+  "validation": {
+    "projectName": "اسم المشروع مطلوب",
+    "company": "يرجى اختيار الشركة المالكة",
+    "governorate": "يرجى اختيار المحافظة",
+    "voltage": "يرجى اختيار الجهد الكهربائي",
+    "referralDate": "تاريخ الإحالة مطلوب",
+    "expectedCompletionDate": "تاريخ الإنجاز المتوقع مطلوب",
+    "currentStage": "يرجى تحديد المرحلة الحالية",
+    "commonline": "حقل الخط المشترك مطلوب",
+    "dateOrder": "يجب أن يكون تاريخ الإنجاز بعد تاريخ الإحالة"
+  },
+  "notifications": {
+    "form_error": "يرجى تصحيح الأخطاء في الحقول المطلوبة",
+    "save_success": "تم حفظ البيانات بنجاح.",
+    "save_error": "حدث خطأ أثناء حفظ البيانات، يرجى المحاولة لاحقاً",
+    "server_error": "فشل في الاتصال بالسيرفر"
+  }
+}

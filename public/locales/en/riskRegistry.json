@@ -1,0 +1,86 @@
+{
+  "no_action_text_available": "No descriptive text available for the action",
+  "not_specified": "Not Specified",
+  "not_assigned_yet": "Not Assigned Yet",
+  "no_text_available": "No text available",
+  "axis_types": {
+    "legal": "Legal",
+    "financial": "Financial",
+    "technical": "Technical"
+  },
+  "risk_levels": {
+    "low": "Low",
+    "medium": "High",
+    "high": "Highly Critical"
+  },
+  "toast": {
+    "fetch_error": "An error occurred while fetching some suggested data",
+    "status_update_success": "Technical operational status updated successfully",
+    "error": "Error",
+    "server_connection_failed": "Failed to connect to the server to modify status",
+    "fixed_risk_warning": "This risk is fixed and permanently institutionally closed; its status cannot be changed."
+  },
+  "modal": {
+    "title": "Suggested Action Details",
+    "technical_id": "Technical ID",
+    "action_code": "Action Code",
+    "action_category": "Action Category",
+    "time_phase": "Time Phase",
+    "rii_percentage": "RII Percentage",
+    "action_content": "Suggested Action Content & Text",
+    "close_window": "Close Window"
+  },
+  "header": {
+    "back_btn": "Back to Dashboard",
+    "title": "Comprehensive Risk Registry",
+    "subtitle": "Review, filter, and analyze all listed risks for the current project"
+  },
+  "stats": {
+    "total_risks": "Total Risks",
+    "critical_risks": "Highly Critical Risks",
+    "medium_risks": "High Risks",
+    "low_risks": "Low Risks"
+  },
+  "filters": {
+    "search_placeholder": "Search by risk code or description...",
+    "all_axes": "All Axes",
+    "tech_axis": "Technical Axis",
+    "money_axis": "Financial Axis",
+    "law_axis": "Legal Axis"
+  },
+  "table": {
+    "loading": "Fetching and auditing data from the cloud server...",
+    "no_data": "No risks found matching the selected filters.",
+    "action_badge_title": "Click to view full governance action details",
+    "none": "None",
+    "actions_added": "actions added",
+    "add_action_btn": "Add Action",
+    "th": {
+      "risk_code": "Risk Code",
+      "risk_description": "Risk Description & Content",
+      "axis": "Axis",
+      "stage": "Time Phase",
+      "risk_level": "Risk Level",
+      "risk_score": "Risk Score",
+      "operational_status": "Operational Status",
+      "suggested_actions": "Suggested Actions",
+      "taken_actions": "Taken Actions"
+    }
+  },
+  "status_options": {
+    "open": "Open",
+    "in_progress": "In Progress",
+    "technical_close": "Technical Close",
+    "institutional_close": "Institutional Close"
+  },
+  "status_options_mapping": {
+    "مفتوحة": "Open",
+    "قيد المعالجة": "In Progress",
+    "مغلقة بحل فني": "Technical Close",
+    "مغلقة بقرار مؤسسي": "Institutional Close",
+    "Open": "Open",
+    "In Progress": "In Progress",
+    "Technical Close": "Technical Close",
+    "Institutional Close": "Institutional Close"
+  }
+}

@@ -254,3 +254,157 @@ html[dir="ltr"] .sidebar-container {
     border-right: 1px solid rgba(71, 159, 215, 0.15);
     border-left: none;
 }
+/* --- ألوان إضافية للوضع الداكن المدمج --- */
+:root {
+  --switch-bg-inactive: #D1E7F5;
+  --switch-active-color: #2F5C9E;
+}
+
+/* حاوية أزرار التحكم والتبديل العلوية */
+.control-switchers-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 5px 2px;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   تصميم سويتش اللغة الجديد (Language Switcher)
+   ========================================================================== */
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(71, 159, 215, 0.25);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: var(--energy-transition);
+}
+
+.switch-container:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--energy-blue-medium);
+    box-shadow: 0 2px 8px rgba(71, 159, 215, 0.1);
+}
+
+.switch-label-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #8fa0b5;
+    transition: var(--energy-transition);
+}
+
+.switch-label-text.active {
+    color: var(--energy-text-dark);
+    font-weight: 700;
+}
+
+.custom-switch-bg {
+    width: 42px;
+    height: 22px;
+    background-color: var(--energy-blue-medium);
+    border-radius: 11px;
+    position: relative;
+    transition: var(--energy-transition);
+    margin: 0 5px;
+}
+
+/* مقبض السويتش المتحرك */
+.switch-handle {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    right: 3px; /* يبدأ جهة اليمين للغة العربية */
+    transition: var(--energy-transition);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* حركة المقبض عند التحويل للغة الإنجليزية */
+.custom-switch-bg.switch-en {
+    background-color: #ccd7e6;
+}
+
+.custom-switch-bg.switch-en .switch-handle {
+    right: 23px; /* يتحرك لليسار */
+}
+
+
+/* ==========================================================================
+   تصميم زر تبديل الثيم المطور (Theme Toggle Button)
+   ========================================================================== */
+.theme-toggle-btn-modern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 16px;
+    border: 1px solid rgba(71, 159, 215, 0.2);
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--energy-transition);
+}
+
+.theme-toggle-btn-modern:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(47, 92, 158, 0.1);
+    border-color: var(--energy-blue-medium);
+}
+
+/* حاوية الأيقونة الدائرية داخل الزر */
+.theme-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f7bc; /* خلفية نهارية صفراء خفيفة للشمس */
+    transition: var(--energy-transition);
+}
+
+.theme-btn-icon {
+    font-size: 0.95rem;
+}
+
+.s-icon {
+    color: #cca000;
+}
+
+.m-icon {
+    color: #479FD7;
+}
+
+.theme-btn-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--energy-text-dark);
+}
+
+/* ستايل الزر عندما يكون الوضع الداكن نشطاً */
+.theme-toggle-btn-modern.dark-active {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.theme-toggle-btn-modern.dark-active .theme-icon-container {
+    background: #334155; /* خلفية ليلية رمادية للقمر */
+}
+
+.theme-toggle-btn-modern.dark-active .m-icon {
+    color: #38bdf8;
+}
+
+.theme-toggle-btn-modern.dark-active .theme-btn-text {
+    color: #f1f5f9;
+}

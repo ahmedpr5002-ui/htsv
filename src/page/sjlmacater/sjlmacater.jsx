@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import RightBar from '../../components/rightBar/rightBar';
 import { 
   FaScaleBalanced, 
@@ -19,6 +20,7 @@ import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
 import './sjlmacater.css';
 
 const Sjlmacater = () => {
+  const { t } = useTranslation('sjlmacater'); // تفعيل التابع وتحديد الـ Namespace
   const { projectId: urlProjectId } = useParams();
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ const Sjlmacater = () => {
           if (Array.isArray(data)) setProjects(data);
         }
       } catch (error) {
-        console.error("خطأ في جلب المشاريع:", error);
+        console.error("Error fetching projects:", error);
       }
     };
     if (token) fetchMyProjects();
@@ -108,7 +110,7 @@ const Sjlmacater = () => {
           setRisks([]);
         }
       } catch (error) {
-        console.error("خطأ في جلب المخاطر:", error);
+        console.error("Error fetching risks:", error);
         setRisks([]);
       } finally {
         setLoading(false);
@@ -157,14 +159,14 @@ const Sjlmacater = () => {
           )
         );
         setActiveSelectRowId(null);
-        showToast("تم تحديث الحالة التشغيلية الفنية بنجاح", "success");
+        showToast(t('toast_status_success'), "success");
       } else {
         const errData = await response.json();
-        showToast(`خطأ: ${errData.message}`, "error");
+        showToast(`${t('toast_error_prefix')}: ${errData.message}`, "error");
       }
     } catch (error) {
-      console.error("خطأ في تحديث الحالة:", error);
-      showToast("فشل الاتصال بالسيرفر لتعديل الحالة", "error");
+      console.error("Error updating status:", error);
+      showToast(t('toast_server_error'), "error");
     } finally {
       setUpdatingId(null);
     }
@@ -188,16 +190,16 @@ const Sjlmacater = () => {
     switch (axis) {
       case 'مالي':
       case 'المالي':
-        return <span className="axis-badge axis-financial" style={{color:"#10b981",background:"rgba(16, 185, 129, 0.1)"}}><FaDollarSign /> مالي</span>;
+        return <span className="axis-badge axis-financial" style={{color:"#10b981",background:"rgba(16, 185, 129, 0.1)"}}><FaDollarSign /> {t('axis_financial')}</span>;
       case 'قانوني':
       case 'القانوني':
-        return <span className="axis-badge axis-legal" style={{color:"#8b5cf6",background:"rgba(139, 92, 246, 0.1)"}}><FaScaleBalanced /> قانوني</span>;
+        return <span className="axis-badge axis-legal" style={{color:"#8b5cf6",background:"rgba(139, 92, 246, 0.1)"}}><FaScaleBalanced /> {t('axis_legal')}</span>;
       case 'فني':
       case 'الفني':
-        return <span className="axis-badge axis-technical" style={{color:'#3b82f6',background:'rgba(59, 130, 246, 0.1)'}}><FaShieldHalved /> فني</span>;
+        return <span className="axis-badge axis-technical" style={{color:'#3b82f6',background:'rgba(59, 130, 246, 0.1)'}}><FaShieldHalved /> {t('axis_technical')}</span>;
       case 'تكاملي':
       case 'التكاملي':
-        return <span className="axis-badge axis-integrative"><FaLink /> التكاملي</span>;
+        return <span className="axis-badge axis-integrative"><FaLink /> {t('axis_integrative')}</span>;
       default:
         return <span className="axis-badge">{axis}</span>;
     }
@@ -246,12 +248,12 @@ const Sjlmacater = () => {
         
         <div className="register-top-bar">
           <div className="project-selector-wrapper">
-            <label htmlFor="project-select" style={{color:"#3b82f6"}}><FaFolderOpen /> المشروع النشط:</label>
+            <label htmlFor="project-select" style={{color:"#3b82f6"}}><FaFolderOpen /> {t('active_project_label')}</label>
             <select id="project-select" value={currentProjectId} onChange={handleProjectChange} className="luxury-select">
-              <option value="" disabled>-- اختر مشروعاً من هنا --</option>
+              <option value="" disabled>{t('select_project_placeholder')}</option>
               {projects.map((proj) => (
                 <option key={proj._id} value={proj._id}>
-                  {proj.name || proj.projectName || "مشروع بدون اسم"}
+                  {proj.name || proj.projectName || t('unnamed_project')}
                 </option>
               ))}
             </select>
@@ -263,35 +265,35 @@ const Sjlmacater = () => {
           <div className="stat-card total-risks">
             <div className="stat-icon"><HiOutlineDocumentDuplicate /></div>
             <div className="stat-info">
-              <span className="stat-label">إجمالي المخاطر</span>
+              <span className="stat-label">{t('stat_total')}</span>
               <h2 className="stat-value">{counts.total}</h2>
             </div>
           </div>
           <div className="stat-card open-risks">
             <div className="stat-icon-indicator open-dot">!</div>
             <div className="stat-info">
-              <span className="stat-label">مفتوحة</span>
+              <span className="stat-label">{t('status_open')}</span>
               <h2 className="stat-value">{counts.open}</h2>
             </div>
           </div>
           <div className="stat-card processing-risks">
             <div className="stat-icon-indicator processing-dot">⚙</div>
             <div className="stat-info">
-              <span className="stat-label">قيد المعالجة</span>
+              <span className="stat-label">{t('status_processing')}</span>
               <h2 className="stat-value">{counts.processing}</h2>
             </div>
           </div>
           <div className="stat-card technical-close-risks">
             <div className="stat-icon-indicator technical-dot" style={{color:"#1e40af"}} >✓</div>
             <div className="stat-info">
-              <span className="stat-label" >مغلقة بحل فني</span>
+              <span className="stat-label" >{t('status_technical_close')}</span>
               <h2 className="stat-value">{counts.technicalClose}</h2>
             </div>
           </div>
           <div className="stat-card institutional-close-risks">
             <div className="stat-icon-indicator institutional-dot" style={{color:"#6b21a8"}}>🏛</div>
             <div className="stat-info">
-              <span className="stat-label" >مغلقة بقرار مؤسسي</span>
+              <span className="stat-label" >{t('status_institutional_close')}</span>
               <h2 className="stat-value">{counts.institutionalClose}</h2>
             </div>
           </div>
@@ -300,32 +302,32 @@ const Sjlmacater = () => {
         {/* الجدول الفاخر */}
         <div className="register-table-wrapper">
           <div className="register-table-header">
-            <h3>سجل المخاطر المعتمد</h3>
+            <h3>{t('table_main_title')}</h3>
           </div>
           
           <table className="luxury-register-table">
             <thead>
               <tr>
                 <th style={{ width: '40px' }}>#</th>
-                <th style={{ width: '70px' }}>الكود</th>
-                <th>المحور</th>
-                <th style={{ width: '140px' }}>Risk Score</th>
-                <th style={{ width: '80px' }}>RII (%)</th>
-                <th>الحالة التشغيلية</th>
-                <th style={{ width: '110px' }}>تاريخ الظهور</th>
-                <th style={{ width: '110px' }}>تاريخ الإغلاق</th>
-                <th style={{ width: '100px' }}>أكواد الإجراءات</th>
-                <th style={{ minWidth: '240px' }}>ملاحظة المهندس</th>
-                <th>الدروس المستفادة</th>
+                <th style={{ width: '70px' }}>{t('th_code')}</th>
+                <th>{t('th_axis')}</th>
+                <th style={{ width: '140px' }}>{t('th_risk_score')}</th>
+                <th style={{ width: '80px' }}>{t('th_rii')}</th>
+                <th>{t('th_operational_status')}</th>
+                <th style={{ width: '110px' }}>{t('th_created_at')}</th>
+                <th style={{ width: '110px' }}>{t('th_closed_at')}</th>
+                <th style={{ width: '100px' }}>{t('th_action_codes')}</th>
+                <th style={{ width: '240px' }}>{t('th_engineer_notes')}</th>
+                <th>{t('th_lessons_learned')}</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="11" className="table-status-text">جاري تحميل البيانات الحية...</td></tr>
+                <tr><td colSpan="11" className="table-status-text">{t('table_loading')}</td></tr>
               ) : !currentProjectId ? (
-                <tr><td colSpan="11" className="table-status-text">الرجاء تحديد مشروع من القائمة العلوية لعرض المخاطر.</td></tr>
+                <tr><td colSpan="11" className="table-status-text">{t('table_select_project_hint')}</td></tr>
               ) : currentRows.length === 0 ? (
-                <tr><td colSpan="11" className="table-status-text">لا توجد مخاطر مضافة في سجل هذا المشروع حتى الآن.</td></tr>
+                <tr><td colSpan="11" className="table-status-text">{t('table_empty_risks')}</td></tr>
               ) : currentRows.map((risk, index) => {
                 const isFixedRisk = risk.type === 'ثابت' || risk.type === 'fixed';
                 
@@ -354,25 +356,30 @@ const Sjlmacater = () => {
                           className="status-select-inline-luxury"
                           autoFocus
                         >
-                          <option value="مفتوحة">مفتوحة</option>
-                          <option value="قيد المعالجة">قيد المعالجة</option>
-                          <option value="مغلقة بحل فني">مغلقة بحل فني</option>
-                          <option value="مغلقة بقرار مؤسسي">مغلقة بقرار مؤسسي</option>
+                          <option value="مفتوحة">{t('status_open')}</option>
+                          <option value="قيد المعالجة">{t('status_processing')}</option>
+                          <option value="مغلقة بحل فني">{t('status_technical_close')}</option>
+                          <option value="مغلقة بقرار مؤسسي">{t('status_institutional_close')}</option>
                         </select>
                       ) : (
                         <span 
                           className={`clickable-status-badge ${getStatusClassName(risk)}`}
                           onClick={() => {
                             if (isFixedRisk) {
-                              showToast( "هذا الخطر ثابت ومغلق مؤسسياً بشكل دائم ولا يمكن تغيير حالته", "warning");
+                              showToast(t('toast_fixed_risk_warning'), "warning");
                               return;
                             }
                             setActiveSelectRowId(risk._id);
                           }}
-                          title={isFixedRisk ? "مغلق مؤسسياً بشكل دائم" : "اضغط هنا لتعديل الحالة"}
-                          style={isFixedRisk ? { cursor: 'not-allowed',color:"#6b21a8", } : {}}
+                          title={isFixedRisk ? t('title_fixed_immutable') : t('title_click_to_edit')}
+                          style={isFixedRisk ? { cursor: 'not-allowed', color:"#6b21a8" } : {}}
                         >
-                          {isFixedRisk ? 'مغلقة بقرار مؤسسي' : (risk.operationalStatus || 'مفتوحة')}
+                          {isFixedRisk ? t('status_institutional_close') : (
+                            risk.operationalStatus === 'مفتوحة' ? t('status_open') :
+                            risk.operationalStatus === 'قيد المعالجة' ? t('status_processing') :
+                            risk.operationalStatus === 'مغلقة بحل فني' ? t('status_technical_close') :
+                            risk.operationalStatus === 'مغلقة بقرار مؤسسي' ? t('status_institutional_close') : (risk.operationalStatus || t('status_open'))
+                          )}
                         </span>
                       )}
                     </td>
@@ -394,12 +401,10 @@ const Sjlmacater = () => {
                       </div>
                     </td>
 
-                    {/* عرض نص الخطر مباشرة بدلاً من حقل الملاحظات التفاعلي */}
                     <td className="text-notes text-right-align">
                       {risk.riskDescription || risk.riskText || '—'}
                     </td>
 
-                    {/* حقل الدروس المستفادة الثابت (riskNotes) */}
                     <td className="text-notes text-right-align">{risk.riskNotes || '—'}</td>
                   </tr>
                 );
@@ -410,17 +415,17 @@ const Sjlmacater = () => {
           {/* الباجينيشن */}
           <div className="register-pagination-footer">
             <div className="rows-per-page-selector">
-              <span>عرض</span>
+              <span>{t('pagination_show')}</span>
               <select value={rowsPerPage} onChange={(e) => { setRowsPerPage(Number(e.target.value)); setCurrentPage(1); }}>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={25}>25</option>
               </select>
-              <span>صفوف</span>
+              <span>{t('pagination_rows')}</span>
             </div>
 
             <div className="pagination-info-text">
-              عرض {indexOfFirstRow + 1} إلى {Math.min(indexOfLastRow, (risks?.length || 0))} من أصل {(risks?.length || 0)} خطر
+              {t('pagination_info', { from: indexOfFirstRow + 1, to: Math.min(indexOfLastRow, (risks?.length || 0)), total: (risks?.length || 0) })}
             </div>
 
             <div className="pagination-navigation-buttons">

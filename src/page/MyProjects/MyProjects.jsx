@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import RightBar from '../../components/rightBar/rightBar';
 import { 
   FaFolderPlus, 
@@ -14,6 +15,7 @@ import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
 import './myProjects.css';
 
 const MyProjects = () => {
+  const { t, i18n } = useTranslation('myProjects'); // الالتزام باسم الملف myProjects
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,11 +49,11 @@ const MyProjects = () => {
             setProjects(data);
           }
         } else {
-          showToast("فشل في جلب قائمة المشاريع", "error");
+          showToast(t('toasts.fetch_fail'), "error");
         }
       } catch (error) {
         console.error("خطأ في الاتصال:", error);
-        showToast("خطأ في الاتصال بالسيرفر", "error");
+        showToast(t('toasts.server_error'), "error");
       } finally {
         setLoading(false);
       }
@@ -60,10 +62,10 @@ const MyProjects = () => {
     if (token) {
       fetchProjects();
     } else {
-      showToast("الرجاء تسجيل الدخول أولاً", "warning");
+      showToast(t('toasts.login_required'), "warning");
       setLoading(false);
     }
-  }, [token]);
+  }, [token, t]);
 
   // الدخول إلى سجل مخاطر المشروع
   const handleSelectProject = (projectId) => {
@@ -71,13 +73,16 @@ const MyProjects = () => {
     navigate(`/register/${projectId}`);
   };
 
+  // تحديد الاتجاه ديناميكياً بناءً على لغة النظام
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
   return (
     <>
       <RightBar />
 
       {/* نظام التوست الفاخر */}
       {toast.show && (
-        <div className={`luxury-toast toast-${toast.type}`} dir="rtl">
+        <div className={`luxury-toast toast-${toast.type}`} dir={currentDir}>
           <div className="toast-content">
             {toast.type === 'success' && <FaCircleCheck className="toast-icon" />}
             {toast.type === 'warning' && <FaCircleExclamation className="toast-icon" style={{ color: 'var(--energy-blue-light)' }} />}
@@ -90,24 +95,24 @@ const MyProjects = () => {
         </div>
       )}
 
-      <div className="luxury-projects-container" dir="rtl">
+      <div className="luxury-projects-container" dir={currentDir}>
         {/* العناوين والتحكم العلوي */}
         <div className="projects-header-bar">
           <div className="header-title-zone">
-            <h1><FaFolderOpen className="title-icon" /> منصة إدارة المخاطر</h1>
-            <p>نظام تتبع وتحليل المخاطر</p>
+            <h1><FaFolderOpen className="title-icon" /> {t('header.title')}</h1>
+            <p>{t('header.subtitle')}</p>
           </div>
           <button className="btn-add-new-project" onClick={() => navigate('/createproject')}>
-            <FaFolderPlus /> إضافة مشروع جديد
+            <FaFolderPlus /> {t('header.add_btn')}
           </button>
         </div>
 
         {/* شبكة عرض المشاريع */}
         <div className="projects-grid-layout">
           {loading ? (
-            <div className="projects-status-message">جاري تحميل المنصات الحية...</div>
+            <div className="projects-status-message">{t('status.loading')}</div>
           ) : projects.length === 0 ? (
-            <div className="projects-status-message">لا توجد مشاريع مسجلة لحسابك حالياً.</div>
+            <div className="projects-status-message">{t('status.no_projects')}</div>
           ) : (
             projects.map((proj) => (
               <div key={proj._id} className="project-luxury-card" onClick={() => handleSelectProject(proj._id)}>
@@ -115,8 +120,8 @@ const MyProjects = () => {
                 
                 <div className="project-main-info">
                   <span className="project-tag-id">ID: {proj._id.slice(-6).toUpperCase()}</span>
-                  <h3 className="project-card-title">{proj.name || proj.projectName || "مشروع خط نقل غير مسمى"}</h3>
-                  <p className="project-card-desc">{proj.description || "لا يوجد وصف متوفر للمشروع حالياً. يتضمن هذا الخط الفحوصات الفنية المستمرة للمحاور الأربعة."}</p>
+                  <h3 className="project-card-title">{proj.name || proj.projectName || t('project_defaults.fallback_name')}</h3>
+                  <p className="project-card-desc">{proj.description || t('project_defaults.fallback_desc')}</p>
                 </div>
 
                 {/* البيانات الفنية والعدادات */}
@@ -124,7 +129,7 @@ const MyProjects = () => {
                   <div className="meta-item">
                     <span className="meta-icon"><FaCalendarDays /></span>
                     <div className="meta-text">
-                      <label>تاريخ الإنشاء</label>
+                      <label>{t('project_defaults.created_at')}</label>
                       <span>{proj.createdAt ? proj.createdAt.split('T')[0] : "—"}</span>
                     </div>
                   </div>
@@ -132,16 +137,16 @@ const MyProjects = () => {
                   <div className="meta-item">
                     <span className="meta-icon"><HiOutlineDocumentDuplicate /></span>
                     <div className="meta-text">
-                      <label>سجل الحالات</label>
-                      <span>نشط مسبقاً</span>
+                      <label>{t('project_defaults.status_log')}</label>
+                      <span>{t('project_defaults.status_active')}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* زر التوجيه السريع السلس */}
+                {/* زر التوجيه السريع السلس مع قلب اتجاه السهم ديناميكياً */}
                 <div className="project-action-arrow-zone">
                   <button className="circle-arrow-navigate-btn">
-                    <FaArrowLeftLong />
+                    <FaArrowLeftLong style={{ transform: i18n.language === 'en' ? 'rotate(180deg)' : 'none' }} />
                   </button>
                 </div>
               </div>

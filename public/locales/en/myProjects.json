@@ -1,0 +1,23 @@
+{
+  "header": {
+    "title": "Risk Management Platform",
+    "subtitle": "Risk Tracking & Analysis System",
+    "add_btn": "Add New Project"
+  },
+  "status": {
+    "loading": "Loading live platforms...",
+    "no_projects": "No projects registered to your account currently."
+  },
+  "project_defaults": {
+    "fallback_name": "Unnamed Transmission Line Project",
+    "fallback_desc": "No description available for this project currently. This line includes ongoing technical inspections across the four axes.",
+    "created_at": "Creation Date",
+    "status_log": "Status Log",
+    "status_active": "Previously Active"
+  },
+  "toasts": {
+    "fetch_fail": "Failed to fetch projects list",
+    "server_error": "Server connection error",
+    "login_required": "Please login first"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "title": "Knowledge Base",
+    "subtitle": "Share your thoughts, experiences, and insights"
+  },
+  "status": {
+    "loading": "Syncing and fetching posts..."
+  },
+  "lightbox": {
+    "close_hint": "Close view",
+    "preview_title": "Full HD Image Preview",
+    "download_btn": "Save and Download Image Now"
+  },
+  "filters": {
+    "all": "All Posts",
+    "admin": "Admin Posts",
+    "photos": "Posts with Images"
+  },
+  "create_post": {
+    "placeholder": "What's on your mind today? Share updates with colleagues...",
+    "image_selected": "Image selected",
+    "attach_btn": "Attach image to post",
+    "submit_btn": "Post Now"
+  },
+  "post_card": {
+    "anonymous_user": "Anonymous User",
+    "commenter_fallback": "User",
+    "view_image": "View Image",
+    "likes_count": "likes",
+    "comments_count": "comments",
+    "no_comments": "No comments yet. Be the first to comment!",
+    "comment_placeholder": "Write a comment..."
+  },
+  "actions": {
+    "delete": "Delete",
+    "delete_post_hint": "Request post deletion",
+    "delete_comment_hint": "Request comment deletion",
+    "like": "Like",
+    "liked": "Liked",
+    "comment": "Comment"
+  },
+  "notifications": {
+    "welcome": "Welcome",
+    "current_role": "Your current system role",
+    "role_admin": "Platform Administration",
+    "role_user": "User",
+    "fetch_error": "Error fetching posts from server",
+    "empty_post_error": "Please write some content before posting",
+    "post_success": "Published successfully! Thank you for sharing knowledge",
+    "server_connect_error": "Server connection failed",
+    "post_fail_prefix": "Error while publishing",
+    "delete_post_success": "Post deleted successfully",
+    "delete_post_fail": "Failed to delete post",
+    "delete_comment_success": "Comment removed successfully",
+    "delete_comment_fail": "Failed to delete comment",
+    "login_required_like": "Please login first to interact with posts",
+    "comment_success": "Your comment has been posted successfully",
+    "comment_fail": "Failed to add comment",
+    "preparing_download": "Preparing image for instant download...",
+    "download_fail": "Auto-download failed. You can save it manually by long-pressing the image"
+  }
+}

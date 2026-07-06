@@ -1,0 +1,82 @@
+{
+  "header": {
+    "title": "Project Data",
+    "subtitle": "Please enter the required information to create a new project in the system"
+  },
+  "labels": {
+    "projectName": "Project Name",
+    "projectId": "Project ID / Code",
+    "company": "Owning Company",
+    "governorate": "Governorate",
+    "voltage": "Electrical Voltage",
+    "currentStage": "Current Stage",
+    "referralDate": "Referral Date",
+    "expectedCompletionDate": "Expected Completion Date",
+    "commonline": "Line",
+    "notes": "General Notes (Optional)"
+  },
+  "placeholders": {
+    "projectName": "e.g., 400kV Line Nineveh - Mosul",
+    "projectId": "Generated automatically upon selecting a company",
+    "select_company": "Select Company",
+    "select_governorate": "Select Governorate",
+    "awaiting_company": "Please select a company first",
+    "select_voltage": "Select Voltage",
+    "select_stage": "Select Current Stage",
+    "commonline": "e.g., Mosul-Saladin",
+    "notes": "Write any additional information about project details here..."
+  },
+  "hints": {
+    "projectId": "Generated automatically and accepts manual edits"
+  },
+  "buttons": {
+    "save": "Save Project Data",
+    "cancel": "Cancel Changes"
+  },
+  "companies": {
+    "NO": "North",
+    "SO": "South",
+    "MI": "Middle",
+    "ME": "Middle Euphrates"
+  },
+  "governorates": {
+    "nineveh": "Nineveh",
+    "kirkuk": "Kirkuk",
+    "saladin": "Saladin",
+    "baghdad": "Baghdad",
+    "diyala": "Diyala",
+    "wasit": "Wasit",
+    "anbar": "Anbar",
+    "babylon": "Babylon",
+    "najaf": "Najaf",
+    "karbala": "Karbala",
+    "diwaniyah": "Diwaniyah",
+    "basra": "Basra",
+    "dhi_qar": "Dhi Qar",
+    "maysan": "Maysan",
+    "muthanna": "Muthanna"
+  },
+  "stages": {
+    "planning": "Planning and Tender Preparation",
+    "referral_pending": "Pending Referral",
+    "under_execution": "Under Execution",
+    "completed": "Completed"
+  },
+  "validation": {
+    "projectName": "Project name is required",
+    "company": "Please select the owning company",
+    "governorate": "Please select the governorate",
+    "voltage": "Please select the electrical voltage",
+    "referralDate": "Referral date is required",
+    "expectedCompletionDate": "Expected completion date is required",
+    "currentStage": "Please specify the current stage",
+    "commonline": "Common line field is required",
+    "dateOrder": "Completion date must be after the referral date"
+  },
+  "notifications": {
+    "form_error": "Please correct the errors in the required fields",
+    "save_success": "Data saved successfully.",
+    "save_error": "An error occurred while saving data, please try again later",
+    "server_error": "Failed to connect to the server"
+  }
+}

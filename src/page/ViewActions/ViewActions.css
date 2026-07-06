@@ -20,6 +20,7 @@
   padding: 24px;
   direction: rtl;
   font-family: sans-serif;
+  margin-inline-start: 18%;
 }
 
 /* بنر الهيدر العريض بالتدرج اللوني المعتمد بالروت */
@@ -210,14 +211,9 @@
   text-align: center;
 }
 
-/* التناوب اللوني المريح للعين من الهوية */
-.blueprint-table tr:nth-child(odd) td {
-  background-color: #f0f7fc !important; 
-}
 
-.blueprint-table tr:nth-child(even) td {
-  background-color: var(--energy-plug-white) !important;
-}
+
+
 
 .blueprint-table tr:hover td {
   background-color: #e0f2fe !important; 
@@ -287,8 +283,11 @@
 .axis-technical-badge { background-color: #e0f2fe !important; color: #0369a1 !important; border: 1px solid #bae6fd; }
 .cell-technical { color: #0284c7 !important; font-weight: 700; font-size: 15px; }
 
-/* تكاملي (اللون البرتقالي المعتمد للروت والأيقونة السلسلة) */
-.axis-integrative-badge { background-color: #fff7ed !important; color: #c2410c !important; border: 1px solid #fed7aa !important; }
+
+.axis-integrative-badge { 
+
+  
+  background-color: #fff7ed !important; color: #c2410c !important; border: 1px solid #fed7aa !important; }
 .cell-integrative { color: #ea580c !important; font-weight: 700; font-size: 15px; }
 
 .badge-assignee-default { background-color: #f1f5f9; color: #64748b; }
@@ -300,7 +299,7 @@
 /* تنسيق بادج المرحلة الزمني */
 .phase-badge {
   background-color: #f1f5f9;
-  color: var(--energy-text-dark);
+  color: var(--energy-blue-dark);
   border: 1px solid #cbd5e1;
   padding: 4px 10px;
   border-radius: 20px;
@@ -336,4 +335,107 @@
 /* عند تمرير الماوس يظهر الـ ID كاملاً */
 .id-body-cell:hover {
   color: var(--energy-blue-dark);
+}
+/* ==========================================================================
+   تنسيقات الوضع المظلم المضافة (Dark Mode overrides)
+   ========================================================================== */
+
+/* يُفترض هنا وجود كلاس .dark على الـ body أو الـ wrapper الرئيسي */
+.dark .view-actions-layout-wrapper {
+  background: #0f172a; /* خلفية داكنة جداً للنظام بالكامل */
+}
+
+/* الكروت وفلاتر البحث */
+.dark .action-dropdown-selection-card,
+.dark .actions-list-main-card {
+  background: #1e293b; /* لون الكارت الداكن */
+  border-color: #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* العناوين والنصوص */
+.dark .dropdown-main-label,
+.dark .card-header-inline h3,
+.dark .action-text-bold-style {
+  color: #f1f5f9; /* لون نص فاتح مريح للعين */
+}
+
+.dark .subtitle-hint {
+  color: #94a3b8;
+}
+
+/* مدخلات البحث والفلاتر */
+.dark .search-input-field,
+.dark .filter-select-control {
+  background-color: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+.dark .search-input-field:focus,
+.dark .filter-select-control:focus {
+  border-color: var(--energy-blue-medium); /* أو لون الإضاءة المعتمد */
+  background-color: #0f172a;
+}
+
+/* زر العودة العلوي */
+.dark .btn-back-header {
+  background-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .btn-back-header:hover {
+  background-color: #475569;
+  color: #fff;
+}
+
+/* هندسة الجدول في الوضع المظلم */
+.dark .blueprint-table {
+  border-color: #334155;
+}
+
+.dark .blueprint-table th {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-bottom: 2px solid #334155 !important;
+}
+
+/* التناوب اللوني المريح للعين في الوضع المظلم */
+.dark .blueprint-table tr:nth-child(odd) td {
+  background-color: #1e293b !important; /* لون داكن أساسي */
+}
+
+.dark .blueprint-table tr:nth-child(even) td {
+  background-color: #1a2232 !important; /* لون أغمق قليلاً للتناوب */
+}
+
+/* عند تمرير الماوس فوق أسطر الجدول */
+.dark .blueprint-table tr:hover td {
+  background-color: #334155 !important; 
+}
+
+.dark .blueprint-table td {
+  border-bottom: 1px solid #334155 !important;
+  color: #cbd5e1;
+}
+
+/* ألوان التواريخ والنصوص الثانوية داخل الجدول */
+.dark .badge-date-styled {
+  color: #94a3b8;
+}
+
+.dark .index-cell-style {
+  color: #64748b;
+}
+
+/* تعديل خلفيات البادجات لتتناسب مع الخلفية الداكنة وتكون واضحة (شفافية متناغمة) */
+.dark .axis-financial-badge { background-color: rgba(22, 163, 74, 0.15) !important; color: #4ade80 !important; border-color: rgba(22, 163, 74, 0.3); }
+.dark .axis-legal-badge { background-color: rgba(107, 33, 168, 0.2) !important; color: #c084fc !important; border-color: rgba(107, 33, 168, 0.3); }
+.dark .axis-technical-badge { background-color: rgba(3, 105, 161, 0.2) !important; color: #38bdf8 !important; border-color: rgba(3, 105, 161, 0.3); }
+.dark .axis-integrative-badge { background-color: rgba(194, 65, 12, 0.2) !important; color: #fb923c !important; border-color: rgba(194, 65, 12, 0.3) !important; }
+
+.dark .phase-badge {
+  background-color: #334155;
+  color: #cbd5e1;
+  border-color: #475569;
 }

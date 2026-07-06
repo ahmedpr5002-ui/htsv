@@ -1,0 +1,275 @@
+/* ==========================================================================
+   1. الحاوية الأساسية وضبط الأبعاد الديناميكية للثيمين والتكامل مع ملفك الرئيسي
+   ========================================================================== */
+.mitigation-management-page {
+  width: 82%;
+  padding: 24px;
+  min-height: 100vh;
+  background: var(--energy-gradient-bg, linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%));
+  direction: rtl;
+  box-sizing: border-box;
+  margin-inline-start: 18%; 
+  color: var(--energy-text-dark, #1E3A60);
+  transition: var(--energy-transition, all 0.3s ease);
+}
+
+.mitigation-form-card, .mitigation-table-card {
+  background: var(--energy-plug-white, #FFFFFF);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--energy-shadow-glow, 0 8px 24px rgba(71, 159, 215, 0.2));
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: var(--energy-transition, all 0.3s ease);
+}
+
+/* في الوضع المظلم يتم توفير تباين مريح للمستندات */
+[data-theme="dark"] .mitigation-form-card,
+[data-theme="dark"] .mitigation-table-card {
+  border-color: #374151;
+}
+
+.card-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 12px;
+}
+
+.header-icon-main {
+  color: var(--energy-blue-dark, #2F5C9E);
+  font-size: 20px;
+}
+
+/* ==========================================================================
+   2. تنظيم شبكات الحقول وعناصر الإدخال والـ Focus المتوهج
+   ========================================================================== */
+.form-grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-grid-two {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mitigation-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mitigation-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+[data-theme="dark"] .mitigation-input-group label {
+  color: #9ca3af;
+}
+
+.mitigation-input-group input, 
+.mitigation-input-group select, 
+.mitigation-input-group textarea {
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+[data-theme="dark"] .mitigation-input-group input, 
+[data-theme="dark"] .mitigation-input-group select, 
+[data-theme="dark"] .mitigation-input-group textarea {
+  background-color: #111827;
+  border-color: #374151;
+}
+
+.mitigation-input-group input:focus, 
+.mitigation-input-group select:focus, 
+.mitigation-input-group textarea:focus {
+  border-color: var(--energy-blue-light, #5ECDF5);
+  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.25);
+}
+
+.full-width-input {
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   3. الأزرار الذكية وتأثير وضع التعديل (برتقالي تحذيري)
+   ========================================================================== */
+.form-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-submit-mitigation {
+  background: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-dark) 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.btn-submit-mitigation:hover { opacity: 0.9; }
+
+.btn-submit-mitigation.btn-edit-mode {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.btn-cancel-mitigation {
+  background-color: #e2e8f0;
+  color: #1f2937;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+[data-theme="dark"] .btn-cancel-mitigation {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+/* ==========================================================================
+   4. تنسيقات الجدول والكبسولات اللونية (Pills) المتوافقة مع الـ Schema
+   ========================================================================== */
+.responsive-table-wrapper { overflow-x: auto; }
+
+.modern-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 14px;
+}
+
+.modern-data-table th {
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 14px;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+[data-theme="dark"] .modern-data-table th {
+  background-color: #111827;
+  border-bottom-color: #374151;
+}
+
+.modern-data-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+[data-theme="dark"] .modern-data-table td {
+  border-bottom-color: #374151;
+}
+
+.table-row-hover:hover {
+  background-color: rgba(71, 159, 215, 0.03);
+}
+
+.code-badge-cell span {
+  background-color: rgba(3, 105, 161, 0.1);
+  color: #0284c7;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+[data-theme="dark"] .code-badge-cell span { color: #38bdf8; }
+
+/* كبسولات الألوان لتصنيفات إجراءات التخفيف الأربعة */
+.category-pill {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.category-pill.tech { background-color: rgba(6, 95, 70, 0.1); color: #059669; }
+[data-theme="dark"] .category-pill.tech { color: #34d399; }
+
+.category-pill.finance { background-color: rgba(146, 64, 14, 0.1); color: #d97706; }
+[data-theme="dark"] .category-pill.finance { color: #fbbf24; }
+
+.category-pill.legal { background-color: rgba(107, 33, 168, 0.1); color: #7c3aed; }
+[data-theme="dark"] .category-pill.legal { color: #a78bfa; }
+
+.category-pill.integrative { background-color: rgba(13, 148, 136, 0.1); color: #0d9488; }
+[data-theme="dark"] .category-pill.integrative { color: #2dd4bf; }
+
+.phase-text-badge {
+  background-color: rgba(71, 85, 105, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rii-cell-bold { font-weight: 700; }
+.subdued-null { opacity: 0.4; }
+
+/* ==========================================================================
+   5. نظام التنبيهات ونظام الحذف المضمن الفوري بالسطر (Inline zone)
+   ========================================================================== */
+.custom-toast {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.custom-toast.success { background-color: #10b981; }
+.custom-toast.error { background-color: #ef4444; }
+
+.table-control-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-row-edit { color: #d97706; background: none; border: none; cursor: pointer; font-size: 16px; }
+.action-row-delete { color: #ef4444; background: none; border: none; cursor: pointer; font-size: 16px; }
+
+.modern-inline-confirm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #fee2e2;
+  padding: 2px;
+  border-radius: 6px;
+}
+[data-theme="dark"] .modern-inline-confirm { background-color: #991b1b; }
+
+.confirm-yes-btn.tiny { background-color: #ef4444; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+.confirm-no-btn.tiny { background: none; color: #475569; border: none; cursor: pointer; font-size: 12px; }
+[data-theme="dark"] .confirm-no-btn.tiny { color: #f3f4f6; }
+
+/* ==========================================================================
+   6. 🌐 دعم كامل لـ اتجاهات اللغة الأجنبية (LTR Support)
+   ========================================================================== */
+[dir="ltr"] .mitigation-management-page {
+  direction: ltr !important;
+  margin-right: 0 !important;
+  margin-left: 18% !important;
+}
+
+[dir="ltr"] .modern-data-table {
+  text-align: left !important;
+}

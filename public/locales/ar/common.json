@@ -1,0 +1,18 @@
+{
+  "dashboard": "لوحة التحكم",
+  "add_project": "إضافة مشروع",
+  "add_risk": "إضافة خطر",
+  "risk_registry": "سجل المخاطر",
+  "risk_base": "قاعدة المخاطر",
+  "actions_base": "قاعدة الإجراءات",
+  "knowledge_base": "قاعدة المعرفة",
+"Linking_risks":"ربط المخاطر",
+  "reports": "التقارير",
+  "projects": "المشاريع",
+  "admin_add_central_risk": "إضافة خطر جديد",
+  "admin_new_risks": "المخاطر الجديدة",
+  "admin_new_Mitigation": "إدراج إجراء",
+  "admin_system_control": "التحكم بالنظام",
+  "username_placeholder": "اسم المستخدم",
+  "logout": "تسجيل الخروج"
+}

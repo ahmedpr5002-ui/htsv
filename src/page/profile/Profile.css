@@ -1,56 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
 
+/* ==========================================================================
+   📌 المتغيرات الأساسية وديناميكية النظام (Theme Variables)
+   ========================================================================== */
 :root {
   --primary-color: #00b4d8;
   --secondary-color: #0077b6;
-  --dark-slate: #0f172a;
-  --light-slate: #f8fafc;
-  --text-main: #1e293b;
-  --text-sub: #64748b;
   --emerald-active: #10b981;
+  
+  /* درجات الألوان للوضع المضيء الافتراضي */
+  --profile-bg-main: #f1f5f9;
+  --profile-card-bg: #ffffff;
+  --profile-card-border: #e2e8f0;
+  --profile-sub-border: #f1f5f9;
+  --profile-light-slate: #f8fafc;
+  
+  /* ألوان النصوص والرموز */
+  --profile-text-dark: #0f172a;
+  --profile-text-main: #1e293b;
+  --profile-text-sub: #64748b;
+  
   --card-shadow: 0 25px 60px -15px rgba(0, 119, 182, 0.06);
+  --profile-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* تهيئة المساحة الكاملة لمنع السكرول للـ PC */
+/* ==========================================================================
+   🌙 تفعيل الوضع المظلم (Dark Mode Theme)
+   ========================================================================== */
+[data-theme="dark"] {
+  --profile-bg-main: #0b1329;
+  --profile-card-bg: #111b35;
+  --profile-card-border: #1e294b;
+  --profile-sub-border: #1c274c;
+  --profile-light-slate: #16223f;
+  
+  --profile-text-dark: #f8fafc;
+  --profile-text-main: #e2e8f0;
+  --profile-text-sub: #94a3b8;
+  
+  --card-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================================================
+   1. الهيكل الخارجي وحاوية الصفحة الرئيسية (Main Layout)
+   ========================================================================== */
 .premium-profile-page {
   font-family: 'Tajawal', sans-serif;
-  background-color: #f1f5f9;
+  background-color: var(--profile-bg-main);
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(0, 180, 216, 0.03) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(0, 119, 182, 0.03) 0%, transparent 40%);
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   padding: 30px;
   box-sizing: border-box;
+  transition: var(--profile-transition);
+  direction: rtl; /* دعم كامل للغة العربية افتراضياً */
 }
 
-/* الكارد الزجاجي الكبير والفاخر */
+/* الكارد الفخم الرئيسي */
 .premium-glass-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--profile-card-bg);
+  border: 1px solid var(--profile-card-border);
   width: 100%;
   max-width: 1180px;
-  height: 520px; /* حجم ثابت هندسياً يقتل السكرول */
+  height: 520px; /* الارتفاع الهندسي الثابت للـ PC */
   border-radius: 32px;
   box-shadow: var(--card-shadow);
   display: flex;
   overflow: hidden;
+  transition: var(--profile-transition);
 }
 
-/* 1. تصميم عمود الهوية (يمين) */
+/* ==========================================================================
+   2. عمود الهوية البصرية - اليمين (Identity Column)
+   ========================================================================== */
 .premium-profile-identity {
   flex: 1.1;
-  background-color: var(--light-slate);
-  border-left: 1px solid #e2e8f0;
+  background-color: var(--profile-light-slate);
+  border-inline-start: 1px solid var(--profile-card-border);
   padding: 45px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
+  transition: var(--profile-transition);
 }
 
 .premium-avatar-container {
@@ -60,7 +98,6 @@
   align-items: center;
 }
 
-/* دائرة مضيئة خلف الصورة الدائرية */
 .circle-pulse-glow {
   position: absolute;
   width: 145px;
@@ -70,19 +107,18 @@
   z-index: 1;
 }
 
-/* صورة دائرية بالكامل */
 .premium-circle-avatar {
   width: 130px;
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #ffffff;
+  border: 4px solid var(--profile-card-bg);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 2;
+  transition: border-color var(--profile-transition);
 }
 
-/* نقطة الأونلاين الملتصقة بالدائرة */
 .premium-online-indicator {
   position: absolute;
   bottom: 8px;
@@ -90,9 +126,10 @@
   width: 16px;
   height: 16px;
   background-color: var(--emerald-active);
-  border: 3px solid #ffffff;
+  border: 3px solid var(--profile-card-bg);
   border-radius: 50%;
   z-index: 3;
+  transition: border-color var(--profile-transition);
 }
 
 .premium-user-info {
@@ -103,7 +140,7 @@
 .premium-display-name {
   font-size: 1.6rem;
   font-weight: 900;
-  color: var(--dark-slate);
+  color: var(--profile-text-dark);
   margin-bottom: 8px;
 }
 
@@ -111,18 +148,19 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: var(--profile-card-bg);
+  border: 1px solid var(--profile-card-border);
   padding: 6px 16px;
   border-radius: 30px;
   font-size: 0.85rem;
   color: var(--secondary-color);
   font-weight: 700;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.01);
+  transition: var(--profile-transition);
 }
 
 .premium-status-banner {
-  background-color: rgba(16, 115, 181, 0.05);
+  background-color: rgba(0, 119, 182, 0.05);
   border: 1px dashed rgba(0, 180, 216, 0.3);
   padding: 8px 25px;
   border-radius: 12px;
@@ -134,22 +172,26 @@
   color: var(--secondary-color);
 }
 
-/* 2. تصميم عمود البيانات الأساسية (وسط) */
+/* ==========================================================================
+   3. عمود البيانات الأساسية - الوسط (Details Column)
+   ========================================================================== */
 .premium-profile-details {
   flex: 1.8;
   padding: 50px 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .premium-title-context {
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--dark-slate);
+  color: var(--profile-text-dark);
   margin-bottom: 35px;
   position: relative;
 }
+
 .premium-title-context::after {
   content: '';
   position: absolute;
@@ -172,13 +214,15 @@
   align-items: center;
   gap: 20px;
   padding: 16px 22px;
-  background-color: var(--light-slate);
+  background-color: var(--profile-light-slate);
   border-radius: 16px;
-  border: 1px solid #f1f5f9;
-  transition: border-color 0.25s ease;
+  border: 1px solid var(--profile-sub-border);
+  transition: var(--profile-transition);
 }
+
 .premium-data-item:hover {
   border-color: rgba(0, 180, 216, 0.3);
+  transform: translateX(-3px);
 }
 
 .premium-item-icon {
@@ -189,10 +233,12 @@
   justify-content: center;
   align-items: center;
   font-size: 1.4rem;
+  flex-shrink: 0;
 }
+
 .mail-color { background-color: rgba(0, 180, 216, 0.08); color: var(--primary-color); }
 .company-color { background-color: rgba(0, 119, 182, 0.08); color: var(--secondary-color); }
-.location-color { background-color: rgba(15, 23, 42, 0.05); color: var(--dark-slate); }
+.location-color { background-color: rgba(15, 23, 42, 0.05); color: var(--profile-text-dark); }
 
 .premium-item-texts {
   display: flex;
@@ -201,31 +247,36 @@
 
 .data-label {
   font-size: 0.75rem;
-  color: var(--text-sub);
+  color: var(--profile-text-sub);
   margin-bottom: 3px;
 }
 
 .data-value {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--profile-text-main);
 }
 
-/* 3. تصميم عمود البوابة والإجراءات (يسار) */
+/* ==========================================================================
+   4. عمود الإجراءات والبوابة - اليسار (Actions Column)
+   ========================================================================== */
 .premium-profile-actions {
   flex: 1.3;
   padding: 50px 40px;
-  border-right: 1px solid #e2e8f0;
+  border-inline-end: 1px solid var(--profile-card-border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+  transition: var(--profile-transition);
 }
 
 .premium-project-box {
-  background-color: var(--light-slate);
+  background-color: var(--profile-light-slate);
   padding: 24px;
   border-radius: 24px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--profile-card-border);
+  transition: var(--profile-transition);
 }
 
 .project-box-header {
@@ -243,16 +294,16 @@
 .project-box-header h4 {
   font-size: 1.1rem;
   font-weight: 800;
-  color: var(--dark-slate);
+  color: var(--profile-text-dark);
 }
 
 .project-box-header p {
   font-size: 0.8rem;
-  color: var(--text-sub);
+  color: var(--profile-text-sub);
   line-height: 1.6;
 }
 
-/* البوابة الزرقاء الفخمة بلمسة سهم متحرك */
+/* البوابة الزرقاء التفاعلية */
 .premium-project-link {
   display: flex;
   align-items: center;
@@ -263,8 +314,9 @@
   color: #ffffff;
   text-decoration: none;
   box-shadow: 0 10px 20px rgba(0, 180, 216, 0.15);
-  transition: all 0.3s ease;
+  transition: var(--profile-transition);
 }
+
 .premium-project-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 25px rgba(0, 180, 216, 0.25);
@@ -286,15 +338,50 @@
   justify-content: center;
   align-items: center;
   font-size: 1.1rem;
-  transition: transform 0.3s ease;
+  transition: var(--profile-transition);
 }
+
+/* حركة ذكية للسهم تناسب اتجاه RTL من اليمين لليسار */
 .premium-project-link:hover .link-circle-arrow {
-  transform: translateX(-4px) translateY(-2px);
+  transform: translateX(-4px);
   background-color: #ffffff;
   color: var(--secondary-color);
 }
 
-/* زر تسجيل الخروج السفلي الصافي */
+/* زر لوحة التحكم */
+.premium-dashboard-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.08) 0%, rgba(0, 119, 182, 0.08) 100%);
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  color: var(--secondary-color);
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--profile-transition);
+  margin: 15px 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.premium-dashboard-btn:hover {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 180, 216, 0.15);
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.dashboard-icon {
+  font-size: 1.1rem;
+}
+
+/* زر تسجيل الخروج الصافي */
 .premium-logout-trigger {
   width: 100%;
   padding: 14px;
@@ -309,8 +396,10 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: var(--profile-transition);
+  font-family: inherit;
 }
+
 .premium-logout-trigger:hover {
   background-color: rgba(239, 68, 68, 0.05);
   border-color: #ef4444;
@@ -323,37 +412,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f1f5f9;
+  background-color: var(--profile-bg-main);
   color: var(--primary-color);
   font-weight: 700;
-}
-/* زر العودة للوحة التحكم الفخم */
-.premium-dashboard-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: linear-gradient(135deg, rgba(0, 180, 216, 0.08) 0%, rgba(0, 119, 182, 0.08) 100%);
-  border: 1px solid rgba(0, 180, 216, 0.2);
-  color: var(--secondary-color);
-  padding: 10px 24px;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  width: 85%;
-  transition: all 0.25s ease;
-  margin: 10px 0;
+  transition: var(--profile-transition);
 }
 
-.premium-dashboard-btn:hover {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  color: #ffffff;
-  box-shadow: 0 8px 16px rgba(0, 180, 216, 0.15);
-  transform: translateY(-2px);
-  border-color: transparent;
-}
+/* ==========================================================================
+   📱 5. التجاوب ودعم الهواتف والشاشات الصغيرة (Responsive Media Queries)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .premium-profile-page {
+    height: auto;
+    overflow-y: auto;
+    padding: 20px;
+  }
 
-.dashboard-icon {
-  font-size: 1.1rem;
+  .premium-glass-card {
+    flex-direction: column;
+    height: auto; /* كسر الحجم الثابت للسماح للعناصر بالترتيب عمودياً */
+    max-width: 600px;
+  }
+
+  .premium-profile-identity {
+    border-left: none;
+    border-bottom: 1px solid var(--profile-card-border);
+    padding: 35px 20px;
+    gap: 20px;
+  }
+
+  .premium-profile-details {
+    padding: 35px 25px;
+  }
+
+  .premium-profile-actions {
+    border-right: none;
+    border-top: 1px solid var(--profile-card-border);
+    padding: 35px 25px;
+    gap: 25px;
+  }
 }

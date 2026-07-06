@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "title": "قاعدة المعرفة",
+    "subtitle": "شارك رأيك وتجربتك ومعلومتك"
+  },
+  "status": {
+    "loading": "جاري المزامنة وجلب المنشورات..."
+  },
+  "lightbox": {
+    "close_hint": "إغلاق العرض",
+    "preview_title": "معاينة الصورة بدقة كاملة",
+    "download_btn": "حفظ واستخرج الصورة الآن"
+  },
+  "filters": {
+    "all": "كل المنشورات",
+    "admin": "منشورات الإدارة",
+    "photos": "منشورات بصور"
+  },
+  "create_post": {
+    "placeholder": "بماذا تفكر اليوم؟ شارك المستجدات مع زملائك...",
+    "image_selected": "تم تحديد صورة",
+    "attach_btn": "إرفاق صورة بالمنشور",
+    "submit_btn": "نشر الآن"
+  },
+  "post_card": {
+    "anonymous_user": "مستخدم مجهول",
+    "commenter_fallback": "مستخدم",
+    "view_image": "عرض الصورة",
+    "likes_count": "إعجاب",
+    "comments_count": "تعليق",
+    "no_comments": "لا توجد تعليقات بعد، كن أول من يعلق!",
+    "comment_placeholder": "اكتب تعليقاً..."
+  },
+  "actions": {
+    "delete": "احذف",
+    "delete_post_hint": "طلب حذف المنشور",
+    "delete_comment_hint": "طلب حذف التعليق",
+    "like": "إعجاب",
+    "liked": "أعجبتني",
+    "comment": "تعليق"
+  },
+  "notifications": {
+    "welcome": "مرحباً بك",
+    "current_role": "رتبتك الحالية في النظام",
+    "role_admin": "إدارة المنصة",
+    "role_user": "مستخدم",
+    "fetch_error": "خطأ في جلب المنشورات من السيرفر",
+    "empty_post_error": "يرجى كتابة نص المنشور أولاً",
+    "post_success": "تم النشر بنجاح شكرا لمشاركة المعرفة",
+    "server_connect_error": "فشل الاتصال بالسيرفر",
+    "post_fail_prefix": "خطأ أثناء النشر",
+    "delete_post_success": "تم حذف المنشور بنجاح",
+    "delete_post_fail": "فشل في حذف المنشور",
+    "delete_comment_success": "تم إزالة التعليق بنجاح",
+    "delete_comment_fail": "فشل في حذف التعليق",
+    "login_required_like": "يرجى تسجيل الدخول أولاً للتفاعل مع المنشورات",
+    "comment_success": "تم نشر تعليقك بنجاح",
+    "comment_fail": "فشل إضافة التعليق",
+    "preparing_download": "جاري تجهيز الصورة للتحميل الفوري...",
+    "download_fail": "فشل تحميل الصورة تلقائياً، يمكنك حفظها عبر الضغط المطول عليها"
+  }
+}

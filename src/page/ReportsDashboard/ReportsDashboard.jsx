@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RightBar from '../../components/rightBar/rightBar'
-import NavBar from '../../components/navBar/PageHeade'
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
+import RightBar from '../../components/rightBar/rightBar';
+import NavBar from '../../components/navBar/PageHeade';
 import { 
   FaClipboardList, 
   FaChartBar, 
@@ -15,6 +16,7 @@ import {
 import './ReportsDashboard.css';
 
 const ReportsDashboard = () => {
+  const { t, i18n } = useTranslation('reportsDash'); // استخدام ملف الترجمة المخصص للتقارير
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState('all');
   const [loading, setLoading] = useState(false);
@@ -35,7 +37,7 @@ const ReportsDashboard = () => {
         setProjects(Array.isArray(data) ? data : (data.projects || []));
       }
     } catch (error) {
-      console.error("خطأ في جلب المشاريع:", error);
+      console.error("Error fetching projects:", error);
     }
   };
 
@@ -58,7 +60,7 @@ const ReportsDashboard = () => {
       });
 
       if (!response.ok) {
-        alert(`فشل التصدير: الخادم أرجع خطأ داخلي (500).`);
+        alert(t('messages.export_failed'));
         return;
       }
 
@@ -72,42 +74,43 @@ const ReportsDashboard = () => {
       link.click();
       link.parentNode.removeChild(link);
     } catch (error) {
-      console.error("خطأ في التصدير:", error);
+      console.error("Export error:", error);
     }
   };
 
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
   return (
     <>
-    
-    <div className="reports-dashboard-content">
+    <div className="reports-dashboard-content" dir={currentDir}>
       
       <RightBar/>
       <header className="reports-header">
         <div className="header-title-zone">
           <div>
-            <h1>أنواع التقارير المتاحة</h1>
-            <p>توليد، معاينة، وتحميل التقارير فورياً وبصيغ متعددة باستخدام البيانات المباشرة للمشروع</p>
+            <h1>{t('dashboard.title')}</h1>
+            <p>{t('dashboard.subtitle')}</p>
           </div>
         </div>
         
         <div className="header-controls-zone">
           <div className="project-select-box">
-            <label>المشروع المستهدف:</label>
+            <label>{t('dashboard.target_project')}</label>
             <select 
               value={selectedProject} 
               onChange={(e) => setSelectedProject(e.target.value)}
               disabled={loading}
             >
-              <option value="all">جميع المشاريع (تقرير مقارن ومستعرض)</option>
+              <option value="all">{t('dashboard.all_projects')}</option>
               {projects.map((proj) => (
                 <option key={proj._id || proj.id} value={proj._id || proj.id}>
-                  {proj.name || proj.title || proj.projectName || "مشروع تحت التطوير"}
+                  {proj.name || proj.title || proj.projectName || t('labels.under_development')}
                 </option>
               ))}
             </select>
           </div>
           
-          <button className="btn-refresh" onClick={fetchUserProjects} title="تحديث المشاريع">
+          <button className="btn-refresh" onClick={fetchUserProjects} title={t('buttons.refresh_projects')}>
             <FaArrowRotateRight />
           </button>
         </div>
@@ -118,22 +121,22 @@ const ReportsDashboard = () => {
         <div className="report-spec-card theme-blue">
           <div className="card-top-info">
             <div className="icon-wrapper"><FaClipboardList /></div>
-            <h3>تقرير سجل المخاطر</h3>
-            <p className="card-desc">جميع مخاطر المشروع مع درجاتها وإجراءاتها وحالاتها وتفاصيلها.</p>
+            <h3>{t('reportCards.risk_register.title')}</h3>
+            <p className="card-desc">{t('reportCards.risk_register.desc')}</p>
           </div>
           <div className="card-include-section">
-            <h4>يتضمن التقرير:</h4>
+            <h4>{t('dashboard.report_includes')}</h4>
             <ul>
-              <li>سجل عناصر المخاطر الكاملة</li>
-              <li>مؤشرات التقييم ودرجات RII</li>
+              <li>{t('reportCards.risk_register.include_1')}</li>
+              <li>{t('reportCards.risk_register.include_2')}</li>
             </ul>
           </div>
           <div className="card-footer-actions">
-            <span className="file-format-lbl">خيارات التصدير:</span>
+            <span className="file-format-lbl">{t('dashboard.export_options')}</span>
             <div className="action-buttons-fix">
               <button className="btn-export-solid btn-pdf" onClick={() => handleExportFile('risk_register', 'pdf')}><FaFilePdf /> PDF</button>
               <button className="btn-export-solid btn-excel" onClick={() => handleExportFile('risk_register', 'excel')}><FaFileExcel /> Excel</button>
-              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('risk_register')}><FaEye /> معاينة</button>
+              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('risk_register')}><FaEye /> {t('buttons.preview')}</button>
             </div>
           </div>
         </div>
@@ -142,22 +145,22 @@ const ReportsDashboard = () => {
         <div className="report-spec-card theme-green">
           <div className="card-top-info">
             <div className="icon-wrapper"><FaChartBar /></div>
-            <h3>تقرير مقارنة وتحليل الأنماط</h3>
-            <p className="card-desc">يعرض المخاطر الأكثر تكراراً واختياراً عبر النظام للوقوف على الثغرات العامة.</p>
+            <h3>{t('reportCards.project_comparison.title')}</h3>
+            <p className="card-desc">{t('reportCards.project_comparison.desc')}</p>
           </div>
           <div className="card-include-section">
-            <h4>يتضمن التقرير:</h4>
+            <h4>{t('dashboard.report_includes')}</h4>
             <ul>
-              <li>ترتيب الأخطار تنازلياً حسب نسبة التكرار</li>
-              <li>متوسط درجة خطورة النمط العام</li>
+              <li>{t('reportCards.project_comparison.include_1')}</li>
+              <li>{t('reportCards.project_comparison.include_2')}</li>
             </ul>
           </div>
           <div className="card-footer-actions">
-            <span className="file-format-lbl">خيارات التصدير:</span>
+            <span className="file-format-lbl">{t('dashboard.export_options')}</span>
             <div className="action-buttons-fix">
               <button className="btn-export-solid btn-pdf" onClick={() => handleExportFile('project_comparison', 'pdf')}><FaFilePdf /> PDF</button>
               <button className="btn-export-solid btn-excel" onClick={() => handleExportFile('project_comparison', 'excel')}><FaFileExcel /> Excel</button>
-              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('project_comparison')}><FaEye /> معاينة</button>
+              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('project_comparison')}><FaEye /> {t('buttons.preview')}</button>
             </div>
           </div>
         </div>
@@ -166,22 +169,22 @@ const ReportsDashboard = () => {
         <div className="report-spec-card theme-purple">
           <div className="card-top-info">
             <div className="icon-wrapper"><FaLightbulb /></div>
-            <h3>تقرير الدروس المستفادة</h3>
-            <p className="card-desc">يجمع محتوى حقل الدروس المستفادة وملاحظات المهندسين مصنفة حسب نوع الخطر.</p>
+            <h3>{t('reportCards.lessons_learned.title')}</h3>
+            <p className="card-desc">{t('reportCards.lessons_learned.desc')}</p>
           </div>
           <div className="card-include-section">
-            <h4>يتضمن التقرير:</h4>
+            <h4>{t('dashboard.report_includes')}</h4>
             <ul>
-              <li>سجلات الدروس والتجارب السابقة</li>
-              <li>التوصيات المستخلصة للحماية</li>
+              <li>{t('reportCards.lessons_learned.include_1')}</li>
+              <li>{t('reportCards.lessons_learned.include_2')}</li>
             </ul>
           </div>
           <div className="card-footer-actions">
-            <span className="file-format-lbl">خيارات التصدير:</span>
+            <span className="file-format-lbl">{t('dashboard.export_options')}</span>
             <div className="action-buttons-fix">
               <button className="btn-export-solid btn-pdf" onClick={() => handleExportFile('lessons_learned', 'pdf')}><FaFilePdf /> PDF</button>
               <button className="btn-export-solid btn-excel" onClick={() => handleExportFile('lessons_learned', 'excel')}><FaFileExcel /> Excel</button>
-              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('lessons_learned')}><FaEye /> معاينة</button>
+              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('lessons_learned')}><FaEye /> {t('buttons.preview')}</button>
             </div>
           </div>
         </div>
@@ -190,22 +193,22 @@ const ReportsDashboard = () => {
         <div className="report-spec-card theme-red">
           <div className="card-top-info">
             <div className="icon-wrapper"><FaCircleExclamation /></div>
-            <h3>تقرير الإجراءات المتأخرة</h3>
-            <p className="card-desc">مخاطر تجاوزت مهلة إجراءاتها دون إغلاق يُرسل تنبيهاً للمدير المعني.</p>
+            <h3>{t('reportCards.overdue_actions.title')}</h3>
+            <p className="card-desc">{t('reportCards.overdue_actions.desc')}</p>
           </div>
           <div className="card-include-section">
-            <h4>يتضمن التقرير:</h4>
+            <h4>{t('dashboard.report_includes')}</h4>
             <ul>
-              <li>قائمة المخاطر المتجاوزة للمدد</li>
-              <li>تحديد المسؤولين عن التأخير والإنذارات</li>
+              <li>{t('reportCards.overdue_actions.include_1')}</li>
+              <li>{t('reportCards.overdue_actions.include_2')}</li>
             </ul>
           </div>
           <div className="card-footer-actions">
-            <span className="file-format-lbl">خيارات التصدير:</span>
+            <span className="file-format-lbl">{t('dashboard.export_options')}</span>
             <div className="action-buttons-fix">
               <button className="btn-export-solid btn-pdf" onClick={() => handleExportFile('overdue_actions', 'pdf')}><FaFilePdf /> PDF</button>
               <button className="btn-export-solid btn-excel" onClick={() => handleExportFile('overdue_actions', 'excel')}><FaFileExcel /> Excel</button>
-              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('overdue_actions')}><FaEye /> معاينة</button>
+              <button className="btn-preview-outline" onClick={() => handlePreviewNavigation('overdue_actions')}><FaEye /> {t('buttons.preview')}</button>
             </div>
           </div>
         </div>

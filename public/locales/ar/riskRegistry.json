@@ -1,0 +1,86 @@
+{
+  "no_action_text_available": "لا يوجد نص وصفي متوفر للإجراء",
+  "not_specified": "غير محدد",
+  "not_assigned_yet": "لم يتم التعيين بعد",
+  "no_text_available": "لا يوجد نص متوفر",
+  "axis_types": {
+    "legal": "قانوني",
+    "financial": "مالي",
+    "technical": "فني"
+  },
+  "risk_levels": {
+    "low": "منخفض",
+    "medium": "مرتفع",
+    "high": "حرج جداً"
+  },
+  "toast": {
+    "fetch_error": "حدث خطأ أثناء جلب بعض البيانات المقترحة",
+    "status_update_success": "تم تحديث الحالة التشغيلية الفنية بنجاح",
+    "error": "خطأ",
+    "server_connection_failed": "فشل الاتصال بالسيرفر لتعديل الحالة",
+    "fixed_risk_warning": "هذا الخطر ثابت ومغلق مؤسسياً بشكل دائم ولا يمكن تغيير حالته."
+  },
+  "modal": {
+    "title": "تفاصيل الإجراء المقترح",
+    "technical_id": "الرمز التعريفي الفني",
+    "action_code": "كود الإجراء",
+    "action_category": "تصنيف الإجراء",
+    "time_phase": "المرحلة الزمنية",
+    "rii_percentage": "نسبة (RII)",
+    "action_content": "مضمون ونص الإجراء المقترح",
+    "close_window": "إغلاق النافذة"
+  },
+  "header": {
+    "back_btn": "رجوع للوحة التحكم",
+    "title": "سجل المخاطر الشامل",
+    "subtitle": "استعراض، تصفية وتحليل كافة المخاطر المدرجة للمشروع الحالي"
+  },
+  "stats": {
+    "total_risks": "إجمالي المخاطر",
+    "critical_risks": "مخاطر حرجة جداً",
+    "medium_risks": "مخاطر مرتفعة",
+    "low_risks": "مخاطر منخفضة"
+  },
+  "filters": {
+    "search_placeholder": "ابحث بكود الخطر أو الوصف...",
+    "all_axes": "كل المحاور",
+    "tech_axis": "المحور الفني",
+    "money_axis": "المحور المالي",
+    "law_axis": "المحور القانوني"
+  },
+  "table": {
+    "loading": "جاري سحب وتدقيق البيانات من السيرفر السحابي...",
+    "no_data": "لم يتم العثور على أي مخاطر تطابق الفلاتر المحددة.",
+    "action_badge_title": "اضغط لاستعراض تفاصيل الإجراء الكاملة",
+    "none": "لا يوجد حالياً",
+    "actions_added": "إجراءات مضافة",
+    "add_action_btn": "إضافة إجراء",
+    "th": {
+      "risk_code": "كود الخطر",
+      "risk_description": "وصف ومضمون الخطر",
+      "axis": "المحور",
+      "stage": "المرحلة الزمنية",
+      "risk_level": "مستوى الخطورة",
+      "risk_score": "Risk Score",
+      "operational_status": "الحالة التشغيلية",
+      "suggested_actions": "الإجراءات المقترحة",
+      "taken_actions": "الإجراءات المتخذة"
+    }
+  },
+  "status_options": {
+    "open": "مفتوحة",
+    "in_progress": "قيد المعالجة",
+    "technical_close": "مغلقة بحل فني",
+    "institutional_close": "مغلقة بقرار مؤسسي"
+  },
+  "status_options_mapping": {
+    "مفتوحة": "مفتوحة",
+    "قيد المعالجة": "قيد المعالجة",
+    "مغلقة بحل فني": "مغلقة بحل فني",
+    "مغلقة بقرار مؤسسي": "مغلقة بقرار مؤسسي",
+    "Open": "مفتوحة",
+    "In Progress": "قيد المعالجة",
+    "Technical Close": "مغلقة بحل فني",
+    "Institutional Close": "مغلقة بقرار مؤسسي"
+  }
+}

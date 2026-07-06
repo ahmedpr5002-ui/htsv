@@ -10,8 +10,10 @@
 body, html {
   width: 100%;
   height: 100%;
- overflow-x: hidden;
-  background-color: #f8fafc;
+  overflow-x: hidden;
+  background: var(--energy-gradient-bg);
+  color: var(--energy-text-dark);
+  transition: var(--energy-transition);
 }
 
 /* ==========================================================================
@@ -22,22 +24,24 @@ body, html {
   width: 100vw;
   height: 100vh;
   display: flex; 
-  background-color: #f8fafc;
+  background: transparent;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden; 
 }
-.isn{
-  color: white;
+
+.isn {
+  color: #ffffff;
   font-weight: 500;
   font-size: x-large;
-  background-color: #1e3a8a;
+  background-color: var(--energy-blue-dark);
   padding: 5px;
   border-radius: 50%;
-
+  transition: var(--energy-transition);
 }
+
 .dashboard-content-area {
   width: 82%; 
-  margin-right: 18%;
+  margin-inline-start: 18%;
   flex: 0 0 82%;
   height: 100vh;
   padding: 12px 18px;
@@ -53,12 +57,13 @@ body, html {
 .dashboard-filters {
   display: flex;
   gap: 15px;
-  background: #ffffff;
+  background: var(--energy-plug-white);
   padding: 8px 16px;
   border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  box-shadow: var(--energy-shadow-glow);
   align-items: center;
-  border: 1px solid #f1f5f9;
+  border: 1px solid rgba(71, 159, 215, 0.15);
+  transition: var(--energy-transition);
 }
 
 .filter-group.project-select { 
@@ -71,25 +76,27 @@ body, html {
   font-size: 11px; 
   font-weight: bold; 
   margin-bottom: 3px; 
-  color: #1e3a8a; 
+  color: var(--energy-blue-dark); 
+  transition: var(--energy-transition);
 }
 
 .filter-group select { 
   padding: 6px 10px; 
-  border: 1px solid #e2e8f0; 
+  border: 1px solid rgba(71, 159, 215, 0.2); 
   border-radius: 6px; 
-  background-color: #f8fafc; 
+  background-color: var(--energy-gradient-bg); 
   font-size: 13px; 
-  color: #334155; 
+  color: var(--energy-text-dark); 
   outline: none; 
   cursor: pointer;
+  transition: var(--energy-transition);
 }
 
 .last-update { 
   display: flex; 
   flex-direction: column; 
   text-align: left; 
-  border-right: 1px solid #e2e8f0; 
+  border-right: 1px solid rgba(71, 159, 215, 0.2); 
   padding-right: 12px; 
 }
 
@@ -98,18 +105,19 @@ body, html {
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  color: #64748b;
+  color: var(--energy-text-dark);
+  opacity: 0.7;
   margin-bottom: 2px;
 }
 
 .last-update strong {
   font-size: 12px;
-  color: #1e293b;
+  color: var(--energy-text-dark);
 }
 
 .last-update small {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--energy-blue-medium);
 }
 
 /* ==========================================================================
@@ -122,15 +130,16 @@ body, html {
 }
 
 .metric-card, .alert-card { 
-  background: #ffffff; 
+  background: var(--energy-plug-white); 
   border-radius: 10px; 
   padding: 12px; 
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02); 
+  box-shadow: var(--energy-shadow-glow); 
   display: flex; 
   flex-direction: column; 
   justify-content: space-between; 
-  border: 1px solid #f1f5f9; 
+  border: 1px solid rgba(71, 159, 215, 0.1); 
   min-height: 140px;
+  transition: var(--energy-transition);
 }
 
 .card-header, .alert-header { 
@@ -139,13 +148,13 @@ body, html {
   align-items: center;
   font-weight: 600; 
   font-size: 12px; 
-  color: #475569; 
+  color: var(--energy-text-dark); 
 }
 
 .icon-law-badge { color: #7c3aed; font-size: 14px; }
 .icon-money-badge { color: #16a34a; font-size: 14px; }
-.icon-tech-badge { color: #2563eb; font-size: 14px; }
-.bell-icon { color: #64748b; font-size: 14px; }
+.icon-tech-badge { color: var(--energy-blue-medium); font-size: 14px; }
+.bell-icon { color: var(--energy-text-dark); opacity: 0.6; font-size: 14px; }
 
 .progress-gauge { 
   display: flex; 
@@ -163,7 +172,7 @@ body, html {
 
 .circle-bg { 
   fill: none; 
-  stroke: #f1f5f9; 
+  stroke: rgba(71, 159, 215, 0.1); 
   stroke-width: 3.5; 
 }
 
@@ -180,14 +189,14 @@ body, html {
 .red-chart .circle { stroke: #dc2626; }     /* أحمر: المتوسط >= 80% */
 
 .percentage { 
-  fill: #1e293b; 
+  fill: var(--energy-text-dark); 
   font-size: 8px; 
   text-anchor: middle; 
   font-weight: bold; 
 }
 
 .sub-text { 
-  fill: #94a3b8; 
+  fill: var(--energy-blue-medium); 
   font-size: 2px; 
   text-anchor: middle; 
 }
@@ -196,8 +205,9 @@ body, html {
   display: flex; 
   justify-content: space-between; 
   font-size: 11px; 
-  color: #64748b; 
-  border-top: 1px solid #f1f5f9; 
+  color: var(--energy-text-dark); 
+  opacity: 0.8;
+  border-top: 1px solid rgba(71, 159, 215, 0.1); 
   padding-top: 6px; 
 }
 
@@ -207,12 +217,12 @@ body, html {
    5. نظام كرت الإنذار المبكر التنشيطي (RII >= 85%)
    ========================================================================== */
 .alert-card {
-  transition: all 0.3s ease;
+  transition: var(--energy-transition);
 }
 
 .alert-card.trigger-active {
-  background-color: #fef2f2;
-  border: 1px solid #fca5a5;
+  background-color: rgba(220, 38, 38, 0.1);
+  border: 1px solid #ef4444;
   animation: pulseWarningBorder 2s infinite alternate;
 }
 
@@ -229,7 +239,7 @@ body, html {
 
 .alert-content h3 { 
   margin: 2px 0; 
-  color: #991b1b; 
+  color: #ef4444; 
   font-size: 13px; 
   font-weight: 700;
 }
@@ -243,7 +253,7 @@ body, html {
 .warning-desc-text {
   display: block;
   font-size: 11px;
-  color: #7f1d1d;
+  color: var(--energy-text-dark);
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -252,30 +262,31 @@ body, html {
 }
 
 @keyframes pulseWarningBorder {
-  0% { border-color: #fca5a5; box-shadow: 0 0 4px rgba(220, 38, 38, 0.1); }
-  100% { border-color: #ef4444; box-shadow: 0 0 10px rgba(220, 38, 38, 0.2); }
+  0% { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 4px rgba(220, 38, 38, 0.1); }
+  100% { border-color: #ef4444; box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
 }
 
 /* ==========================================================================
    6. فلتر المرحلة الزمنية التفاعلي (Tabs)
    ========================================================================== */
 .timeline-filter-section { 
-  background: #ffffff; 
+  background: var(--energy-plug-white); 
   padding: 8px 14px; 
   border-radius: 8px; 
-  border: 1px solid #f1f5f9; 
+  border: 1px solid rgba(71, 159, 215, 0.15); 
+  transition: var(--energy-transition);
 }
 
 .timeline-title { 
   font-size: 11px; 
   font-weight: bold; 
-  color: #475569; 
+  color: var(--energy-text-dark); 
   display: flex; 
   align-items: center; 
   gap: 5px; 
 }
 
-.calendar-icon { color: #1e3a8a; }
+.calendar-icon { color: var(--energy-blue-medium); }
 
 .tabs-container { 
   display: flex; 
@@ -286,26 +297,26 @@ body, html {
 .tab-btn { 
   flex: 1; 
   padding: 6px; 
-  border: 1px solid #e2e8f0; 
-  background: #f8fafc; 
+  border: 1px solid rgba(71, 159, 215, 0.2); 
+  background: var(--energy-gradient-bg); 
   border-radius: 6px; 
   cursor: pointer; 
   font-size: 12px; 
   font-weight: 600; 
-  color: #475569;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+  color: var(--energy-text-dark);
+  transition: var(--energy-transition); 
 }
 
 .tab-btn:hover {
-  background-color: #f1f5f9;
-  color: #1e293b;
+  background-color: var(--energy-blue-light);
+  color: #ffffff;
 }
 
 .tab-btn.active { 
-  background: #1e3a8a; 
+  background: var(--energy-blue-dark); 
   color: #ffffff; 
-  border-color: #1e3a8a; 
-  box-shadow: 0 2px 4px rgba(30, 58, 138, 0.15);
+  border-color: var(--energy-blue-dark); 
+  box-shadow: var(--energy-shadow-glow);
 }
 
 /* ==========================================================================
@@ -323,14 +334,15 @@ body, html {
 .table-section-container {
   flex: 0 0 75%;
   width: 75%;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--energy-plug-white);
+  border: 1px solid rgba(71, 159, 215, 0.15);
   border-radius: 12px;
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+  box-shadow: var(--energy-shadow-glow);
+  transition: var(--energy-transition);
 }
 
 .table-section-header {
@@ -344,7 +356,7 @@ body, html {
 
 .table-section-header h2 {
   font-size: 13.5px;
-  color: #1e293b;
+  color: var(--energy-text-dark);
   margin: 0;
   font-weight: 700;
 }
@@ -352,7 +364,6 @@ body, html {
 /* تغليف لمنع تمدد الجدول الكلي واحتواء السكرول عمودياً بمرونة */
 .custom-table-wrapper {
   flex: 1;
-  
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -363,44 +374,46 @@ body, html {
   border-collapse: collapse;
   table-layout: fixed;
   text-align: right;
+ 
 }
 
 .energy-modern-table th {
-  position: sticky;
+  
   top: 0;
-  background-color: #f8fafc;
-  color: #475569;
+  background-color: var(--energy-gradient-bg);
+  color: var(--energy-text-dark);
   font-weight: 600;
   font-size: 11.5px;
   padding: 10px;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid rgba(71, 159, 215, 0.2);
   z-index: 5;
+  transition: var(--energy-transition);
 }
 
 .energy-modern-table td {
   padding: 10px;
   font-size: 12px;
-  color: #334155;
-  border-bottom: 1px solid #f1f5f9;
+  color: var(--energy-text-dark);
+  border-bottom: 1px solid rgba(71, 159, 215, 0.1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .energy-modern-table tbody tr:hover { 
-  background-color: #f8fafc; 
+  background-color: rgba(71, 159, 215, 0.05); 
 }
 
-.cell-index { color: #94a3b8; font-weight: 600; }
-.cell-code { color: #1e3a8a; font-weight: 600; }
-.cell-stage { color: #64748b; font-size: 11px; }
+.cell-index { color: var(--energy-blue-medium); font-weight: 600; }
+.cell-code { color: var(--energy-blue-dark); font-weight: 600; }
+.cell-stage { color: var(--energy-text-dark); opacity: 0.7; font-size: 11px; }
 .cell-text { max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* تمييز أرقام خطورة الـ Risk Score بالأحمر الفاقع المتناسق */
 .cell-score-badge.text-danger-score {
   font-weight: 700;
   color: #dc2626;
-  background: #fef2f2;
+  background: rgba(220, 38, 38, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
@@ -408,10 +421,9 @@ body, html {
 
 /* كبسولات تصنيف المحاور الفنية والقانونية والمالية */
 .axis-pill-new { padding: 3px 6px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
-.axis-pill-new.law { background: #f5f3ff; color: #6d28d9; }
-.axis-pill-new.money { background: #f0fdf4; color: #166534; }
-.axis-pill-new.tech { background: #ecfeff; color: #0e7490; }
-
+.axis-pill-new.law { background: rgba(124, 58, 237, 0.1); color: #a78bfa; }
+.axis-pill-new.money { background: rgba(22, 163, 74, 0.1); color: #4ade80; }
+.axis-pill-new.tech { background: rgba(71, 159, 215, 0.1); color: var(--energy-blue-light); }
 
 .status-tag-new {
   padding: 3px 8px;
@@ -421,22 +433,21 @@ body, html {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  
 }
-.status-type-institutional-close{
-color: rgb(107, 33, 168) !important;
-border: 0 !important;
-text-align: center;
-padding-left: 10px;
 
+.status-type-institutional-close{
+  color: #a78bfa !important;
+  border: 0 !important;
+  text-align: center;
+  padding-left: 10px;
 }
 
 .status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-.status-high { background-color: #fef2f2; color: #ef4444; }
+.status-high { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; }
 .status-high .status-dot { background-color: #ef4444; }
-.status-pending { background-color: #fff7ed; color: #f97316; }
+.status-pending { background-color: rgba(249, 115, 22, 0.1); color: #f97316; }
 .status-pending .status-dot { background-color: #f97316; }
-.status-open { background-color: #eff6ff; color: #3b82f6; }
+.status-open { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; }
 .status-open .status-dot { background-color: #3b82f6; }
 
 /* ==========================================================================
@@ -448,7 +459,6 @@ padding-left: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  
 }
 
 .action-card-btn {
@@ -463,21 +473,21 @@ padding-left: 10px;
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: var(--energy-shadow-glow);
 }
 
 .action-card-btn.blue-action {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, var(--energy-blue-dark), var(--energy-blue-medium));
 }
 
 .action-card-btn.green-action {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: linear-gradient(135deg, #047857, #16a34a);
 }
 
 /* تأثير تحويم ناعم يرفع الكرت لأعلى مع زيادة الظل الجانبي */
 .action-card-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
 }
 
 .action-card-content h3 {
@@ -525,35 +535,35 @@ padding-left: 10px;
 .table-loading { 
   text-align: center; 
   padding: 40px; 
-  color: #64748b; 
+  color: var(--energy-text-dark); 
+  opacity: 0.6;
   font-size: 12.5px; 
 }
+
 .all-risks-toggle-btn {
   display: flex;
   align-items: center;
   gap: 6px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--energy-dark);
+  border: 1px solid rgba(71, 159, 215, 0.2);
+  color: var(--energy-text-dark);
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.78rem;
   font-weight: 600;
-  transition: all 0.2s ease;
- 
+  transition: var(--energy-transition);
 }
 
 .all-risks-toggle-btn:hover {
-  background: rgba(0, 180, 216, 0.15);
-  border-color: #00b4d8;
-  box-shadow: 0 0 8px rgba(0, 180, 216, 0.3);
+  background: rgba(71, 159, 215, 0.15);
+  border-color: var(--energy-blue-light);
 }
 
 .btn-active-all {
-  background: #0077b6 !important;
+  background: var(--energy-blue-dark) !important;
   color: #ffffff !important;
-  border-color: var(--energy-blue-dark) !important;
+  border-color: var(--energy-blue-medium) !important;
 }
 
 .btn-eye-icon {

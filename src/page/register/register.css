@@ -1,17 +1,45 @@
+/* ==========================================================================
+   📌 المتغيرات الأساسية وديناميكية بيئة النظام (Theme & Glass Variables)
+   ========================================================================== */
 :root {
-  --bg-light-soft: #f4f7fb;
-  --glass-white: rgba(255, 255, 255, 0.9);
-  --glass-light-border: rgba(94, 205, 245, 0.35);
-  
+  /* لوحة الألوان الأساسية للهوية */
   --energy-light: #5ECDF5;
   --energy-medium: #479FD7;
   --energy-dark: #2F5C9E;
   
+  /* متغيرات الوضع المضيء الافتراضي (Light Glass Theme) */
+  --bg-light-soft: #f4f7fb;
+  --glass-white: rgba(255, 255, 255, 0.9);
+  --glass-light-border: rgba(94, 205, 245, 0.35);
   --text-main: #1A2B49;
   --text-sub: #64748b;
-  --transition-fast: all 0.25s ease-in-out;
+  --input-bg: rgba(255, 255, 255, 0.85);
+  --input-border: #cbd5e1;
+  --avatar-box-bg: #ffffff;
+  --divider-color: rgba(26, 43, 73, 0.1);
+  
+  /* الرسوم المتحركة والتأثيرات */
+  --transition-fast: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-main: 0 15px 35px rgba(47, 92, 158, 0.05);
 }
 
+/* 🌙 تفعيل الوضع المظلم التلقائي المتكامل (Dark Glass Mode) */
+[data-theme="dark"] {
+  --bg-light-soft: #0b1329;
+  --glass-white: rgba(17, 27, 53, 0.85);
+  --glass-light-border: rgba(94, 205, 245, 0.2);
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --input-bg: rgba(15, 23, 42, 0.6);
+  --input-border: #1e294b;
+  --avatar-box-bg: #1e294b;
+  --divider-color: rgba(248, 250, 252, 0.1);
+  --shadow-main: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   🎬 الحركات الهيكلية (Keyframes)
+   ========================================================================== */
 @keyframes blobMotion {
   0% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(20px, 20px) scale(1.05); }
@@ -19,10 +47,13 @@
 }
 
 @keyframes cardReveal {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ==========================================================================
+   1. الحاوية الكلية وتأثيرات الخلفية الديناميكية (Wrapper & Blobs)
+   ========================================================================== */
 .light-glass-wrapper {
   direction: rtl;
   min-height: 100vh;
@@ -32,10 +63,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
   overflow: hidden;
   box-sizing: border-box;
   font-family: 'Cairo', system-ui, sans-serif;
+  transition: background-color 0.3s ease;
 }
 
 .light-glow-blob {
@@ -45,37 +77,46 @@
   z-index: 1;
   opacity: 0.4;
   animation: blobMotion 10s infinite ease-in-out;
+  pointer-events: none; /* حماية لتجنب اعتراض الأحداث وعرقلة الضغط */
 }
 
 .blob-1 { width: 320px; height: 320px; background: rgba(94, 205, 245, 0.2); top: -5%; left: 10%; }
 .blob-2 { width: 350px; height: 350px; background: rgba(71, 159, 215, 0.12); bottom: -5%; right: 10%; animation-delay: -5s; }
 
+/* ==========================================================================
+   2. الكارد الزجاجي الذكي (Glassmorphism Card)
+   ========================================================================== */
 .light-glass-card {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 410px; /* جعل الكارد ملموماً ومتناسقاً مثل كارد تسجيل الدخول */
+  max-width: 410px; 
   background: var(--glass-white);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-light-border);
   border-radius: 20px;
-  padding: 24px 26px; 
-  box-shadow: 0 15px 35px rgba(47, 92, 158, 0.05);
-  animation: cardReveal 0.4s ease-out forwards;
+  padding: 26px 28px; 
+  box-shadow: var(--shadow-main);
+  animation: cardReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   box-sizing: border-box;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* ==========================================================================
+   3. قسم الصورة الشخصية (Avatar Upload Section)
+   ========================================================================== */
 .avatar-upload-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .avatar-label {
   cursor: pointer;
   position: relative;
+  outline: none;
 }
 
 .avatar-label input[type="file"] {
@@ -83,14 +124,14 @@
 }
 
 .avatar-preview-box {
-  width: 75px;
-  height: 75px;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
   border: 2px solid var(--energy-medium);
   box-shadow: 0 5px 12px rgba(94, 205, 245, 0.2);
   position: relative;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--avatar-box-bg);
   transition: var(--transition-fast);
   display: flex;
   justify-content: center;
@@ -115,7 +156,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(47, 92, 158, 0.6);
+  background: rgba(47, 92, 158, 0.65);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,9 +177,13 @@
   color: var(--text-main);
   font-size: 18px;
   font-weight: 700;
-  margin-top: 8px;
+  margin-top: 10px;
+  transition: color 0.3s ease;
 }
 
+/* ==========================================================================
+   4. حقول الاستمارة وهندسة القوائم (Form Fields & Controls)
+   ========================================================================== */
 .light-form {
   display: flex;
   flex-direction: column;
@@ -171,36 +216,57 @@
 .input-field-container .governorate-select {
   width: 100%;
   padding: 10px 36px 10px 12px; 
-  background: rgba(255, 255, 255, 0.85);
-  border: 1.5px solid #cbd5e1;
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
   border-radius: 10px;
   outline: none;
   font-size: 13px;
   color: var(--text-main);
   transition: var(--transition-fast);
   box-sizing: border-box;
-  height: 40px;
+  height: 42px;
 }
 
-/* تنسيق خاص بالقائمة المنسدلة لتتناسب هندسياً */
+/* تعويض أيقونة السهم المفقودة نتيجة الاستغناء عن التصميم الافتراضي */
 .input-field-container .governorate-select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23479FD7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center;
+  background-size: 13px;
+  padding-left: 32px; /* منع تداخل النصوص الطويلة مع أيقونة السهم */
 }
 
 .input-field-container input:focus,
 .input-field-container .governorate-select:focus {
   border-color: var(--energy-medium);
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.1);
+  background: var(--avatar-box-bg);
+  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.15);
 }
 
-/* زر إرسال النموذج */
+.input-field-container .governorate-select:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: #cbd5e1;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .input-field-container .governorate-select:disabled {
+  background: #1e293b;
+  color: #64748b;
+  border-color: #334155;
+}
+
+/* ==========================================================================
+   5. أزرار التحكم والتذييل (Buttons & Footer Actions)
+   ========================================================================== */
 .light-btn-submit {
   width: 100%;
-  height: 42px;
+  height: 44px;
   background: linear-gradient(135deg, var(--energy-light) 0%, var(--energy-medium) 100%);
   border: none;
   border-radius: 10px;
@@ -210,12 +276,17 @@
   cursor: pointer;
   transition: var(--transition-fast);
   box-shadow: 0 4px 12px rgba(71, 159, 215, 0.2);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .light-btn-submit:hover:not(:disabled) {
-  box-shadow: 0 5px 15px rgba(71, 159, 215, 0.3);
-  filter: brightness(1.02);
+  box-shadow: 0 6px 16px rgba(71, 159, 215, 0.35);
+  transform: translateY(-0.5px);
+  filter: brightness(1.04);
+}
+
+.light-btn-submit:active:not(:disabled) {
+  transform: translateY(0.5px);
 }
 
 .light-btn-submit:disabled {
@@ -225,30 +296,36 @@
   box-shadow: none;
 }
 
-/* فاصل ناعم */
-.form-divider-light {
-  border: none;
-  border-top: 1px solid rgba(26, 43, 73, 0.1);
-  margin: 6px 0;
+[data-theme="dark"] .light-btn-submit:disabled {
+  background: #1e294b;
+  color: #475569;
 }
 
-/* تذييل الكارد للتوجيه إلى تسجيل الدخول */
+.form-divider-light {
+  border: none;
+  border-top: 1px solid var(--divider-color);
+  margin: 10px 0;
+  transition: border-color 0.3s ease;
+}
+
 .login-redirect-footer {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
   font-size: 13px;
+  margin-top: 4px;
 }
 
 .login-redirect-footer span {
   color: var(--text-sub);
+  transition: color 0.3s ease;
 }
 
 .login-link-btn {
   background: none;
   border: none;
-  color: var(--energy-dark);
+  color: var(--energy-medium);
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
@@ -260,11 +337,14 @@
   color: var(--energy-light);
   text-decoration: underline;
 }
-/* مظهر القائمة المنسدلة عندما تكون مغلقة بانتظار اختيار الشركة */
-.input-field-container .governorate-select:disabled {
-  background: #f1f5f9;
-  color: #94a3b8;
-  border-color: #cbd5e1;
-  cursor: not-allowed;
-  opacity: 0.7;
+
+
+@media (max-width: 360px) {
+  .form-row-grid {
+    grid-template-columns: 1fr; /* فك دمج الحقول إلى صفوف فردية لمنع التكثيف المفرط للهواتف الصغيرة */
+    gap: 12px;
+  }
+  .light-glass-card {
+    padding: 20px 16px;
+  }
 }

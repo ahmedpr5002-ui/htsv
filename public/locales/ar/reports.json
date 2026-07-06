@@ -1,0 +1,45 @@
+{
+  "reportNames": {
+    "overdue_actions": "تقرير الإجراءات المتأخرة والإنذارات المبكرة",
+    "lessons_learned": "تقرير حصر وحفظ الدروس المستفادة والتوصيات (RII)",
+    "risk_register": "تقرير سجل المخاطر الإداري",
+    "project_comparison": "تقرير مقارنة الأنماط والمخاطر الأكثر تكراراً واختياراً من المستخدمين",
+    "default_preview": "المعاينة الحية للتقرير"
+  },
+  "buttons": {
+    "back_to_reports": "العودة للتقارير"
+  },
+  "messages": {
+    "loading": "جاري معالجة وتوليد السجلات الحية وتحليل أنماط التكرار...",
+    "no_data_found": "لا توجد بيانات مسجلة مطابقة لشروط هذا التقرير حالياً."
+  },
+  "labels": {
+    "no_data": "لا يوجد بيان",
+    "undefined": "غير محدد",
+    "no_risk_desc": "لا يوجد بيان للخطر",
+    "project_manager": "مدير المشروع",
+    "general": "عام",
+    "selection_times": "مرات اختيار"
+  },
+  "headers": {
+    "risk_code": "كود الخطر",
+    "risk_description": "الخطر / الوصف التحليلي",
+    "action_codes": "أكواد الإجراءات المحددة",
+    "suggested_owner": "المسؤول المقترح عن المعالجة",
+    "axis": "المحور",
+    "risk_score": "درجة الخطر",
+    "risk_text": "نص الخطر التحليلي",
+    "linked_actions": "أكواد الإجراءات المرتبطة",
+    "lessons_learned": "الدروس المستفادة المستخلصة (riskNotes)",
+    "frequent_risk_text": "نص الخطر المتكرر الأكثر اختياراً",
+    "risk_type": "نوع الخطر",
+    "classification_axis": "التصنيف / المحور",
+    "frequency_rate": "معدل التكرار بالنظام",
+    "avg_risk_score": "متوسط درجة خطورته العامة",
+    "id_code": "المعرف / الكود",
+    "description_analysis": "البيان والوصف التحليلي",
+    "context_stage": "السياق / المرحلة",
+    "rii_details": "المؤشر / التفاصيل (RII)",
+    "relative_weight": "الوزن النسبي / درجة الخطر"
+  }
+}

@@ -1,10 +1,32 @@
-/* ربط واستخدام المتغيرات المحددة مسبقاً */
+/* ربط واستخدام المتغيرات المحددة مسبقاً وتوسيعها للهيكل */
+:root {
+  --energy-blue-light: #5ECDF5;
+  --energy-blue-medium: #479FD7;
+  --energy-blue-dark: #2F5C9E;
+  --energy-plug-white: #FFFFFF;
+  --energy-text-dark: #1E3A60;
+
+  /* متغيرات مرنة مضافة لدعم لوحة المشاريع والكروت */
+  --energy-card-bg: rgba(255, 255, 255, 0.85);
+  --energy-card-hover-bg: #ffffff;
+  --energy-meta-icon-bg: #f1f5f9;
+  --energy-text-muted: #64748b;
+  --energy-text-muted-light: #94a3b8;
+  --energy-border-color: rgba(71, 159, 215, 0.2);
+
+  --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
+  --energy-gradient-bg: radial-gradient(circle at 50% 50%, #F8FBFD 0%, #E2F0F9 70%, #CCE3F3 100%);
+  --energy-shadow-glow: 0 15px 35px rgba(47, 92, 158, 0.1), 0 1px 3px rgba(0, 0, 0, 0.03);
+  --energy-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .luxury-projects-container {
   padding: 30px;
-  margin-right: 260px; /* مسافة للـ RightBar */
+  margin-inline-start: 260px; /* مسافة ديناميكية للـ RightBar */
   background: var(--energy-gradient-bg);
   min-height: 100vh;
   box-sizing: border-box;
+  transition: var(--energy-transition);
 }
 
 /* الهيدر العلوي */
@@ -13,7 +35,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 35px;
-  border-bottom: 1px solid rgba(71, 159, 215, 0.2);
+  border-bottom: 1px solid var(--energy-border-color);
   padding-bottom: 20px;
 }
 
@@ -32,14 +54,14 @@
 
 .header-title-zone p {
   font-size: 0.95rem;
-  color: #64748b;
+  color: var(--energy-text-muted);
   margin: 0;
 }
 
 /* أزرار مخصصة متوهجة */
 .btn-add-new-project {
   background: var(--energy-gradient-linear);
-  color: var(--energy-plug-white);
+  color: #ffffff;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -66,10 +88,10 @@
 
 /* كارت المشروع الزجاجي الحديث */
 .project-luxury-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--energy-card-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 12px;
   padding: 24px;
   display: grid;
@@ -83,22 +105,25 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
+/* تحريك متناسق وحماية الـ Hover حسب اتجاه اللغة */
 .project-luxury-card:hover {
-  transform: translateX(-5px);
   border-color: var(--energy-blue-light);
   box-shadow: 0 8px 25px rgba(71, 159, 215, 0.15);
-  background: #ffffff;
+  background: var(--energy-card-hover-bg);
 }
+[dir="rtl"] .project-luxury-card:hover { transform: translateX(-5px); }
+[dir="ltr"] .project-luxury-card:hover { transform: translateX(5px); }
 
 /* الخط الجانبي الملون الذي يعكس الهوية */
 .project-card-accent-line {
   position: absolute;
   top: 0;
-  right: 0;
   bottom: 0;
   width: 5px;
   background: var(--energy-gradient-linear);
 }
+[dir="rtl"] .project-card-accent-line { right: 0; }
+[dir="ltr"] .project-card-accent-line { left: 0; }
 
 /* تفاصيل المشروع */
 .project-tag-id {
@@ -120,7 +145,7 @@
 
 .project-card-desc {
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--energy-text-muted);
   margin: 0;
   line-height: 1.6;
 }
@@ -130,9 +155,10 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-  padding-right: 30px;
+  transition: var(--energy-transition);
 }
+[dir="rtl"] .project-meta-data-zone { border-left: 1px solid var(--energy-border-color); padding-left: 30px; }
+[dir="ltr"] .project-meta-data-zone { border-right: 1px solid var(--energy-border-color); padding-right: 30px; }
 
 .meta-item {
   display: flex;
@@ -143,20 +169,21 @@
 .meta-icon {
   width: 36px;
   height: 36px;
-  background: #f1f5f9;
+  background: var(--energy-meta-icon-bg);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--energy-blue-medium);
   font-size: 1rem;
+  transition: var(--energy-transition);
 }
 
 .meta-text label {
   display: block;
   font-size: 0.75rem;
-  color: #94a3b8;
-  margin-bottom: 2px;
+  color: var(--energy-text-muted-light);
+  margin-bottom: 22px;
 }
 
 .meta-text span {
@@ -180,9 +207,15 @@
   transition: var(--energy-transition);
 }
 
+/* قلب السهم هندسياً تلقائياً إذا تغيرت لغة النظام للإنجليزية */
+[dir="ltr"] .circle-arrow-navigate-btn svg,
+[dir="ltr"] .circle-arrow-navigate-btn i {
+  transform: rotate(180deg);
+}
+
 .project-luxury-card:hover .circle-arrow-navigate-btn {
   background: var(--energy-gradient-linear);
-  color: var(--energy-plug-white);
+  color: #ffffff;
   border-color: transparent;
   transform: scale(1.05);
 }
@@ -193,9 +226,10 @@
   padding: 60px;
   color: var(--energy-blue-dark);
   font-size: 1.1rem;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--energy-card-bg);
   border-radius: 12px;
-  border: 1px dashed rgba(71, 159, 215, 0.3);
+  border: 1px dashed var(--energy-blue-light);
+  transition: var(--energy-transition);
 }
 
 /* تحسينات الشاشات المتوسطة والصغيرة */
@@ -205,14 +239,48 @@
     gap: 20px;
   }
   .project-meta-data-zone {
-    border-right: none;
-    padding-right: 0;
+    border-left: none !important;
+    border-right: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     flex-direction: row;
     justify-content: space-between;
   }
   .project-action-arrow-zone {
-    text-align: left;
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+/* ==========================================================================
+   🌙 قسم حماية ودعم الوضع المظلم لكروت المشاريع وقسم التصفح (Dark Mode)
+   ========================================================================== */
+[data-theme="dark"] {
+  --energy-card-bg: rgba(17, 30, 49, 0.8);
+  --energy-card-hover-bg: #16253b;
+  --energy-meta-icon-bg: #1e304a;
+  --energy-text-dark: #f0f4f8;
+  --energy-text-muted: #a6bbd0;
+  --energy-text-muted-light: #8fa5bc;
+  --energy-border-color: rgba(94, 205, 245, 0.15);
+  
+  --energy-gradient-bg: linear-gradient(180deg, #0d1726 0%, #090f1a 100%);
+  --energy-shadow-glow: 0 15px 35px rgba(0, 0, 0, 0.4);
+
+  .project-luxury-card {
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+  .project-tag-id {
+    background: rgba(94, 205, 245, 0.1);
+    color: var(--energy-blue-light);
+  }
+  .header-title-zone h1 {
+    color: var(--energy-blue-light);
+  }
+  .project-card-title {
+    color: var(--energy-blue-light);
+  }
+  .projects-status-message {
+    color: var(--energy-blue-light);
   }
 }

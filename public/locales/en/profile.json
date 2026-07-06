@@ -1,0 +1,31 @@
+{
+  "loading": "Securing your account...",
+  "status_active": "Account Active",
+  "roles": {
+    "admin": "System Administrator",
+    "user": "Platform User"
+  },
+  "buttons": {
+    "dashboard": "Dashboard",
+    "logout": "Log Out",
+    "system_control": "System Control Panel"
+  },
+  "sections": {
+    "basic_info": "Basic Information"
+  },
+  "labels": {
+    "email": "Email Address",
+    "company": "Affiliated Company",
+    "governorate": "Governorate / Location"
+  },
+  "workspace": {
+    "title": "Workspace",
+    "description": "Click below for immediate access to your current projects.",
+    "link_title": "Browse My Projects",
+    "link_subtitle": "Go to gallery",
+    "admin_title": "Central Administration",
+    "admin_description": "Control and update the global risk bank available to all project engineers.",
+    "admin_link_title": "Central Risks Database",
+    "admin_link_subtitle": "Insert and edit risk axes"
+  }
+}

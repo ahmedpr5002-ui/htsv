@@ -1,25 +1,58 @@
 /* ==========================================================================
+   📌 المتغيرات الأساسية وديناميكية بيئة النظام (Theme Variables)
+   ========================================================================== */
+:root {
+  /* ألوان الهوية والشعار الأساسية */
+  --energy-blue-light: #5ECDF5;
+  --energy-blue-medium: #479FD7;
+  --energy-blue-dark: #2F5C9E;
+  --energy-plug-white: #FFFFFF;
+  
+  /* متغيرات هيكل المنشورات والتصفح (الوضع المضيء الافتراضي) */
+  --posts-bg-main: #f8fafc;
+  --posts-card-bg: #ffffff;
+  --posts-input-bg: #f8fafc;
+  --posts-border: #e2e8f0;
+  --posts-border-subtle: #f1f5f9;
+  
+  /* متغيرات خطوط النصوص والرموز */
+  --posts-text-main: #0f172a;
+  --posts-text-body: #334155;
+  --posts-text-muted: #64748b;
+  --posts-text-muted-light: #94a3b8;
+  
+  /* عناصر الفلترة والتعليقات */
+  --posts-filter-bg: #e2e8f0;
+  --posts-filter-active-bg: #ffffff;
+  --posts-filter-active-text: #1e3a8a;
+  --posts-comment-bg: #f8fafc;
+  --posts-comment-bubble: #ffffff;
+  
+  --posts-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
    1. التنسيقات الأساسية والخطوط والصفحة (Layout & Main Styles)
    ========================================================================== */
 .posts-container-layout {
-  width: 82%; /* التعديل المتفق عليه: جعل عرض الصفحة بنسبة 82% */
-  max-width: 1400px; /* سقف أقصى لمنع تمدد المنشورات بشكل مفرط على الشاشات الضخمة جداً Ultra-Wide */
-  margin-right: 18%;
+  width: 82%; /* جعل عرض الصفحة بنسبة 82% بناءً على التعديل المتفق عليه */
+  max-width: 1400px; /* سقف أقصى لمنع تمدد المنشورات بشكل مفرط على الشاشات الضخمة */
+  margin-inline-start: 18%;
   padding: 0 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl; /* دعم كامل للغة العربية والاتجاه من اليمين لليسار */
-  background-color: #f8fafc;
+  background-color: var(--posts-bg-main);
   min-height: 100vh;
   box-sizing: border-box;
+  transition: var(--posts-transition);
 }
 
 .posts-loading {
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--posts-text-muted);
   padding: 80px 0;
-  direction: rtl;
 }
 
 /* ==========================================================================
@@ -33,12 +66,13 @@
 
 .segmented-control {
   display: flex;
-  background: #e2e8f0;
+  background: var(--posts-filter-bg);
   padding: 4px;
   border-radius: 14px;
   width: 100%;
   max-width: 500px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: var(--posts-transition);
 }
 
 .segmented-item {
@@ -52,7 +86,7 @@
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--posts-text-muted);
   cursor: pointer;
   border-radius: 10px;
   transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease;
@@ -63,8 +97,8 @@
 }
 
 .segmented-item.active {
-  background: #ffffff;
-  color: #1e3a8a;
+  background: var(--posts-filter-active-bg);
+  color: var(--posts-filter-active-text);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -76,47 +110,49 @@
    3. صندوق إنشاء منشور جديد (Create Post Card)
    ========================================================================== */
 .create-post-card {
-  background: #ffffff;
+  background: var(--posts-card-bg);
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  transition: var(--posts-transition);
 }
 
 .create-post-card textarea {
   width: 100%;
   min-height: 100px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
   border-radius: 14px;
   padding: 14px;
   font-size: 15px;
   resize: vertical;
   outline: none;
-  background: #f8fafc;
-  transition: all 0.3s ease;
+  background: var(--posts-input-bg);
+  color: var(--posts-text-main);
+  transition: var(--posts-transition);
   font-family: inherit;
   box-sizing: border-box;
 }
 
 .create-post-card textarea:focus {
   border-color: #3b82f6;
-  background: #ffffff;
+  background: var(--posts-card-bg);
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 .selected-file-badge {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
   font-size: 13px;
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 500;
   align-self: flex-start;
-  border: 1px solid #bfdbfe;
+  border: 1px solid rgba(59, 130, 246, 0.25);
 }
 
 .create-post-actions {
@@ -130,19 +166,19 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f1f5f9;
-  color: #475569;
+  background: var(--posts-input-bg);
+  color: var(--posts-text-body);
   padding: 10px 18px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--posts-transition);
 }
 
 .upload-img-btn-modern:hover {
-  background: #e2e8f0;
-  color: #1e293b;
+  background: var(--posts-border);
+  color: var(--posts-text-main);
 }
 
 .btn-icon-inside {
@@ -159,7 +195,7 @@
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
-  transition: all 0.2s ease;
+  transition: var(--posts-transition);
 }
 
 .submit-post-btn-modern:hover {
@@ -177,13 +213,14 @@
 }
 
 .post-card {
-  background: #ffffff;
+  background: var(--posts-card-bg);
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
   display: flex;
   flex-direction: column;
+  transition: var(--posts-transition);
 }
 
 .post-header {
@@ -199,8 +236,8 @@
   height: 46px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #cbd5e1;
-  border: 2px solid #fff;
+  background-color: var(--posts-border);
+  border: 2px solid var(--posts-card-bg);
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -213,14 +250,13 @@
 .username {
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--posts-text-main);
   margin: 0;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* شارة التوثيق الزرقاء للآدمن */
 .verified-badge-real {
   color: #3b82f6;
   font-size: 14px;
@@ -230,23 +266,22 @@
 
 .post-date {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--posts-text-muted-light);
 }
 
-/* زر حذف المنشور الرئيسي */
 .delete-post-btn {
   background: transparent;
   border: none;
-  color: #94a3b8;
+  color: var(--posts-text-muted-light);
   font-size: 15px;
   cursor: pointer;
-  margin-right: auto; /* دفع الزر لأقصى اليسار في سياق الـ RTL */
+  margin-inline-start: auto; /* دفع الزر لأقصى اليسار ديناميكياً حسب اتجاه الواجهة */
   padding: 8px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease-in-out;
+  transition: var(--posts-transition);
 }
 
 .delete-post-btn:hover {
@@ -262,20 +297,19 @@
 .post-text {
   font-size: 15px;
   line-height: 1.6;
-  color: #334155;
+  color: var(--posts-text-body);
   margin: 0 0 14px 0;
   white-space: pre-wrap;
 }
 
-/* غلاف ومعاينة صور المنشورات */
 .post-img-wrapper {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
   max-height: 500px;
-  background: #f1f5f9;
-  border: 1px solid #f1f5f9;
+  background: var(--posts-input-bg);
+  border: 1px solid var(--posts-border-subtle);
 }
 
 .post-attached-img {
@@ -290,7 +324,6 @@
   transform: scale(1.015);
 }
 
-/* تلميح عند الوقوف بالفأرة فوق الصورة */
 .img-overlay-hint {
   position: absolute;
   top: 0;
@@ -318,8 +351,8 @@
   justify-content: space-between;
   padding: 10px 4px;
   font-size: 13px;
-  color: #64748b;
-  border-bottom: 1px solid #f1f5f9;
+  color: var(--posts-text-muted);
+  border-bottom: 1px solid var(--posts-border-subtle);
 }
 
 .comments-stat-btn {
@@ -339,7 +372,7 @@
   display: flex;
   gap: 8px;
   padding: 6px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--posts-border-subtle);
 }
 
 .action-btn-modern {
@@ -353,22 +386,21 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--posts-text-muted);
   cursor: pointer;
   border-radius: 10px;
-  transition: all 0.2s ease;
+  transition: var(--posts-transition);
 }
 
 .action-btn-modern:hover {
-  background: #f8fafc;
-  color: #334155;
+  background: var(--posts-bg-main);
+  color: var(--posts-text-body);
 }
 
 .action-icon {
   font-size: 16px;
 }
 
-/* حالة اللايك النشط */
 .liked-active-btn {
   color: #ef4444 !important;
   background: #fef2f2 !important;
@@ -393,13 +425,14 @@
    6. قسم التعليقات (Comments Section & Inputs)
    ========================================================================== */
 .comments-section {
-  background: #f8fafc;
+  background: var(--posts-comment-bg);
   border-radius: 14px;
   padding: 16px;
   margin-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: var(--posts-transition);
 }
 
 .comment-item {
@@ -407,7 +440,7 @@
   gap: 10px;
   align-items: flex-start;
   padding: 8px 0;
-  border-bottom: 1px dashed #e2e8f0;
+  border-bottom: 1px dashed var(--posts-border);
 }
 
 .comment-item:last-of-type {
@@ -419,22 +452,23 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background: #cbd5e1;
+  background: var(--posts-border);
 }
 
 .comment-content {
-  background: #ffffff;
+  background: var(--posts-comment-bubble);
   padding: 10px 14px;
   border-radius: 12px;
   flex: 1;
   box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
+  transition: var(--posts-transition);
 }
 
 .comment-username {
   font-size: 13px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--posts-text-main);
   margin: 0 0 4px 0;
   display: flex;
   align-items: center;
@@ -448,15 +482,14 @@
 .comment-content p {
   font-size: 13.5px;
   line-height: 1.5;
-  color: #475569;
+  color: var(--posts-text-body);
   margin: 0;
 }
 
-/* زر حذف التعليق الفرعي */
 .delete-comment-btn {
   background: transparent;
   border: none;
-  color: #cbd5e0;
+  color: var(--posts-text-muted-light);
   font-size: 12px;
   cursor: pointer;
   padding: 6px;
@@ -465,7 +498,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: var(--posts-transition);
 }
 
 .delete-comment-btn:hover {
@@ -476,7 +509,7 @@
 .no-comments-hint {
   text-align: center;
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--posts-text-muted-light);
   padding: 8px 0;
 }
 
@@ -489,18 +522,20 @@
 
 .add-comment-box input {
   flex: 1;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 13.5px;
   outline: none;
-  transition: all 0.2s ease;
+  background: var(--posts-comment-bubble);
+  color: var(--posts-text-main);
+  transition: var(--posts-transition);
   font-family: inherit;
 }
 
 .add-comment-box input:focus {
   border-color: #3b82f6;
-  background: #ffffff;
+  background: var(--posts-card-bg);
 }
 
 .send-comment-btn-modern {
@@ -620,11 +655,9 @@
   transform: scale(1.02);
 }
 
-/* زر إغلاق المعاينة الدائري الذكي */
 .lightbox-close-circle {
   position: absolute;
   top: -20px;
-  right: -20px;
   background: #ef4444;
   color: #ffffff;
   border: none;
@@ -641,12 +674,15 @@
   z-index: 2;
 }
 
+/* المحاذاة الديناميكية لزر الإغلاق حسب اتجاه لغة النظام */
+[dir="rtl"] .lightbox-close-circle { right: -20px; }
+[dir="ltr"] .lightbox-close-circle { left: -20px; }
+
 .lightbox-close-circle:hover {
   transform: scale(1.1) rotate(90deg);
   background: #dc2626;
 }
 
-/* لوحة التنزيل والتحكم السفلية للـ Lightbox */
 .lightbox-bottom-panel {
   width: 100%;
   display: flex;
@@ -665,7 +701,7 @@
 }
 
 .lightbox-action-download-btn {
-  background: linear-gradient(135deg, #3b82f6 0%, var(--energy-blue-light) 20%,#3b82f6 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, var(--energy-blue-light) 20%, #3b82f6 100%);
   color: #ffffff;
   border: none;
   padding: 12px 28px;
@@ -697,52 +733,23 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-/* التجاوب ودعم الشاشات الصغيرة والأجهزة المحمولة */
-@media (max-width: 992px) {
-  .posts-container-layout {
-    width: 95%; /* زيادة العرض قليلاً على الشاشات المتوسطة والصغيرة لراحة التصفح */
-  }
-}
-
-@media (max-width: 576px) {
-  .posts-container-layout {
-    width: 100%;
-    padding: 0 10px;
-    margin: 15px auto;
-  }
-  .lightbox-bottom-panel {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-  .lightbox-close-circle {
-    top: 10px;
-    right: 10px;
-  }
-  .create-post-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .upload-img-btn-modern {
-    justify-content: center;
-  }
-}
 /* حاوية الحذف التفاعلية المدمجة */
 .inline-action-zone {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: auto; /* يدفع العناصر لليسار بشكل متناسق مع اتجاه RTL */
+  margin-inline-start: auto; /* يدفع العناصر لليسار بشكل متناسق مع اتجاه RTL أو LTR */
 }
 
 .modern-inline-confirm {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #f8fafc;
+  background: var(--posts-input-bg);
   padding: 4px 8px;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--posts-border);
+  transition: var(--posts-transition);
 }
 
 .confirm-yes-btn {
@@ -762,8 +769,8 @@
 }
 
 .confirm-no-btn {
-  background: #cbd5e1;
-  color: #334155;
+  background: var(--posts-filter-bg);
+  color: var(--posts-text-body);
   border: none;
   padding: 5px 8px;
   font-size: 11px;
@@ -776,10 +783,9 @@
 }
 
 .confirm-no-btn:hover {
-  background: #94a3b8;
+  background: var(--posts-text-muted-light);
 }
 
-/* أحجام مخصصة ومصغرة داخل منطقة التعليقات */
 .modern-inline-confirm.comment-confirm {
   padding: 2px 4px;
 }
@@ -792,7 +798,6 @@
   font-size: 10px;
 }
 
-/* أنيميشن ناعم لظهور الخيارات */
 .animate-pop {
   animation: inlinePop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
@@ -800,4 +805,88 @@
 @keyframes inlinePop {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   📱 التجاوب ودعم الشاشات الصغيرة والأجهزة المحمولة (Responsive Design)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .posts-container-layout {
+    width: 95%; /* زيادة العرض قليلاً على الشاشات المتوسطة والصغيرة لراحة التصفح */
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .posts-container-layout {
+    width: 100%;
+    padding: 0 10px;
+    margin: 15px auto;
+  }
+  .lightbox-bottom-panel {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  [dir="rtl"] .lightbox-close-circle,
+  [dir="ltr"] .lightbox-close-circle {
+    top: 10px;
+    right: 10px;
+    left: auto;
+  }
+  .create-post-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .upload-img-btn-modern {
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   🌙 9. قسم حماية ودعم الوضع المظلم لمنصة المنشورات (Dark Mode Extension)
+   ========================================================================== */
+[data-theme="dark"] {
+  --posts-bg-main: #0d1726;
+  --posts-card-bg: #111e31;
+  --posts-input-bg: #182942;
+  --posts-border: #223755;
+  --posts-border-subtle: #16253b;
+  
+  --posts-text-main: #f0f4f8;
+  --posts-text-body: #cddee9;
+  --posts-text-muted: #8fa5bc;
+  --posts-text-muted-light: #6c8299;
+  
+  --posts-filter-bg: #182942;
+  --posts-filter-active-bg: #223755;
+  --posts-filter-active-text: #5ecdf5;
+  --posts-comment-bg: #090f1a;
+  --posts-comment-bubble: #16253b;
+
+  /* حماية وتفتيح أزرار الحذف والتفاعل الفردية في الوضع المظلم */
+  .delete-post-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+  }
+  .action-btn-modern:hover {
+    background: #182942;
+    color: #ffffff;
+  }
+  
+  /* الحالات النشطة وتفاعلات القلوب */
+  .liked-active-btn {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #f87171 !important;
+  }
+  .comments-active-btn {
+    background: rgba(59, 130, 246, 0.15) !important;
+    color: #60a5fa !important;
+  }
+  
+  /* معالجة عناصر التنزيل والـ Lightbox للمظهر الليلي */
+  .lightbox-wrapper-card {
+    background: rgba(17, 30, 49, 0.7);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
 }

@@ -1,0 +1,64 @@
+{
+  "page": {
+    "title": "Fixed Risk Registry",
+    "subtitle": "Risk database derived from historical data and transmission line studies"
+  },
+  "filters": {
+    "search_label": "Smart Search",
+    "search_placeholder": "Search by risk code or risk text...",
+    "axis_label": "Target Axis",
+    "nature_label": "Risk Nature",
+    "priority_label": "Priority (% RII)",
+    "greater_than": "Greater than"
+  },
+  "axes": {
+    "all": "All",
+    "legal": "Legal",
+    "financial": "Financial",
+    "technical": "Technical"
+  },
+  "natures": {
+    "all": "All",
+    "fixed": "Fixed (Structural)",
+    "variable": "Variable (Procedural)",
+    "fixed_lbl": "Structural",
+    "variable_lbl": "Procedural"
+  },
+  "labels": {
+    "not_specified": "Not Specified",
+    "no_desc": "No descriptive text available for this action",
+    "execution": "Execution",
+    "tech_details": "Technical Error Details"
+  },
+  "buttons": {
+    "retry": "Retry Now",
+    "close": "Close Window"
+  },
+  "messages": {
+    "fetch_error": "Failed to fetch data from the server",
+    "loading": "Loading risk matrix and governance actions...",
+    "conn_failed": "Sorry, Connection to Server Failed",
+    "api_problem": "We could not retrieve the risk matrix due to an issue with the system API."
+  },
+  "table": {
+    "matched_count": "Risks matching filters",
+    "sorting": "Auto Sort",
+    "rii_desc": "% RII Descending",
+    "th_code": "Risk Code",
+    "th_text": "Expected Risk Text",
+    "th_axis": "Axis",
+    "th_nature": "Nature",
+    "th_stage": "Time Frame",
+    "th_rii": "RII Value",
+    "th_actions": "Action Codes",
+    "no_data": "No risks found matching the selected filter options."
+  },
+  "modal": {
+    "title": "Governance Action Details",
+    "id_label": "Action Numerical ID",
+    "category_lbl": "Action Category",
+    "phase_lbl": "Phase",
+    "value_lbl": "Numerical Value",
+    "content_lbl": "Technical Action Content & Text"
+  }
+}

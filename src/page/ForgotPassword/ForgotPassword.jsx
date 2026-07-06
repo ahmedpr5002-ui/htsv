@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; 
 import { IoMailOutline, IoArrowBackOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
-
+import './ForgotPassword.css'
 const ForgotPassword = () => {
+  const { t, i18n } = useTranslation('ForgotPassword'); 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -25,43 +27,44 @@ const ForgotPassword = () => {
       if (response.ok) {
         setMessage({ 
           type: 'success', 
-          text: data.message || 'إذا كان الحساب مسجلاً، فستتلقى رمزاً لإعادة تعيين كلمة المرور قريباً.' 
+          text: data.message || t('forgot_password.success_fallback')
         });
         
-        // التوجيه تلقائياً إلى صفحة إدخال الرمز داخل التطبيق بعد ثانيتين ونصف
         setTimeout(() => {
           navigate('/reset-password');
         }, 2500);
 
       } else {
-        setMessage({ type: 'error', text: data.message || 'حدث خطأ أثناء معالجة الطلب.' });
+        setMessage({ type: 'error', text: data.message || t('forgot_password.error_fallback') });
       }
     } catch (error) {
-      setMessage({ type: 'error', text: 'حدث خطأ في الاتصال بالخادم. حاول لاحقاً.' });
+      setMessage({ type: 'error', text: t('forgot_password.server_error') });
     } finally {
       setLoading(false);
     }
   };
 
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <div className="login-page-wrapper">
+    <div className="login-page-wrapper" dir={currentDir}>
       <div className="login-glass-card">
         <div className="login-header">
-          <h2>استعادة كلمة المرور</h2>
-          <p>أدخل بريدك الإلكتروني المسجل لإرسال رمز إعادة التعيين</p>
+          <h2>{t('forgot_password.title')}</h2>
+          <p>{t('forgot_password.subtitle')}</p>
         </div>
 
         {message.text && (
           <div className={`login-alert ${message.type}`}>
-            {message.type === 'success' && <IoCheckmarkCircleOutline style={{ marginLeft: '8px', fontSize: '18px' }} />}
+            <IoCheckmarkCircleOutline className="alert-status-icon" />
             <span>{message.text}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="login-field">
-            <label htmlFor="email">البريد الإلكتروني</label>
-            <div style={{ position: 'relative' }}>
+            <label htmlFor="email">{t('forgot_password.email_label')}</label>
+            <div className="input-with-icon-wrapper">
               <input
                 type="email"
                 id="email"
@@ -70,20 +73,18 @@ const ForgotPassword = () => {
                 placeholder="name@company.com"
                 required
               />
+              <IoMailOutline className="input-field-icon" />
             </div>
           </div>
 
           <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? <div className="loader-spinner"></div> : <span>إرسال رمز التعيين</span>}
+            {loading ? <div className="loader-spinner"></div> : <span>{t('forgot_password.submit_btn')}</span>}
           </button>
 
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <p 
-              style={{ fontSize: '0.9rem', color: 'var(--energy-text-dark)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px', opacity: 0.8 }}
-              onClick={() => navigate('/login')}
-            >
-              <IoArrowBackOutline />
-              <span>العودة لتسجيل الدخول</span>
+          <div className="back-to-login-container">
+            <p className="back-to-login-link" onClick={() => navigate('/login')}>
+              <IoArrowBackOutline className="back-arrow-icon" />
+              <span>{t('forgot_password.back_to_login')}</span>
             </p>
           </div>
         </form>

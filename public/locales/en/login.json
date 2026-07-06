@@ -1,0 +1,27 @@
+{
+  "login": {
+    "header": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to access the Risk Management Platform"
+    },
+    "fields": {
+      "email_label": "Email Address",
+      "password_label": "Password"
+    },
+    "links": {
+      "forgot_password": "Forgot Password?"
+    },
+    "buttons": {
+      "submit": "Sign In"
+    },
+    "register_redirect": {
+      "text": "Don't have an account?",
+      "action": "Create an account"
+    },
+    "messages": {
+      "success": "Logged in successfully! Redirecting...",
+      "fail": "Login failed, please check your credentials.",
+      "server_error": "Server connection error. Please try again later."
+    }
+  }
+}

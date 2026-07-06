@@ -1,18 +1,9 @@
 /* ==========================================================================
-   1. ميثاق الألوان المشترك والمتغيرات المعتمدة للنظامين
+   1. ميثاق الألوان المشترك والمتغيرات المعتمدة للنظامين (تم نقلها للمستوى الأعلى)
    ========================================================================== */
-.luxury-register-container[data-theme='dark'] {
-  --bg-main: #0b0f19;
-  --bg-card: rgba(17, 24, 39, 0.8);
-  --border-element: rgba(255, 255, 255, 0.05);
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --table-hover: rgba(255, 255, 255, 0.02);
-  --btn-bg: #1f2937;
-  --shadow-main: rgba(0, 0, 0, 0.4);
-}
 
-.luxury-register-container[data-theme='light'] {
+/* الوضع الفاتح الافتراضي للموقع */
+:root, [data-theme='light'] {
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --border-element: #e2e8f0;
@@ -21,6 +12,28 @@
   --table-hover: #f1f5f9;
   --btn-bg: #e2e8f0;
   --shadow-main: rgba(148, 163, 184, 0.12);
+  
+  /* ألوان حقل الملاحظات الثابت */
+  --textarea-bg: #fcfdfd;
+  --textarea-text: #2d3748;
+  --textarea-border: #d2d6dc;
+}
+
+/* 🌙 الوضع المظلم الشامل عند تفعيل [data-theme='dark'] على مستوى التطبيق */
+[data-theme='dark'] {
+  --bg-main: #0b0f19;
+  --bg-card: rgba(17, 24, 39, 0.8);
+  --border-element: rgba(255, 255, 255, 0.05);
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --table-hover: rgba(255, 255, 255, 0.02);
+  --btn-bg: #1f2937;
+  --shadow-main: rgba(0, 0, 0, 0.4);
+  
+  /* تحديث ألوان حقل الملاحظات للوضع الليلي لمنع تلف الرؤية */
+  --textarea-bg: #111827;
+  --textarea-text: #f3f4f6;
+  --textarea-border: rgba(255, 255, 255, 0.1);
 }
 
 /* الألوان الأساسية للمحاور والحالات المستقرة */
@@ -32,7 +45,7 @@
 }
 
 /* ==========================================================================
-   2. الحاوية الرئيسية (التصغير 82% مع الارتكاز التام جهة اليسار)
+   2. الحاوية الرئيسية (التصغير 82% مع الارتكاز التام جهة اليسار لدعم الـ Sidebar)
    ========================================================================== */
 .luxury-register-container {
   background-color: var(--bg-main);
@@ -49,7 +62,7 @@
 }
 
 /* ==========================================================================
-   3. عناصر الواجهة وحالات الجداول
+   3. عناصر الواجهة وحالات الجداول والبطاقات الإحصائية
    ========================================================================== */
 .register-stats-grid {
   display: grid;
@@ -149,9 +162,9 @@
   font-size: 12px;
   font-weight: 600;
 }
-.axis-financial { background: rgba(16, 185, 129, 0.1); color: var(--color-financial); }   /* أخضر مالي */
-.axis-legal { background: rgba(139, 92, 246, 0.1); color: var(--color-legal); }           /* بنفسجي قانوني */
-.axis-technical { background: rgba(59, 130, 246, 0.1); color: var(--color-technical); }   /* أزرق فني */
+.axis-financial { background: rgba(16, 185, 129, 0.1); color: var(--color-financial); }
+.axis-legal { background: rgba(139, 92, 246, 0.1); color: var(--color-legal); }
+.axis-technical { background: rgba(59, 130, 246, 0.1); color: var(--color-technical); }
 .axis-integrative { background: rgba(236, 72, 153, 0.1); color: var(--color-integrative); }
 
 /* نصوص وعناصر الحالات التفاعلية */
@@ -229,20 +242,22 @@
 .page-numbers-list { display: flex; gap: 4px; }
 .page-number-btn.active-page { background: #3b82f6 !important; border-color: #3b82f6 !important; color: #ffffff !important; }
 
-/* --- حقل ملاحظات المهندس المحسّن والمحمي من التكبير اليدوي --- */
+/* ==========================================================================
+   4. حقل ملاحظات المهندس المحسّن (تم ربطه بالمتغيرات لإصلاح الوضع الليلي)
+   ========================================================================== */
 .luxury-table-textarea-fixed {
   width: 100%;
   height: 52px;
   min-height: 52px;
   max-height: 52px;
   box-sizing: border-box;
-  border: 1px solid #d2d6dc;
+  border: 1px solid var(--textarea-border);
   border-radius: 6px;
   padding: 6px 10px;
   font-family: inherit;
   font-size: 0.88rem;
-  color: #2d3748;
-  background-color: #fcfdfd;
+  color: var(--textarea-text);
+  background-color: var(--textarea-bg);
   resize: none; 
   overflow-y: auto;
   transition: all 0.2s ease-in-out;
@@ -251,16 +266,18 @@
 .luxury-table-textarea-fixed:focus {
   outline: none;
   border-color: #3182ce;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
 }
 
-/* --- نظام الـ Toast الفاخر المدمج (تعديل الظهور بأعلى المنتصف تماماً) --- */
+/* ==========================================================================
+   5. نظام الـ Toast الفاخر (تمت حمايته من انعكاس الخلفيات في الوضع الليلي)
+   ========================================================================== */
 .luxury-toast {
   position: fixed;
   top: 5% !important;
   left: 50%;
-  transform: translateX(-0%); /* الارتكاز والتوسيط الأفقي التام */
+  transform: translateX(-50%); /* تم تصحيح الـ -0% لتوسيط متقن */
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -269,7 +286,7 @@
   max-width: 450px;
   padding: 12px 18px;
   border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
   animation: slideDownIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -294,39 +311,68 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  margin-right: 12px;
+  margin-inline-start: 12px;
   opacity: 0.7;
   transition: opacity 0.2s;
+  color: inherit; /* ترث اللون المقروء المناسب للتوست */
 }
 
 .toast-close-btn:hover {
   opacity: 1;
 }
 
-/* سمات حالات التوست المختلفة */
+/* سمات الحالات للـ Toast (تعمل على أساس الشفافية الذكية لتناسب كلا الوضعين) */
 .toast-success {
   background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
   color: #166534;
 }
-.toast-success .toast-icon { color: #15803d; }
+[data-theme='dark'] .toast-success {
+  background-color: #064e3b;
+  border: 1px solid #047857;
+  color: #a7f3d0;
+}
 
 .toast-warning {
   background-color: #fffbeb;
   border: 1px solid #fef3c7;
   color: #92400e;
 }
-.toast-warning .toast-icon { color: #b45309; }
+[data-theme='dark'] .toast-warning {
+  background-color: #78350f;
+  border: 1px solid #b45309;
+  color: #fde68a;
+}
 
 .toast-error {
   background-color: #fef2f2;
   border: 1px solid #fee2e2;
   color: #991b1b;
 }
-.toast-error .toast-icon { color: #b91c1c; }
+[data-theme='dark'] .toast-error {
+  background-color: #7f1d1d;
+  border: 1px solid #b91c1c;
+  color: #fca5a5;
+}
 
 /* أنيميشن الدخول من الأعلى للوسط لضمان عدم حدوث تشوه بالانتقال */
 @keyframes slideDownIn {
   from { top: -60px; opacity: 0; transform: translateX(-50%); }
   to { top: 24px; opacity: 1; transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   6. 🌐 دعم اتجاهات اللغات (LTR Support) للجدول الفاخر
+   ========================================================================== */
+[dir="ltr"] .luxury-register-container {
+  transform-origin: top right; /* نقل نقطة ارتكاز الـ scale لليمين لتفادي خروج الصفحة */
+}
+
+[dir="ltr"] .luxury-register-table {
+  text-align: left !important;
+}
+
+[dir="ltr"] .luxury-register-table th,
+[dir="ltr"] .luxury-register-table td {
+  text-align: left !important;
 }

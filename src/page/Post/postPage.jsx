@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import RightBar from '../../components/rightBar/rightBar';
 import { useAuth } from '../../context/Auth'; 
-import NavBar from '../../components/navBar/PageHeade'
+import NavBar from '../../components/navBar/PageHeade';
 import { 
   FaCheckCircle, 
   FaRegHeart, 
@@ -21,6 +22,7 @@ import {
 import './PostsPage.css';
 
 export default function PostsPage() {
+  const { t, i18n } = useTranslation('postsPage'); // الالتزام باسم الملف postsPage
   const [posts, setPosts] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all'); 
   const [newPostText, setNewPostText] = useState('');
@@ -29,8 +31,8 @@ export default function PostsPage() {
   const [loadingPosts, setLoadingPosts] = useState(true);
   
   // حالات تتبع طلبات الحذف في نفس المكان (In-line Confirmation States)
-  const [postToDelete, setPostToDelete] = useState(null); // تخزين ID المنشور المراد حذفه
-  const [commentToDelete, setCommentToDelete] = useState(null); // تخزين ID التعليق المراد حذفه
+  const [postToDelete, setPostToDelete] = useState(null); 
+  const [commentToDelete, setCommentToDelete] = useState(null); 
 
   // نظام التنبيهات الاحترافي البديل للـ alert
   const [toast, setToast] = useState({ show: false, message: '', type: '' });
@@ -56,9 +58,10 @@ export default function PostsPage() {
   useEffect(() => {
     fetchPosts();
     if (user && user.role) {
-      showNotification(`مرحباً بك! رتبتك الحالية في النظام: ${user.role === 'admin' ? 'إدارة المنصة' : 'مستخدم'}`, 'success');
+      const roleText = user.role === 'admin' ? t('notifications.role_admin') : t('notifications.role_user');
+      showNotification(`${t('notifications.welcome')}! ${t('notifications.current_role')}: ${roleText}`, 'success');
     }
-  }, [user]);
+  }, [user, t]);
 
   const fetchPosts = async () => {
     try {
@@ -71,14 +74,14 @@ export default function PostsPage() {
       setPosts(safePosts);
       setLoadingPosts(false);
     } catch (error) {
-      showNotification("خطأ في جلب المنشورات من السيرفر", "error");
+      showNotification(t('notifications.fetch_error'), "error");
       setLoadingPosts(false);
     }
   };
 
   const handleCreatePost = async (e) => {
     e.preventDefault();
-    if (!newPostText.trim()) return showNotification("يرجى كتابة نص المنشور أولاً", "error");
+    if (!newPostText.trim()) return showNotification(t('notifications.empty_post_error'), "error");
 
     const formData = new FormData();
     formData.append('content', newPostText);
@@ -88,48 +91,46 @@ export default function PostsPage() {
       await axios.post('https://ahmedpr5002-irs-hvtl.hf.space/user/create', formData, {
         headers: { ...config.headers, 'Content-Type': 'multipart/form-data' }
       });
-      showNotification("تم النشر بنجاح شكرا لمشاركة المعرفة", "success");
+      showNotification(t('notifications.post_success'), "success");
       setNewPostText('');
       setSelectedFile(null);
       fetchPosts(); 
     } catch (error) {
-      const errorMsg = error.response?.data?.message || "فشل الاتصال بالسيرفر";
-      showNotification(`خطأ أثناء النشر: ${errorMsg}`, "error");
+      const errorMsg = error.response?.data?.message || t('notifications.server_connect_error');
+      showNotification(`${t('notifications.post_fail_prefix')}: ${errorMsg}`, "error");
     }
   };
 
-  // معالجة الحذف الفوري النهائي للمنشور
   const executeDeletePost = async (postId) => {
     try {
       await axios.delete(`https://ahmedpr5002-irs-hvtl.hf.space/user/${postId}`, config);
-      showNotification("تم حذف المنشور بنجاح", "success");
+      showNotification(t('notifications.delete_post_success'), "success");
       setPosts(prev => prev.filter(post => post._id !== postId));
-      setPostToDelete(null); // تصفير الحالة
+      setPostToDelete(null); 
     } catch (error) {
-      showNotification("فشل في حذف المنشور", "error");
+      showNotification(t('notifications.delete_post_fail'), "error");
     }
   };
 
-  // معالجة الحذف الفوري النهائي للتعليق
   const executeDeleteComment = async (postId, commentId) => {
     try {
       const response = await axios.delete(`https://ahmedpr5002-irs-hvtl.hf.space/user/${postId}/comment/${commentId}`, config);
-      showNotification("تم إزالة التعليق بنجاح", "success");
+      showNotification(t('notifications.delete_comment_success'), "success");
       setPosts(prev => prev.map(post => {
         if (post._id === postId) {
           return { ...post, comments: response.data.comments };
         }
         return post;
       }));
-      setCommentToDelete(null); // تصفير الحالة
+      setCommentToDelete(null); 
     } catch (error) {
-      showNotification("فشل في حذف التعليق", "error");
+      showNotification(t('notifications.delete_comment_fail'), "error");
     }
   };
 
   const handleLike = async (postId) => {
     if (!token || !currentUserId) {
-      return showNotification("يرجى تسجيل الدخول أولاً للتفاعل مع المنشورات", "error");
+      return showNotification(t('notifications.login_required_like'), "error");
     }
 
     try {
@@ -162,7 +163,7 @@ export default function PostsPage() {
     try {
       const response = await axios.post(`https://ahmedpr5002-irs-hvtl.hf.space/user/${postId}/comment`, { text: commentText }, config);
       setCommentInputs(prev => ({ ...prev, [postId]: '' })); 
-      showNotification("تم نشر تعليقك بنجاح", "success");
+      showNotification(t('notifications.comment_success'), "success");
       
       setPosts(prev => prev.map(post => {
         if (post._id === postId) {
@@ -171,7 +172,7 @@ export default function PostsPage() {
         return post;
       }));
     } catch (error) {
-      showNotification("فشل إضافة التعليق", "error");
+      showNotification(t('notifications.comment_fail'), "error");
     }
   };
 
@@ -181,7 +182,7 @@ export default function PostsPage() {
 
   const downloadImage = async (imgUrl) => {
     try {
-      showNotification("جاري تجهيز الصورة للتحميل الفوري...", "success");
+      showNotification(t('notifications.preparing_download'), "success");
       const response = await fetch(imgUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -193,7 +194,7 @@ export default function PostsPage() {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch (err) {
-      showNotification("فشل تحميل الصورة تلقائياً، يمكنك حفظها عبر الضغط المطول عليها", "error");
+      showNotification(t('notifications.download_fail'), "error");
     }
   };
 
@@ -205,28 +206,30 @@ export default function PostsPage() {
     return true;
   });
 
-  if (loadingPosts) return <div className="posts-loading">جاري المزامنة وجلب المنشورات...</div>;
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
+  if (loadingPosts) return <div className="posts-loading">{t('status.loading')}</div>;
 
   return (
-    <div className="posts-container-layout">
-        <NavBar title='قاعدة المعرفة' subtitle='شارك رأيك وتجربتك ومعلومتك'/>
-        <RightBar/>
+    <div className="posts-container-layout" dir={currentDir}>
+      <NavBar title={t('nav.title')} subtitle={t('nav.subtitle')}/>
+      <RightBar/>
       
       {toast.show && <div className={`custom-toast dynamic-toast-animation ${toast.type}`}>{toast.message}</div>}
       
       {activeLightboxImg && (
         <div className="luxury-lightbox-overlay" onClick={() => setActiveLightboxImg(null)}>
           <div className="lightbox-wrapper-card" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close-circle" onClick={() => setActiveLightboxImg(null)} title="إغلاق العرض">
+            <button className="lightbox-close-circle" onClick={() => setActiveLightboxImg(null)} title={t('lightbox.close_hint')}>
               <FaTimes />
             </button>
             <div className="lightbox-image-frame">
               <img src={activeLightboxImg} alt="Preview HQ" className="lightbox-img-render" />
             </div>
             <div className="lightbox-bottom-panel">
-              <span className="lightbox-img-info">معاينة الصورة بدقة كاملة</span>
+              <span className="lightbox-img-info">{t('lightbox.preview_title')}</span>
               <button className="lightbox-action-download-btn" onClick={() => downloadImage(activeLightboxImg)}>
-                <FaDownload /> حفظ واستخراج الصورة الآن
+                <FaDownload /> {t('lightbox.download_btn')}
               </button>
             </div>
           </div>
@@ -235,21 +238,21 @@ export default function PostsPage() {
 
       <div className="segmented-filters-container">
         <div className="segmented-control">
-          <button type="button" className={`segmented-item ${activeFilter === 'all' ? 'active' : ''}`} onClick={() => setActiveFilter('all')}><FaBorderAll className="filter-icon" /> <span>كل المنشورات</span></button>
-          <button type="button" className={`segmented-item ${activeFilter === 'admin' ? 'active' : ''}`} onClick={() => setActiveFilter('admin')}><FaUserShield className="filter-icon" /> <span>منشورات الإدارة</span></button>
-          <button type="button" className={`segmented-item ${activeFilter === 'photos' ? 'active' : ''}`} onClick={() => setActiveFilter('photos')}><FaImage className="filter-icon" /> <span>منشورات بصور</span></button>
+          <button type="button" className={`segmented-item ${activeFilter === 'all' ? 'active' : ''}`} onClick={() => setActiveFilter('all')}><FaBorderAll className="filter-icon" /> <span>{t('filters.all')}</span></button>
+          <button type="button" className={`segmented-item ${activeFilter === 'admin' ? 'active' : ''}`} onClick={() => setActiveFilter('admin')}><FaUserShield className="filter-icon" /> <span>{t('filters.admin')}</span></button>
+          <button type="button" className={`segmented-item ${activeFilter === 'photos' ? 'active' : ''}`} onClick={() => setActiveFilter('photos')}><FaImage className="filter-icon" /> <span>{t('filters.photos')}</span></button>
         </div>
       </div>
 
       <form onSubmit={handleCreatePost} className="create-post-card">
-        <textarea placeholder="بماذا تفكر اليوم؟ شارك المستجدات مع زملائك..." value={newPostText} onChange={(e) => setNewPostText(e.target.value)} />
-        {selectedFile && <div className="selected-file-badge">تم تحديد صورة: {selectedFile.name.substring(0, 20)}...</div>}
+        <textarea placeholder={t('create_post.placeholder')} value={newPostText} onChange={(e) => setNewPostText(e.target.value)} />
+        {selectedFile && <div className="selected-file-badge">{t('create_post.image_selected')}: {selectedFile.name.substring(0, 20)}...</div>}
         <div className="create-post-actions">
           <label className="upload-img-btn-modern">
-            <FaPaperclip className="btn-icon-inside" /> إرفاق صورة بالمنشور
+            <FaPaperclip className="btn-icon-inside" /> {t('create_post.attach_btn')}
             <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => setSelectedFile(e.target.files[0])} />
           </label>
-          <button type="submit" className="submit-post-btn-modern">نشر الآن</button>
+          <button type="submit" className="submit-post-btn-modern">{t('create_post.submit_btn')}</button>
         </div>
       </form>
 
@@ -270,22 +273,22 @@ export default function PostsPage() {
                 <img src={typeof postUser === 'object' ? postUser?.image : (postCreatorId === currentUserId ? user?.image : 'https://via.placeholder.com/40')} alt="Avatar" className="user-avatar" />
                 <div className="user-info">
                   <h4 className="username">
-                    {typeof postUser === 'object' ? postUser?.username : (postCreatorId === currentUserId ? user?.username : "مستخدم مجهول")}
+                    {typeof postUser === 'object' ? postUser?.username : (postCreatorId === currentUserId ? user?.username : t('post_card.anonymous_user'))}
                     {isCreatorAdmin && <span className="verified-wrapper"><FaCheckCircle className="verified-badge-real" /></span>}
                   </h4>
-                  <span className="post-date">{new Date(post.createdAt).toLocaleDateString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span className="post-date">{new Date(post.createdAt).toLocaleDateString(i18n.language === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
 
-                {/* نظام التحكم التأكيدي الذكي الجديد للمنشور */}
+                {/* نظام التحكم التأكيدي الذكي للمنشور */}
                 {canDeletePost && (
                   <div className="inline-action-zone">
                     {postToDelete === post._id ? (
-                      <div className="modern-inline-confirm animate-pop">
-                        <button type="button" className="confirm-yes-btn" onClick={() => executeDeletePost(post._id)}>احذف</button>
+                      <div className="modern-inline-confirm modern-inline-confirm-dir-support animate-pop">
+                        <button type="button" className="confirm-yes-btn" onClick={() => executeDeletePost(post._id)}>{t('actions.delete')}</button>
                         <button type="button" className="confirm-no-btn" onClick={() => setPostToDelete(null)}><FaUndo /></button>
                       </div>
                     ) : (
-                      <button type="button" className="delete-post-btn" onClick={() => setPostToDelete(post._id)} title="طلب حذف المنشور">
+                      <button type="button" className="delete-post-btn" onClick={() => setPostToDelete(post._id)} title={t('actions.delete_post_hint')}>
                         <FaTrash />
                       </button>
                     )}
@@ -298,23 +301,23 @@ export default function PostsPage() {
                 {post.image && (
                   <div className="post-img-wrapper" onClick={() => setActiveLightboxImg(post.image)}>
                     <img src={post.image} alt="Post Attachment" className="post-attached-img" />
-                    <div className="img-overlay-hint">عرض الصورة</div>
+                    <div className="img-overlay-hint">{t('post_card.view_image')}</div>
                   </div>
                 )}
               </div>
 
               <div className="post-stats">
-                <span>{post.likes?.length || 0} إعجاب</span>
-                <span className="comments-stat-btn" onClick={() => toggleComments(post._id)}>{post.comments?.length || 0} تعليق</span>
+                <span>{post.likes?.length || 0} {t('post_card.likes_count')}</span>
+                <span className="comments-stat-btn" onClick={() => toggleComments(post._id)}>{post.comments?.length || 0} {t('post_card.comments_count')}</span>
               </div>
 
               <div className="post-actions">
                 <button type="button" className={`action-btn-modern ${hasLiked ? 'liked-active-btn' : ''}`} onClick={() => handleLike(post._id)}>
                   {hasLiked ? <FaHeart className="action-icon liked-icon-pop" /> : <FaRegHeart className="action-icon" />}
-                  <span>{hasLiked ? 'أعجبتني' : 'إعجاب'}</span>
+                  <span>{hasLiked ? t('actions.liked') : t('actions.like')}</span>
                 </button>
                 <button type="button" className={`action-btn-modern ${isCommentsOpen ? 'comments-active-btn' : ''}`} onClick={() => toggleComments(post._id)}>
-                  <FaRegComment className="action-icon" /> <span>تعليق</span>
+                  <FaRegComment className="action-icon" /> <span>{t('actions.comment')}</span>
                 </button>
               </div>
 
@@ -333,7 +336,7 @@ export default function PostsPage() {
                           <img src={typeof commentUser === 'object' ? commentUser?.image : (commentCreatorId === currentUserId ? user?.image : 'https://via.placeholder.com/30')} alt="Avatar" className="comment-avatar" />
                           <div className="comment-content">
                             <h5 className="comment-username">
-                              {typeof commentUser === 'object' ? commentUser?.username : (commentCreatorId === currentUserId ? user?.username : "مستخدم")}
+                              {typeof commentUser === 'object' ? commentUser?.username : (commentCreatorId === currentUserId ? user?.username : t('post_card.commenter_fallback'))}
                               {isCommenterAdmin && <FaCheckCircle className="verified-badge-real comment-badge" />}
                             </h5>
                             <p>{comment.text}</p>
@@ -344,11 +347,11 @@ export default function PostsPage() {
                             <div className="inline-action-zone">
                               {commentToDelete === comment._id ? (
                                 <div className="modern-inline-confirm comment-confirm animate-pop">
-                                  <button type="button" className="confirm-yes-btn tiny" onClick={() => executeDeleteComment(post._id, comment._id)}>احذف</button>
+                                  <button type="button" className="confirm-yes-btn tiny" onClick={() => executeDeleteComment(post._id, comment._id)}>{t('actions.delete')}</button>
                                   <button type="button" className="confirm-no-btn tiny" onClick={() => setCommentToDelete(null)}><FaUndo /></button>
                                 </div>
                               ) : (
-                                <button type="button" className="delete-comment-btn" onClick={() => setCommentToDelete(comment._id)} title="طلب حذف التعليق">
+                                <button type="button" className="delete-comment-btn" onClick={() => setCommentToDelete(comment._id)} title={t('actions.delete_comment_hint')}>
                                   <FaTrash />
                                 </button>
                               )}
@@ -358,18 +361,18 @@ export default function PostsPage() {
                       );
                     })
                   ) : (
-                    <div className="no-comments-hint">لا توجد تعليقات بعد، كن أول من يعلق!</div>
+                    <div className="no-comments-hint">{t('post_card.no_comments')}</div>
                   )}
                   
                   <div className="add-comment-box">
                     <input 
                       type="text" 
-                      placeholder="اكتب تعليقاً..." 
+                      placeholder={t('post_card.comment_placeholder')} 
                       value={commentInputs[post._id] || ''}
                       onChange={(e) => setCommentInputs({ ...commentInputs, [post._id]: e.target.value })}
                       onKeyDown={(e) => e.key === 'Enter' && handleAddComment(post._id)}
                     />
-                    <button type="button" className="send-comment-btn-modern" onClick={() => handleAddComment(post._id)}><FaPaperPlane /></button>
+                    <button type="button" className="send-comment-btn-modern" onClick={() => handleAddComment(post._id)}><FaPaperPlane style={{ transform: i18n.language === 'en' ? 'rotate(180deg)' : 'none' }} /></button>
                   </div>
                 </div>
               )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import { 
   IoBuildOutline, 
   IoCloudUploadOutline, 
@@ -11,6 +12,8 @@ import RightBar from '../../components/rightBar/rightBar';
 import './SystemStatusDashboard.css';
 
 function SystemStatusDashboard() {
+  const { t } = useTranslation('systemStatus'); // تفعيل التابع وتحديد الـ Namespace
+
   // الحالات الافتراضية للنموذج
   const [isActive, setIsActive] = useState(false);
   const [statusType, setStatusType] = useState('announcement');
@@ -49,7 +52,7 @@ function SystemStatusDashboard() {
   // إرسال البيانات إلى الـ Backend وبث الإشارة محلياً
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    loading(true);
     
     try {
       const response = await fetch('https://ahmedpr5002-irs-hvtl.hf.space/system/admin/update-status', {
@@ -64,16 +67,16 @@ function SystemStatusDashboard() {
       const data = await response.json();
       
       if (response.ok) {
-        showToast("تم تحديث حالة النظام وبثها بنجاح!", "success");
+        showToast(t('toast_success'), "success");
         
-        // 🔥 بث الحدث لملف App.jsx لتحديث الواجهة فوراً بدون الحاجة لعمل Refresh
+        // بث الحدث لملف App.jsx لتحديث الواجهة فوراً بدون الحاجة لعمل Refresh
         window.dispatchEvent(new Event('systemStatusUpdated'));
         
       } else {
-        showToast(data.message || "حدث خطأ أثناء التحديث", "error");
+        showToast(data.message || t('toast_error_fallback'), "error");
       }
     } catch (error) {
-      showToast("فشل الاتصال بالخادم الرئيسي", "error");
+      showToast(t('toast_server_error'), "error");
     } finally {
       setLoading(false);
     }
@@ -98,21 +101,21 @@ function SystemStatusDashboard() {
           <IoBuildOutline className="header-main-icon" />
         </div>
         <div>
-          <h2>التحكم في حالة التطبيق والصيانة</h2>
-          <p>إدارة التنبيهات المركزية، الإعلان عن إصدارات جديدة، أو قفل النظام لأعمال الصيانة الدورية.</p>
+          <h2>{t('header_title')}</h2>
+          <p>{t('header_description')}</p>
         </div>
       </div>
 
       <div className="dashboard-grid-layout">
         {/* القسم الأيمن: نموذج الإعدادات */}
         <form className="settings-form-card" onSubmit={handleSubmit}>
-          <h3 className="card-title">تحديث الحالة والإعلانات العامة</h3>
+          <h3 className="card-title">{t('card_title_settings')}</h3>
           
           {/* حقل التفعيل الرئيسي */}
           <div className="form-group toggle-group">
             <div className="toggle-label-desc">
-              <label>تفعيل وضع الإعلان الحركي</label>
-              <p>عند تفعيل هذا الخيار سيتم بث التنبيه لجميع المستخدمين فوراً.</p>
+              <label>{t('label_activate_announcement')}</label>
+              <p>{t('desc_activate_announcement')}</p>
             </div>
             <label className="energy-switch">
               <input 
@@ -128,7 +131,7 @@ function SystemStatusDashboard() {
 
           {/* نوع الحالة */}
           <div className="form-group">
-            <label className="field-label">نوع التنبيه الموجه</label>
+            <label className="field-label">{t('label_alert_type')}</label>
             <div className="status-type-selector">
               <label className={`type-box ${statusType === 'maintenance' ? 'selected-maintenance' : ''}`}>
                 <input 
@@ -139,7 +142,7 @@ function SystemStatusDashboard() {
                   onChange={(e) => { setStatusType(e.target.value); setIsBlocking(true); }}
                 />
                 <IoBuildOutline className="radio-icon" />
-                <span>وضع الصيانة (حجب)</span>
+                <span>{t('type_maintenance')}</span>
               </label>
 
               <label className={`type-box ${statusType === 'update' ? 'selected-update' : ''}`}>
@@ -151,7 +154,7 @@ function SystemStatusDashboard() {
                   onChange={(e) => { setStatusType(e.target.value); setIsBlocking(false); }}
                 />
                 <IoCloudUploadOutline className="radio-icon" />
-                <span>نسخة وتحديث جديد</span>
+                <span>{t('type_update')}</span>
               </label>
 
               <label className={`type-box ${statusType === 'announcement' ? 'selected-announce' : ''}`}>
@@ -163,17 +166,17 @@ function SystemStatusDashboard() {
                   onChange={(e) => { setStatusType(e.target.value); setIsBlocking(false); }}
                 />
                 <IoInformationCircleOutline className="radio-icon" />
-                <span>تنبيه / إعلان عام</span>
+                <span>{t('type_announcement')}</span>
               </label>
             </div>
           </div>
 
           {/* نص الرسالة */}
           <div className="form-group">
-            <label className="field-label">محتوى رسالة البث للمستخدمين</label>
+            <label className="field-label">{t('label_message_content')}</label>
             <textarea 
               className="energy-textarea" 
-              placeholder="اكتب هنا الرسالة التي ستظهر في شاشة الصيانة أو شريط التنبيهات..."
+              placeholder={t('placeholder_message')}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
@@ -183,7 +186,7 @@ function SystemStatusDashboard() {
           {/* رابط التحميل (يظهر عند اختيار نسخة جديدة فقط) */}
           {statusType === 'update' && (
             <div className="form-group animated-fade-in">
-              <label className="field-label">رابط تحميل النسخة الجديدة (URL)</label>
+              <label className="field-label">{t('label_download_url')}</label>
               <input 
                 type="url" 
                 className="energy-input" 
@@ -198,8 +201,8 @@ function SystemStatusDashboard() {
           {/* خيار الحجب الكامل للموقع */}
           <div className="form-group toggle-group bg-light-group">
             <div className="toggle-label-desc">
-              <label>حجب واجهة التطبيق بالكامل (Blocking)</label>
-              <p>تفعيل هذا الخيار سيمنع المستخدمين من تصفح أي صفحة وتوجيههم لصفحة مغلقة.</p>
+              <label>{t('label_blocking')}</label>
+              <p>{t('desc_blocking')}</p>
             </div>
             <label className="energy-switch">
               <input 
@@ -215,13 +218,13 @@ function SystemStatusDashboard() {
           {/* زر الحفظ */}
           <button type="submit" className="energy-submit-btn" disabled={loading}>
             <IoSaveOutline />
-            <span>{loading ? 'جاري حفظ التعديلات...' : 'تحديث وبث الحالة الفورية'}</span>
+            <span>{loading ? t('btn_saving') : t('btn_submit')}</span>
           </button>
         </form>
 
         {/* القسم الأيسر: المعاينة الحية (Live Preview) */}
         <div className="preview-card-wrapper">
-          <h3 className="card-title">معاينة حية لشاشات المستخدمين</h3>
+          <h3 className="card-title">{t('card_title_preview')}</h3>
           
           <div className="live-preview-window">
             <div className="browser-top-bar">
@@ -234,21 +237,21 @@ function SystemStatusDashboard() {
               {isActive && isBlocking ? (
                 <div className="mock-maintenance-screen">
                   <IoBuildOutline className="anim-pulse icon-big" />
-                  <h4>التطبيق تحت الصيانة الحالية</h4>
-                  <p>{message || "النظام حالياً تحت الصيانة الدورية، سنعود قريباً."}</p>
+                  <h4>{t('mock_maintenance_title')}</h4>
+                  <p>{message || t('mock_maintenance_fallback')}</p>
                 </div>
               ) : (
                 <div className="mock-normal-screen">
                   {/* شريط الإعلان العلوي في حال عدم الحجب */}
                   {isActive && statusType === 'update' && (
                     <div className="mock-update-banner">
-                      <span>{message || "يتوفر إصدار جديد من التطبيق حالياً!"}</span>
-                      <a href={downloadLink} onClick={(e) => e.preventDefault()} className="mock-btn">تحميل النسخة</a>
+                      <span>{message || t('mock_update_fallback')}</span>
+                      <a href={downloadLink} onClick={(e) => e.preventDefault()} className="mock-btn">{t('mock_download_btn')}</a>
                     </div>
                   )}
                   {isActive && statusType === 'announcement' && (
                     <div className="mock-announcement-banner">
-                      <span>{message || "تنبيه إداري عام لجميع المستخدمين."}</span>
+                      <span>{message || t('mock_announcement_fallback')}</span>
                     </div>
                   )}
                   

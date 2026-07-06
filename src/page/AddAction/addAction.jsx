@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import NavBar from '../../components/navBar/PageHeade'
+import NavBar from '../../components/navBar/PageHeade';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import { 
   FaTriangleExclamation, 
   FaLock, 
@@ -24,6 +25,7 @@ const AddAction = () => {
   const { riskId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation(['addAction']); // تهيئة ملف الترجمة الخاص بالصفحة
 
   const currentRisk = location.state?.risk || {
     riskCode: "L01",
@@ -94,18 +96,18 @@ const AddAction = () => {
             setActionDetails(savedDetails);
           }
         } else {
-          setMessage({ text: 'فشل في جلب الإجراءات المتاحة.', type: 'error' });
+          setMessage({ text: t('msg_fetch_failed'), type: 'error' });
         }
       } catch (error) {
         console.error(error);
-        setMessage({ text: 'حدث خطأ في الاتصال بالخادم عند تحميل البيانات.', type: 'error' });
+        setMessage({ text: t('msg_connection_error'), type: 'error' });
       } finally {
         setLoading(false);
       }
     };
 
     fetchActions();
-  }, [token, currentRisk]);
+  }, [token, currentRisk, t]);
 
   const handleSelectActionFromDropdown = (e) => {
     const actionId = e.target.value;
@@ -148,7 +150,7 @@ const AddAction = () => {
 
   const handleSaveActionRelation = async () => {
     if (selectedActionIds.length === 0) {
-      setMessage({ text: 'يرجى اختيار إجراء واحد على الأقل قبل الحفظ.', type: 'error' });
+      setMessage({ text: t('msg_select_at_least_one'), type: 'error' });
       return;
     }
 
@@ -174,18 +176,18 @@ const AddAction = () => {
           riskOwner, 
           riskDueDate: isFixedRisk ? "" : riskDueDate,
           actionData
-        })
-      });
+        }
+      )});
 
       if (response.ok) {
-        setMessage({ text: 'تمت مزامنة وحفظ جميع التعديلات والإجراءات بنجاح!', type: 'success' });
+        setMessage({ text: t('msg_save_success'), type: 'success' });
         setTimeout(() => navigate(-1), 1500);
       } else {
         const errData = await response.json();
-        setMessage({ text: errData.message || 'فشل في حفظ تفاصيل الارتباط بالسيرفر.', type: 'error' });
+        setMessage({ text: errData.message || t('msg_save_failed'), type: 'error' });
       }
     } catch (error) {
-      setMessage({ text: 'حدث خطأ أثناء الاتصال بالسيرفر لحفظ التغييرات.', type: 'error' });
+      setMessage({ text: t('msg_server_save_error'), type: 'error' });
     } finally {
       setSaving(false);
     }
@@ -194,37 +196,36 @@ const AddAction = () => {
   const getActionRowClass = (category) => {
     if (!category) return '';
     const cat = category.toLowerCase();
-    if (cat.includes('مالي')) return 'row-financial';
-    if (cat.includes('قانوني')) return 'row-legal';
-    if (cat.includes('فني')) return 'row-technical';
+    if (cat.includes('مالي') || cat.includes('financial')) return 'row-financial';
+    if (cat.includes('قانوني') || cat.includes('legal')) return 'row-legal';
+    if (cat.includes('فني') || cat.includes('technical')) return 'row-technical';
     return '';
   };
 
   const renderAxisBadge = (axisName) => {
-    switch (axisName) {
-      case 'مالي':
-        return <div className="info-value-box axis-financial-badge"><FaDollarSign className="icon-gap" /> مالي</div>;
-      case 'قانوني':
-      case 'القانوني':
-        return <div className="info-value-box axis-legal-badge"><FaScaleBalanced className="icon-gap" /> القانوني</div>;
-      case 'فني':
-        return <div className="info-value-box axis-technical-badge"><FaGears className="icon-gap" /> فني</div>;
-      default:
-        return <div className="info-value-box code-purple-badge">{axisName}</div>;
+    if (axisName === 'مالي' || axisName === 'financial') {
+      return <div className="info-value-box axis-financial-badge"><FaDollarSign className="icon-gap" /> {t('axis_financial')}</div>;
     }
+    if (axisName === 'قانوني' || axisName === 'القانوني' || axisName === 'legal') {
+      return <div className="info-value-box axis-legal-badge"><FaScaleBalanced className="icon-gap" /> {t('axis_legal')}</div>;
+    }
+    if (axisName === 'فني' || axisName === 'technical') {
+      return <div className="info-value-box axis-technical-badge"><FaGears className="icon-gap" /> {t('axis_technical')}</div>;
+    }
+    return <div className="info-value-box code-purple-badge">{axisName}</div>;
   };
 
   const selectedActionsData = availableActions.filter(action => selectedActionIds.includes(action._id));
-
   const unselectedActions = availableActions.filter(action => !selectedActionIds.includes(action._id));
-  const legalActions = unselectedActions.filter(a => a.category === 'قانوني' || a.category === 'القانوني');
-  const financialActions = unselectedActions.filter(a => a.category === 'مالي');
-  const technicalActions = unselectedActions.filter(a => a.category === 'فني');
-  const sharedActions = unselectedActions.filter(a => !['قانوني', 'القانوني', 'مالي', 'فني'].includes(a.category));
+  
+  const legalActions = unselectedActions.filter(a => a.category === 'قانوني' || a.category === 'القانوني' || a.category?.toLowerCase() === 'legal');
+  const financialActions = unselectedActions.filter(a => a.category === 'مالي' || a.category?.toLowerCase() === 'financial');
+  const technicalActions = unselectedActions.filter(a => a.category === 'فني' || a.category?.toLowerCase() === 'technical');
+  const sharedActions = unselectedActions.filter(a => !['قانوني', 'القانوني', 'legal', 'مالي', 'financial', 'فني', 'technical'].includes(a.category?.toLowerCase()));
 
   return (
     <>
-    <NavBar title='ربط الاجراءات' subtitle='نظره عامة على المخاطر واجراءاتها'/>
+    <NavBar title={t('nav_title')} subtitle={t('nav_subtitle')}/>
     <div className="risk-action-page-container">
       
       <style>{`
@@ -254,15 +255,11 @@ const AddAction = () => {
           color: #4a5568;
           outline: none;
         }
-
-        /* تنسيقات الألوان والمجموعات الجديدة للسلكت بدلاً من الإيموجي */
         .optgroup-legal { color: #805ad5; font-weight: bold; background: #faf5ff; }
         .optgroup-financial { color: #38a169; font-weight: bold; background: #f0fff4; }
         .optgroup-technical { color: #3182ce; font-weight: bold; background: #ebf8ff; }
         .optgroup-shared { color: #dd6b20; font-weight: bold; background: #fffaf0; }
         .custom-beautiful-dropdown option { color: #2d3748; font-weight: normal; }
-
-        /* حل جذري وإخفاء أيقونة المتصفح الغريبة العشوائية */
         .modern-date-picker-wrapper {
           position: relative;
           display: flex;
@@ -274,13 +271,8 @@ const AddAction = () => {
           transition: all 0.3s ease;
           box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .modern-date-picker-wrapper:hover {
-          border-color: #cbd5e1;
-        }
-        .modern-date-picker-wrapper:focus-within {
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        }
+        .modern-date-picker-wrapper:hover { border-color: #cbd5e1; }
+        .modern-date-picker-wrapper:focus-within { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
         .modern-date-picker-input {
           width: 100%;
           padding: 12px 42px 12px 12px;
@@ -294,7 +286,6 @@ const AddAction = () => {
           font-family: inherit;
           z-index: 2;
         }
-        /* إخفاء السهم والـ Indicator الافتراضي الذي سبب التداخل بالصورة */
         .modern-date-picker-input::-webkit-calendar-picker-indicator {
           position: absolute;
           left: 0;
@@ -315,62 +306,60 @@ const AddAction = () => {
           z-index: 1;
           transition: color 0.2s;
         }
-        .modern-date-picker-wrapper:focus-within .modern-date-icon {
-          color: #3b82f6;
-        }
+        .modern-date-picker-wrapper:focus-within .modern-date-icon { color: #3b82f6; }
       `}</style>
 
       {/* كارت معلومات الخطر العلوي */}
       <div className="risk-header-info-card" >
         <div className="info-column-item text-center">
-          <span className="info-label">كود الخطر</span>
+          <span className="info-label">{t('lbl_risk_code')}</span>
           <div className="info-value-box code-purple-badge">{currentRisk.riskCode}</div>
         </div>
         
         <div className="info-column-item flex-grow-text text-right">
-          <span className="info-label text-center-label">نص الخطر</span>
+          <span className="info-label text-center-label">{t('lbl_risk_text')}</span>
           <div className="info-value-text">{currentRisk.riskText}</div>
         </div>
 
         <div className="info-column-item text-center">
-          <span className="info-label">المحور</span>
+          <span className="info-label">{t('lbl_axis')}</span>
           {renderAxisBadge(currentRisk.axis)}
         </div>
 
         <div className="info-column-item text-center">
-          <span className="info-label">نوع الخطر</span>
+          <span className="info-label">{t('lbl_risk_type')}</span>
           {isFixedRisk ? (
-            <div className="info-value-box nature-red-badge"><FaLock className="icon-gap" /> ثابت</div>
+            <div className="info-value-box nature-red-badge"><FaLock className="icon-gap" /> {t('type_fixed')}</div>
           ) : (
-            <div className="info-value-box nature-blue-badge"><FaUnlock className="icon-gap" /> متغير</div>
+            <div className="info-value-box nature-blue-badge"><FaUnlock className="icon-gap" /> {t('type_variable')}</div>
           )}
         </div>
       </div>
 
-      {/* بنر التنبيه الأصفر */}
+      {/* بنر التنبيه الإنشائي الأصفر */}
       {isFixedRisk && (
         <div className="structural-alert-banner">
           <div className="alert-icon-wrapper"><FaTriangleExclamation /></div>
           <div className="alert-text-wrapper">
-            <strong>هذا الخطر هيكلي، يُسجّل ويُتابع ولا يُغلق إلا بقرار مؤسسي رسمي.</strong>
-            <p>المسؤوليات المقترحة أدناه تتبع لإجراءات السيطرة الفردية الخاصة بكل سطر في الجدول بشكل منفصل.</p>
+            <strong>{t('alert_title')}</strong>
+            <p>{t('alert_desc')}</p>
           </div>
         </div>
       )}
 
-      {/* كارت اختيار واستدعاء الإجراءات مع الرموز التعبيرية المطابقة للأيقونات والألوان المستهدفة */}
+      {/* كارت اختيار واستدعاء الإجراءات دون إيموجيات عشوائية */}
       <div className="action-dropdown-selection-card">
-        <label className="dropdown-main-label">اختر الإجراء المطلوب إضافته إلى جدول المتابعة:</label>
+        <label className="dropdown-main-label">{t('lbl_dropdown_select')}</label>
         <div className="dropdown-wrapper-layout">
           <select 
             className="custom-beautiful-dropdown" 
             onChange={handleSelectActionFromDropdown}
             defaultValue=""
           >
-            <option value="" disabled>-- اضغط هنا لاختيار واستدعاء إجراء معين --</option>
+            <option value="" disabled>-- {t('dropdown_placeholder')} --</option>
             
             {legalActions.length > 0 && (
-              <optgroup label="⚖  الإجراءات القانونية" className="optgroup-legal">
+              <optgroup label={t('group_legal')} className="optgroup-legal">
                 {legalActions.map(action => (
                   <option key={action._id} value={action._id}>
                     {action.code} - {action.actionText}
@@ -380,7 +369,7 @@ const AddAction = () => {
             )}
 
             {financialActions.length > 0 && (
-              <optgroup label="⛁  الإجراءات المالية" className="optgroup-financial">
+              <optgroup label={t('group_financial')} className="optgroup-financial">
                 {financialActions.map(action => (
                   <option key={action._id} value={action._id}>
                     {action.code} - {action.actionText}
@@ -390,7 +379,7 @@ const AddAction = () => {
             )}
 
             {technicalActions.length > 0 && (
-              <optgroup label="⚙  الإجراءات الفنية" className="optgroup-technical">
+              <optgroup label={t('group_technical')} className="optgroup-technical">
                 {technicalActions.map(action => (
                   <option key={action._id} value={action._id}>
                     {action.code} - {action.actionText}
@@ -400,7 +389,7 @@ const AddAction = () => {
             )}
 
             {sharedActions.length > 0 && (
-              <optgroup label="🔗  إجراءات تكاملية / عامة" className="optgroup-shared">
+              <optgroup label={t('group_shared')} className="optgroup-shared">
                 {sharedActions.map(action => (
                   <option key={action._id} value={action._id}>
                     {action.code} - {action.actionText}
@@ -412,12 +401,12 @@ const AddAction = () => {
         </div>
       </div>
 
-      {/* الجدول الرئيسي */}
+      {/* الجدول الرئيسي للتحكم بالإجراءات المرتبطة */}
       <div className="main-sections-grid" style={{ display: 'block' }}>
         <div className="actions-list-main-card">
           <div className="card-header-inline">
-            <h3><HiOutlineDocumentText /> جدول الإجراءات المرتبطة بالحالة</h3>
-            <span className="subtitle-hint">تعديل المسؤول المقترح يتم بشكل مباشر ومستقل تماماً لكل سطر على حدة</span>
+            <h3><HiOutlineDocumentText /> {t('table_title')}</h3>
+            <span className="subtitle-hint">{t('table_subtitle')}</span>
           </div>
 
           <div className="table-responsive">
@@ -425,19 +414,19 @@ const AddAction = () => {
               <thead>
                 <tr>
                   <th style={{ width: '50px' }}>#</th>
-                  <th style={{ width: '120px' }}>كود الإجراء</th>
-                  <th>نص الإجراء</th>
+                  <th style={{ width: '120px' }}>{t('th_action_code')}</th>
+                  <th>{t('th_action_text')}</th>
                   <th style={{ width: '100px' }}>RII (%)</th>
-                  <th style={{ width: '220px' }}>المسؤول المقترح للإجراء (`assignee`)</th>
-                  <th style={{ width: '160px' }}>المهلة المقترحة</th>
-                  <th style={{ width: '80px' }}>إجراء</th>
+                  <th style={{ width: '220px' }}>{t('th_assignee')}</th>
+                  <th style={{ width: '160px' }}>{t('th_due_date')}</th>
+                  <th style={{ width: '80px' }}>{t('th_control')}</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
-                  <tr><td colSpan="7" className="text-center">جاري تحميل قائمة الإجراءات...</td></tr>
+                  <tr><td colSpan="7" className="text-center">{t('table_loading')}</td></tr>
                 ) : selectedActionsData.length === 0 ? (
-                  <tr><td colSpan="7" className="text-center no-data-inside-table">قم باختيار إجراء من القائمة المنسدلة بالأعلى ليتم بناؤه داخل الجدول فوراً.</td></tr>
+                  <tr><td colSpan="7" className="text-center no-data-inside-table">{t('table_no_data')}</td></tr>
                 ) : selectedActionsData.map((action, index) => {
                   const rowClass = getActionRowClass(action.category);
                   const currentAssignee = actionDetails[action._id]?.assignee || 'مدير المشروع';
@@ -456,10 +445,10 @@ const AddAction = () => {
                           value={currentAssignee}
                           onChange={(e) => handleInlineDetailChange(action._id, 'assignee', e.target.value)}
                         >
-                          <option value="مدير المشروع">مدير المشروع</option>
-                          <option value="مهندس الموقع">مهندس الموقع</option>
-                          <option value="الجهة المالكة">الجهة المالكة</option>
-                          <option value="جهة خارجية">جهة خارجية</option>
+                          <option value="مدير المشروع">{t('opt_pm')}</option>
+                          <option value="مهندس الموقع">{t('opt_se')} </option>
+                          <option value="الجهة المالكة">{t('opt_owner')}</option>
+                          <option value="جهة خارجية">{t('opt_external')}</option>
                         </select>
                       </td>
 
@@ -495,15 +484,15 @@ const AddAction = () => {
         </div>
       </div>
 
-      {/* الكارت السفلي للتوثيق الإجمالي */}
+      {/* التوثيق الإجمالي السفلي */}
       <div className="bottom-details-form-card">
-        <h3>البيانات الإجمالية والتوثيق للخطر:</h3>
+        <h3>{t('form_section_title')}</h3>
         <div className="form-fields-layout">
           
           <div className="form-group-item textarea-width">
-            <label>الملاحظة عن الخطر والدروس المستفادة</label>
+            <label>{t('lbl_risk_notes')}</label>
             <textarea 
-              placeholder="اكتب الملاحظات الإجمالية حول ربط هذا الخطر بالمشروع "
+              placeholder={t('placeholder_notes')}
               value={riskNotes}
               onChange={(e) => setRiskNotes(e.target.value)}
               maxLength={500}
@@ -513,7 +502,7 @@ const AddAction = () => {
 
           <div className="form-inputs-side-column">
             <div className="form-group-item">
-              <label>المسؤول عن الخطر </label>
+              <label>{t('lbl_risk_owner')}</label>
               <div className="input-icon-wrapper">
                 <FaUser className="inner-icon" />
                 <select 
@@ -521,17 +510,17 @@ const AddAction = () => {
                   value={riskOwner} 
                   onChange={(e) => setRiskOwner(e.target.value)}
                 >
-                  <option value="مدير المشروع">مدير المشروع</option>
-                  <option value="مهندس الموقع">مهندس الموقع</option>
-                  <option value="الجهة المالكة">الجهة المالكة</option>
-                  <option value="جهة خارجية">جهة خارجية</option>
+                  <option value="مدير المشروع">{t('opt_pm')}</option>
+                  <option value="مهندس الموقع">{t('opt_se')}</option>
+                  <option value="الجهة المالكة">{t('opt_owner')}</option>
+                  <option value="جهة خارجية">{t('opt_external')}</option>
                 </select>
               </div>
             </div>
 
             {!isFixedRisk && (
               <div className="form-group-item" style={{ marginTop: '15px' }}>
-                <label>المهلة الزمنية الكلية لإغلاق الخطر </label>
+                <label>{t('lbl_overall_due_date')}</label>
                 <div className="modern-date-picker-wrapper">
                   <FaCalendarDays className="modern-date-icon" />
                   <input 
@@ -550,13 +539,15 @@ const AddAction = () => {
         
         <div className="form-actions-footer-bar">
           <button type="button" className="btn-save-action-main" onClick={handleSaveActionRelation} disabled={saving}>
-            <FaFloppyDisk /> {saving ? 'جاري الحفظ والتحديث...' : 'حفظ ربط الإجراء'}
+            <FaFloppyDisk /> {saving ? t('btn_saving') : t('btn_save')}
           </button>
           <button type="button" className="btn-cancel-action-main" onClick={() => navigate(-1)}>
-            <FaXmark /> إلغاء
+            <FaXmark /> {t('btn_cancel')}
           </button>
         </div>
-        <p className="system-footer-hint"><FaCircleInfo /> تم تحديد ({selectedActionIds.length}) إجراء مضاف للربط الإجمالي.</p>
+        <p className="system-footer-hint">
+          <FaCircleInfo /> {t('footer_hint', { count: selectedActionIds.length })}
+        </p>
       </div>
 
     </div>

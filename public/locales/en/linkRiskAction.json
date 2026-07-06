@@ -1,0 +1,20 @@
+{
+  "page_title": "Risk & Mitigating Actions Linking System",
+  "page_subtitle": "Select a core risk and map its corresponding corrective or preventive action for optimal control",
+  "label_search_risk": "Search and verify the primary risk:",
+  "placeholder_search_risk": "Type risk code or text to filter options instantly...",
+  "loading_risks": "-- Loading risks from cloud... --",
+  "select_risk_default": "-- Select the approved primary risk from list --",
+  "no_text": "No text available",
+  "label_search_action": "Search for the corresponding mitigating action:",
+  "placeholder_search_action": "Type action code or text for quick filtering...",
+  "loading_actions": "-- Loading actions matrix... --",
+  "select_action_default": "-- Select the taken mitigating action --",
+  "label_notes": "Notes & directives regarding the link (Optional):",
+  "placeholder_notes": "Type any additional details, justifications, or notes supporting this mapping here...",
+  "btn_submit": "Confirm & Authorize System Mapping",
+  "msg_required_fields": "Alert: Please select both the strategic risk and the mitigating action before submitting!",
+  "msg_success": "The risk has been successfully and professionally mapped to the mitigating action!",
+  "msg_server_error": "Operation failed: An unexpected error occurred from the cloud server.",
+  "msg_network_error": "Connection error: Unable to reach the server right now, please check your network."
+}

@@ -1,0 +1,53 @@
+{
+  "title": "Create New Account",
+  "placeholders": {
+    "username": "Username",
+    "email": "Email Address",
+    "password": "Password",
+    "select_company": "Select Company",
+    "select_company_first": "Select company first",
+    "select_governorate": "Select Governorate"
+  },
+  "buttons": {
+    "register": "Register Account",
+    "login": "Log In"
+  },
+  "footer": {
+    "has_account": "Already have an account?"
+  },
+  "companies": {
+    "north": "North",
+    "middle": "Middle",
+    "euphrates": "Middle Euphrates",
+    "south": "South"
+  },
+  "governorates": {
+    "nineveh": "Nineveh",
+    "kirkuk": "Kirkuk",
+    "saladin": "Saladin",
+    "baghdad": "Baghdad",
+    "diyala": "Diyala",
+    "wasit": "Wasit",
+    "anbar": "Anbar",
+    "babylon": "Babylon",
+    "najaf": "Najaf",
+    "karbala": "Karbala",
+    "diwaniyah": "Diwaniyah",
+    "basra": "Basra",
+    "dhi_qar": "Dhi Qar",
+    "maysan": "Maysan",
+    "muthanna": "Muthanna"
+  },
+  "notifications": {
+    "image_selected": "Image selected successfully",
+    "validation_error": "Please select a company and its affiliated governorate first",
+    "register_failed": "Account registration failed",
+    "register_success": "Your account has been successfully registered, welcome!",
+    "required_image": "Please upload your profile image first",
+    "required_username": "Please enter your username",
+    "required_email": "Please enter your email address",
+    "required_password": "Please enter your password",
+    "required_company": "Please select your company",
+    "required_governorate": "Please select your governorate"
+  }
+}

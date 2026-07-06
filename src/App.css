@@ -1,12 +1,12 @@
 :root {
-  /* --- ألوان الشعار المستخرجة بدقة --- */
-  --energy-blue-light: #5ECDF5; /* الأزرق السماوي الفاتح في الأعلى وفي الدوائر الصغيرة */
+  /* --- ألوان الشعار المستخرجة بدقة (الوضع الفاتح الافتراضي) --- */
+  --energy-blue-light: #5ECDF5;  /* الأزرق السماوي الفاتح في الأعلى وفي الدوائر الصغيرة */
   --energy-blue-medium: #479FD7; /* الأزرق المتوسط في منتصف الدائرة */
-  --energy-blue-dark: #2F5C9E;  /* الأزرق الداكن العميق في الأسفل والزوايا الحادة */
+  --energy-blue-dark: #2F5C9E;   /* الأزرق الداكن العميق في الأسفل والزوايا الحادة */
 
   /* --- ألوان العناصر المفرغة والنصوص المقترحة --- */
-  --energy-plug-white: #FFFFFF; /* لون القابس والخطوط القاطعة (الأبيض النقي) */
-  --energy-text-dark: #1E3A60;  /* لون داكن مقترح للنصوص ليتماشى مع هوية الشعار */
+  --energy-plug-white: #FFFFFF;  /* لون القابس والخطوط القاطعة (الأبيض النقي) */
+  --energy-text-dark: #1E3A60;   /* لون داكن مقترح للنصوص ليتماشى مع هوية الشعار */
 
   /* --- تدرجات الألوان (Gradients) --- */
   /* التدرج اللوني الدائري للشعار (من الأعلى للأيمن إلى الأسفل للأيسر) */
@@ -20,10 +20,107 @@
   --energy-radius-circle: 50%; /* لمحاكاة الشكل الدائري للشعار */
   --energy-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* حركة سلسة للمؤثرات */
 }
-*{
+
+/* --- 🌙 إعدادات الوضع الليلي الثورية (Dark Mode) --- */
+[data-theme="dark"] {
+  /* عكس قيم الشعار بما يتناسب مع الخلفية المظلمة دون خسارة الهوية */
+  --energy-blue-light: #6ee5ff;  /* جعل السماوي أكثر إشراقاً ليبرز في الظلام */
+  --energy-blue-medium: #4ea8e5; 
+  --energy-blue-dark: #4784e6;   /* تفتيح درجة الأزرق الداكن لمنع اختفائها في الخلفية المظلمة */
+
+  /* عكس ألوان العناصر والنصوص */
+  --energy-plug-white: #1f2937;  /* تصبح الخلفيات البيضاء داكنة جداً (Dark Slate) */
+  --energy-text-dark: #f3f4f6;   /* تتحول النصوص الداكنة إلى اللون الأبيض الثلجي المريح للعين */
+
+  /* تدرج الخلفية العام للوضع الليلي */
+  --energy-gradient-bg: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+
+  /* تحديث توهج الظلال ليتناسب مع البيئة المعتمة */
+  --energy-shadow-glow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* --- التنسيقات العامة والتخطيط الهيكلي للموقع --- */
+* {
   margin: 0;
   padding: 0;
-  
-
+  box-sizing: border-box; /* تضمن حماية أبعاد العناصر عند التبديل */
 }
- 
+
+/* تطبيق التدرج اللوني للخلفية على جسم الموقع ليتأثر بالثيمين فوراً */
+body {
+  background: var(--energy-gradient-bg);
+  color: var(--energy-text-dark);
+  transition: var(--energy-transition);
+}
+
+/* --- 🌐 معالجة اللغات والاتجاهات الدقيقة (LTR Support) --- */
+/* عند التحول للغة الإنجليزية، قم بإلغاء التوجيه الثابت من أي عنصر في التطبيق */
+[dir="ltr"] * {
+  direction: ltr !important;
+}
+
+/* إعادة ضبط تلقائية للمحاذاة الافتراضية للنصوص */
+[dir="ltr"] body, 
+[dir="ltr"] h1, [dir="ltr"] h2, [dir="ltr"] h3, 
+[dir="ltr"] p, [dir="ltr"] span, [dir="ltr"] label, 
+[dir="ltr"] input, [dir="ltr"] textarea, [dir="ltr"] select {
+  text-align: left !important;
+}
+
+/* معالجة الجداول (مثل جداول سجل المخاطر) لتبدأ من اليسار */
+[dir="ltr"] table th, 
+[dir="ltr"] table td {
+  text-align: left !important;
+}
+
+[dir="ltr"] .dashboard-main-content, 
+[dir="ltr"] .risk-registry-container,
+[dir="ltr"] .project-page-layout { 
+  margin-right: 0 !important;
+  margin-left: 18% !important; /* نقل الهامش لليسار ليفسح مجالاً للقائمة */
+  width: 82% !important;
+}
+/* --- 📜 تصميم شريط التمرير السوبر أنيق (نحيف وعصري) --- */
+
+:root {
+  /* ألوان السكرول للوضع الفاتح */
+  --scroll-track-bg: transparent; /* جعل الخلفية شفافة تماماً ليختفي العرض القبيح */
+  --scroll-thumb-bg: rgba(71, 159, 215, 0.4); /* أزرق الشعار شفاف قليلاً في وضع السكون */
+  --scroll-thumb-hover: #2F5C9E; /* أزرق داكن صريح عند الحركة */
+}
+
+[data-theme="dark"] {
+  /* ألوان السكرول للوضع الليلي */
+  --scroll-track-bg: transparent;
+  --scroll-thumb-bg: rgba(110, 229, 255, 0.3); /* سماوي مضيء وشفاف يناسب الظلام */
+  --scroll-thumb-hover: #6ee5ff; /* سماوي مشع كامل عند التمرير */
+}
+
+/* 1️⃣ متصفح Firefox */
+html {
+  scrollbar-width: thin; /* يجعل الشريط نحيفاً تلقائياً في فايرفوكس */
+  scrollbar-color: var(--scroll-thumb-bg) var(--scroll-track-bg);
+}
+
+/* 2️⃣ متصفحات Chrome, Edge, Safari (التحكم الكامل والرهيب) */
+::-webkit-scrollbar {
+  width: 6px;  /* تصغير العرض من 10px إلى 6px ليصبح ناعماً جداً وغير مزعج */
+  height: 6px; /* للشريط الأفقي */
+}
+
+/* مجرى السكرول */
+::-webkit-scrollbar-track {
+  background: var(--scroll-track-bg);
+}
+
+/* مقبض السكرول الذكي */
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb-bg);
+  border-radius: 20px; /* حواف دائرية كاملة كالكبسولة */
+  transition: background 0.3s ease-in-out;
+}
+
+/* تأثير التمرير (عندما يضع المستخدم الماوس عليه يبرز اللون الجميل) */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}

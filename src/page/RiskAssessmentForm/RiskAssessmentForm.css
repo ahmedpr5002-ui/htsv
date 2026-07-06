@@ -1,15 +1,32 @@
-/* ==========================================================================
-   1. الهيكل الرئيسي وضبط الأبعاد الصارمة (No Scroll)
-   ========================================================================== */
+
 :root {
-  --primary-color: #00b4d8;     
-  --secondary-color: #0077b6;   
-  --bg-main: #f8f9fa;           
-  --bg-card: #ffffff;           
+  /* الربط المباشر مع ألوان الهوية الأساسية المحددة مسبقاً */
+  --primary-color: var(--energy-blue-light, #5ECDF5);     
+  --secondary-color: var(--energy-blue-dark, #2F5C9E);   
+  --bg-main: var(--energy-gradient-bg, linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%));          
+  --bg-card: var(--energy-plug-white, #FFFFFF);          
   --bg-input: #f4f6f8;          
   --border-color: #dbe2e8;      
-  --text-main: #2b303a;         
+  --text-main: var(--energy-text-dark, #1E3A60);         
   --text-muted: #78828a;        
+  --bg-panel: #edf2f7;
+  --bg-neutral-light: #f8f9fa;
+  --bg-locked-state: #eaedf1;
+  --text-locked-state: #718096;
+}
+
+/* 🌙 التبديل التلقائي للقيم عند تفعيل الوضع المظلم [data-theme="dark"] */
+[data-theme="dark"] {
+  --primary-color: #6ee5ff; /* جعل السماوي أكثر إشراقاً ليبرز في الظلام */
+  --secondary-color: #4784e6; /* تفتيح درجة الأزرق الداكن لمنع اختفائها */
+  --bg-card: #1f2937; /* تحويل الخلفيات البيضاء إلى Dark Slate */
+  --bg-input: #111827; /* حقول إدخال داكنة عميقة */
+  --border-color: #374151; /* حدود متماشية مع البيئة المعتمة */
+  --text-muted: #9ca3af;
+  --bg-panel: #111827; /* خلفية لوحة النتائج بالوضع المظلم */
+  --bg-neutral-light: #111827;
+  --bg-locked-state: #111827;
+  --text-locked-state: #9ca3af;
 }
 
 .risk-container {
@@ -18,25 +35,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-inline-start: 18%;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden; /* منع السكرول نهائياً */
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl;
+  background: var(--bg-main); /* يتأثر فوراً بالثيمين */
 }
 
 .risk-card {
   width: 100%;
   background: var(--bg-card);
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--energy-shadow-glow, 0 2px 12px rgba(0, 0, 0, 0.06));
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 5px; /* مسافات صغيرة ومحسوبة بدقة */
   padding: 10px 16px;
   box-sizing: border-box;
+  color: var(--text-main);
+  transition: var(--energy-transition, all 0.3s ease);
 }
 
 /* ==========================================================================
@@ -79,13 +100,13 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
-  background: #f8f9fa;
-  transition: all 0.15s ease;
+  background: var(--bg-neutral-light);
+  transition: var(--energy-transition, all 0.15s ease);
 }
 
 .type-card.active {
   border-color: var(--primary-color);
-  background: rgba(0, 180, 216, 0.04);
+  background: rgba(0, 180, 216, 0.08);
 }
 
 .type-text strong {
@@ -109,7 +130,6 @@
   gap: 6px;
 }
 
-/* استثناء لحقل السلكت الخاص بقاعدة البيانات ليأخذ مساحة مريحة بقرب الحقول الصغيرة */
 .select-custom-wrapper {
   grid-column: span 2;
 }
@@ -122,7 +142,8 @@
 
 .form-group label {
   font-size: 0.68rem;
-  color: #495057;
+  color: var(--text-main);
+  opacity: 0.85;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -137,23 +158,23 @@
   border-radius: 4px;
   font-size: 0.75rem;
   outline: none;
+  transition: var(--energy-transition, all 0.2s ease);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--primary-color);
-  background: #fff;
+  background: var(--bg-card); /* يعود للون الكارد الديناميكي حسب الوضع الثيم */
 }
 
-/* تخصيص وتصغير حقل الـ RII المطلب الأساسي */
 .rii-wrapper {
-  max-width: 90px; /* تحديد العرض بدقة متناهية ليصبح صغيراً جداً ومقيداً */
+  max-width: 90px; /* مقيد بدقة متناهية ليصبح صغيراً جداً */
 }
 
 .rii-display {
   padding: 3px 6px;
-  background: #eef1f6;
+  background: var(--bg-neutral-light);
   border: 1px solid var(--border-color);
   color: var(--secondary-color);
   font-weight: 700;
@@ -168,13 +189,13 @@
 
 .manual-enforced {
   color: #d97706;
-  background: #fef8f2;
+  background: rgba(217, 119, 6, 0.1); /* متوافق مع الثيمين الشفافين */
   border-color: #fbd38d;
 }
 
 .bg-locked {
-  background: #eaedf1 !important;
-  color: #718096 !important;
+  background: var(--bg-locked-state) !important;
+  color: var(--text-locked-state) !important;
   cursor: not-allowed;
 }
 
@@ -188,7 +209,7 @@
 }
 
 .range-card {
-  background: #f8f9fa;
+  background: var(--bg-neutral-light);
   padding: 4px 8px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
@@ -197,6 +218,7 @@
 .range-label {
   font-size: 0.68rem;
   margin-bottom: 2px;
+  color: var(--text-main);
 }
 
 .range-buttons {
@@ -208,11 +230,13 @@
   flex: 1;
   padding: 2px 0;
   font-size: 0.72rem;
-  background: #e2e8f0;
+  background: var(--border-color);
+  color: var(--text-main);
   border: none;
   cursor: pointer;
   border-radius: 3px;
   font-weight: 600;
+  transition: background 0.15s ease;
 }
 
 .range-btn.active {
@@ -221,11 +245,11 @@
 }
 
 /* ==========================================================================
-   6. التوزيع الأفقي الثلاثي (المنطقة السفلية والنتيجة)
+   6. التوزيع الأفقي الثلاثي لوحة احتساب النتيجة والمعادلة الحية
    ========================================================================== */
 .bottom-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1fr; /* ترتيب عرضي متقن ومضغوط صمم خصيصاً لمنع النزول لأسفل */
+  grid-template-columns: 1.5fr 1.5fr 1fr; 
   gap: 8px;
   align-items: stretch;
 }
@@ -237,35 +261,131 @@
 }
 
 .score-panel {
-  background: #edf2f7;
+  background: var(--bg-panel);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 8px;
+  box-sizing: border-box;
 }
 
-.score-header {
-  font-size: 0.65rem;
+.formula-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+}
+
+.formula-title {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.formula-math {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
   color: var(--text-main);
+  direction: ltr; 
+}
+
+.math-label {
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.math-op {
+  color: var(--text-muted);
   font-weight: 600;
 }
 
+.math-fraction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  padding: 0 8px;
+}
+
+.fraction-top {
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding-bottom: 1px;
+}
+
+.fraction-top small, 
+.fraction-rii small {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.fraction-bottom {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  padding-top: 1px;
+}
+
+.fraction-rii {
+  padding: 2px 6px;
+  color: #059669;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .fraction-rii {
+  color: #34d399; /* تفتيح لون مؤشر RII الأخضر في الوضع الليلي */
+}
+
+.score-result-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-neutral-light);
+  padding: 6px;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+}
+
+.score-header {
+  font-size: 0.68rem;
+  color: var(--text-main);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .score-value {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #e53e3e;
+  margin: 2px 0;
+}
+
+[data-theme="dark"] .score-value {
+  color: #f87171; /* أحمر مريح للعين في البيئة الداكنة */
 }
 
 .score-badge {
-  font-size: 0.62rem;
-  padding: 1px 6px;
+  font-size: 0.68rem;
+  padding: 2px 10px;
   border-radius: 3px;
   font-weight: 600;
 }
 
+/* الحفاظ على تباين عالي للشارات الملونة في كلا الوضعين */
 .level-high { background: #fed7d7; color: #9b2c2c; }
 .level-medium { background: #feebc8; color: #9c4221; }
 .level-low { background: #c6f6d5; color: #22543d; }
@@ -304,7 +424,7 @@
   gap: 10px;
   padding: 8px 14px;
   border-radius: 6px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
   z-index: 1000;
   font-size: 0.8rem;
 }
@@ -396,167 +516,33 @@
   font-size: 0.78rem;
 }
 
-/* المحور الفني - أزرق */
+/* تم تحسين الشفافية للمجموعات لتعمل بكفاءة على خلفيات الوضعين الفاتح والمظلم دون حجب النصوص */
 .enhanced-dropdown-select optgroup.opt-technical {
   color: #0077b6; 
-  background-color: #f0f8ff; 
+  background-color: rgba(0, 119, 182, 0.08); 
 }
-
-/* المحور المالي - أخضر */
 .enhanced-dropdown-select optgroup.opt-financial {
   color: #2b9348; 
-  background-color: #f4fbf7; 
+  background-color: rgba(43, 147, 72, 0.08); 
 }
-
-/* المحور القانوني - بنفسجي */
 .enhanced-dropdown-select optgroup.opt-legal {
   color: #6a1b9a; 
-  background-color: #fbf5ff; 
+  background-color: rgba(106, 27, 154, 0.08); 
 }
 
-/* الحفاظ على خلفية الـ options بيضاء لنظافة الرؤية وقابلية القراءة */
 .enhanced-dropdown-select option {
   font-weight: 500;
   color: var(--text-main);
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   padding: 8px;
 }
+
 /* ==========================================================================
-   تنسيق لوحة احتساب النتيجة والمعادلة الحية (score-panel)
+   10. دمج قواعد دعم الاتجاه واللغة الإنجليزية (LTR) للـ Risk Container
    ========================================================================== */
-
-/* الحاوية الرئيسية للوحة */
-.score-panel {
-  background: #f8fafc;
-  border: 1px solid #dbe2e8;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  gap: 8px;
-  box-sizing: border-box;
+[dir="ltr"] .risk-container {
+  direction: ltr !important;
 }
-
-/* صندوق تصميم كسر المعادلة الرياضية */
-.formula-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  padding: 6px;
-  text-align: center;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+[dir="ltr"] .formula-math {
+  direction: ltr !important; /* تبقى المعادلات من اليمين رياضياً */
 }
-
-/* عنوان المعادلة الفوقي */
-.formula-title {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #94a3b8;
-  margin-bottom: 6px;
-}
-
-/* محاذاة عناصر المعادلة أفقياً */
-.formula-math {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: #334155;
-  direction: ltr; /* رياضياً من اليسار لليمين */
-}
-
-/* كلمة Score */
-.math-label {
-  color: #4f46e5;
-  font-weight: 700;
-}
-
-/* العمليات الحسابية (= أو ×) */
-.math-op {
-  color: #cbd5e1;
-  font-weight: 600;
-}
-
-/* هيكل الكسر الاعتيادي */
-.math-fraction {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-left: 1px solid #e2e8f0;
-  border-right: 1px solid #e2e8f0;
-  padding: 0 8px;
-}
-
-/* البسط (P × I) */
-.fraction-top {
-  border-bottom: 1px solid #cbd5e1;
-  font-weight: 600;
-  font-size: 0.78rem;
-  padding-bottom: 1px;
-}
-
-/* الحروف الصغيرة الموضحة للمتغيرات مثل (P) و (I) */
-.fraction-top small, 
-.fraction-rii small {
-  font-size: 0.58rem;
-  color: #94a3b8;
-  margin-left: 2px;
-}
-
-/* المقام (25) */
-.fraction-bottom {
-  font-size: 0.68rem;
-  color: #64748b;
-  padding-top: 1px;
-}
-
-/* جزء مؤشر الـ RII */
-.fraction-rii {
-  padding: 2px 6px;
-  color: #059669;
-  font-weight: 700;
-}
-
-/* بطاقة إخراج النتيجة النهائية ومستوى الخطر بالأسفل */
-.score-result-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #edf2f7;
-  padding: 6px;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* عنوان Risk Score */
-.score-header {
-  font-size: 0.68rem;
-  color: #2b303a;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* رقم النتيجة المئوية */
-.score-value {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #e53e3e;
-  margin: 2px 0;
-}
-
-/* شارة مستوى الخطر (منخفض، متوسط، حرج) */
-.score-badge {
-  font-size: 0.68rem;
-  padding: 2px 10px;
-  border-radius: 3px;
-  font-weight: 600;
-}
-
-.level-high { background: #fed7d7; color: #9b2c2c; }
-.level-medium { background: #feebc8; color: #9c4221; }
-.level-low { background: #c6f6d5; color: #22543d; }

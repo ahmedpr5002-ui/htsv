@@ -1,23 +1,54 @@
-/* الحاوية الأساسية: تأخذ 82% من مساحة الشاشة الإجمالية وتتمحور لليسار لترك 18% على اليمين للـ Sidebar */
+/* ==========================================================================
+   1. الحاوية الأساسية وضبط الأبعاد الديناميكية للثيمين
+   ========================================================================== */
+:root {
+  /* المتغيرات الأساسية وربطها بالهوية */
+  --primary-color: var(--energy-blue-light, #5ECDF5);     
+  --secondary-color: var(--energy-blue-dark, #2F5C9E);   
+  --bg-page-main: var(--energy-gradient-bg, linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%));          
+  --bg-card-surface: var(--energy-plug-white, #FFFFFF);          
+  --bg-input-field: #ffffff;          
+  --border-light: #e2e8f0;      
+  --text-main-color: var(--energy-text-dark, #1E3A60);         
+  --text-subdued: #475569;
+  --bg-table-header: #f1f5f9;
+  --bg-row-hover: #f8fafc;
+}
+
+/* 🌙 التبديل الذكي التلقائي عند تفعيل الوضع المظلم [data-theme="dark"] */
+[data-theme="dark"] {
+  --primary-color: #6ee5ff;
+  --secondary-color: #4784e6;
+  --bg-card-surface: #1f2937; /* تحويل كروت البيانات والجدول لـ Dark Slate */
+  --bg-input-field: #111827;  /* حقول إدخال داكنة */
+  --border-light: #374151;      /* حدود مريحة للعين */
+  --text-main-color: #f3f4f6;  /* أبيض ثلجي مريح */
+  --text-subdued: #9ca3af;
+  --bg-table-header: #111827; /* رأس جدول داكن */
+  --bg-row-hover: #1e293b;    /* تأثير تمرير الماوس بالوضع المظلم */
+}
+
 .risk-management-page {
   width: 82%;
-  margin-right: auto; /* يدفع الواجهة لليسار تلقائياً */
-  margin-left: 0;
   padding: 24px;
   min-height: 100vh;
-  background-color: #f8fafc;
+  background: var(--bg-page-main); /* تدرج خلفية الموقع العام يتأثر بالثيمين فوراً */
   direction: rtl; /* من اليمين لليسار تماشياً مع لغة لوحة التحكم */
   box-sizing: border-box;
+  margin-inline-start: 18%; /* يضمن ترك مساحة الـ Sidebar دائماً في الجهة الصحيحة */
+  color: var(--text-main-color);
+  transition: var(--energy-transition, all 0.3s ease);
 }
 
 /* بطاقات التصميم */
 .risk-form-card, .risk-table-card {
-  background: #ffffff;
+  background: var(--bg-card-surface);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  border: 1px solid #e2e8f0;
+  box-shadow: var(--energy-shadow-glow, 0 4px 6px -1px rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--border-light);
+  transition: var(--energy-transition, all 0.3s ease);
 }
 
 .card-header-title {
@@ -25,20 +56,22 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
-  color: #1e293b;
-  border-bottom: 2px solid #f1f5f9;
+  color: var(--text-main-color);
+  border-bottom: 2px solid var(--border-light);
   padding-bottom: 12px;
 }
 
 .header-icon-main {
-  color: #2F5C9E;
+  color: var(--secondary-color);
   font-size: 20px;
 }
 
-/* تقسيم شبكة الحقول (Grids) */
+/* ==========================================================================
+   2. تقسيم شبكة الحقول (Grids) وعناصر الإدخال
+   ========================================================================== */
 .form-grid-three {
   display: grid;
-  grid-template-columns: repeat(3, 12fr);
+  grid-template-columns: repeat(3, 1fr); /* تم تصحيح الـ 12fr إلى 1fr لتقسيم متساوي وثابت */
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -59,41 +92,43 @@
 .risk-input-group label {
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-subdued);
 }
 
 .risk-input-group input, 
 .risk-input-group select, 
 .risk-input-group textarea {
   padding: 10px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 14px;
-  background-color: #ffffff;
-  color: #334155;
+  background-color: var(--bg-input-field);
+  color: var(--text-main-color);
   transition: all 0.2s ease-in-out;
+  outline: none;
 }
 
 .risk-input-group input:focus, 
 .risk-input-group select:focus, 
 .risk-input-group textarea:focus {
-  outline: none;
-  border-color: #479FD7;
-  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.15);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(71, 159, 215, 0.25);
 }
 
 .full-width-input {
   margin-bottom: 20px;
 }
 
-/* أزرار الحفظ والإدخال */
+/* ==========================================================================
+   3. أزرار الحفظ والإدخال
+   ========================================================================== */
 .form-action-buttons {
   display: flex;
   gap: 12px;
 }
 
 .btn-submit-risk {
-  background: linear-gradient(135deg, #479FD7 0%, #2F5C9E 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: #ffffff;
   border: none;
   padding: 12px 24px;
@@ -115,19 +150,22 @@
 }
 
 .btn-cancel-risk {
-  background-color: #e2e8f0;
-  color: #475569;
+  background-color: var(--border-light);
+  color: var(--text-main-color);
   border: none;
   padding: 12px 20px;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-/* تجميل وتنسيق الجداول */
+/* ==========================================================================
+   4. تجميل وتنسيق الجداول وحالات العرض
+   ========================================================================== */
 .table-header-bar {
   margin-bottom: 16px;
-  color: #1e293b;
+  color: var(--text-main-color);
   font-weight: bold;
 }
 
@@ -143,45 +181,58 @@
 }
 
 .modern-data-table th {
-  background-color: #f1f5f9;
-  color: #475569;
+  background-color: var(--bg-table-header);
+  color: var(--text-subdued);
   padding: 14px;
   font-weight: 600;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border-light);
 }
 
 .modern-data-table td {
   padding: 14px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-main-color);
 }
 
 .table-row-hover:hover {
-  background-color: #f8fafc;
+  background-color: var(--bg-row-hover);
 }
 
+/* كبسولة كود الخطر الفريد الرقمي */
 .code-badge-cell span {
-  background-color: #e0f2fe;
-  color: #0369a1;
+  background-color: rgba(3, 105, 161, 0.12); /* شفافة لتتوافق مع الثيمين دون اختفاء النص */
+  color: #0284c7;
   padding: 4px 8px;
   border-radius: 6px;
   font-weight: 700;
 }
 
-/* كبسولات الألوان للمحاور (Pills) */
+[data-theme="dark"] .code-badge-cell span {
+  color: #38bdf8; /* تفتيح درجة أزرق الكود في الوضع الداكن للتباين */
+}
+
+/* كبسولات الألوان للمحاور (Pills) - تحسين الشفافية والتباين */
 .axis-pill {
   padding: 4px 10px;
   border-radius: 50px;
   font-size: 12px;
   font-weight: 600;
 }
-.axis-pill.tech { background-color: #ecfdf5; color: #065f46; }
-.axis-pill.finance { background-color: #fef3c7; color: #92400e; }
-.axis-pill.legal { background-color: #f3e8ff; color: #6b21a8; }
+/* المحور الفني */
+.axis-pill.tech { background-color: rgba(6, 95, 70, 0.12); color: #059669; }
+[data-theme="dark"] .axis-pill.tech { color: #34d399; }
+
+/* المحور المالي */
+.axis-pill.finance { background-color: rgba(146, 64, 14, 0.12); color: #d97706; }
+[data-theme="dark"] .axis-pill.finance { color: #fbbf24; }
+
+/* المحور القانوني */
+.axis-pill.legal { background-color: rgba(107, 33, 168, 0.12); color: #7c3aed; }
+[data-theme="dark"] .axis-pill.legal { color: #a78bfa; }
 
 .rii-cell-bold {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main-color);
 }
 
 /* أزرار تحكم السطر */
@@ -207,10 +258,27 @@
   font-size: 16px;
 }
 
-/* حالات التحميل الفراغ */
 .table-loading-status, .no-risks-status {
   text-align: center;
   padding: 40px;
-  color: #64748b;
+  color: var(--text-subdued);
   font-size: 15px;
+}
+
+/* ==========================================================================
+   5. 🌐 دعم اتجاهات اللغات والـ Sidebar الذكي (LTR Support)
+   ========================================================================== */
+[dir="ltr"] .risk-management-page {
+  direction: ltr !important;
+  margin-right: 0 !important;
+  margin-left: 18% !important; /* نقل الهامش لليسار لترك مساحة 18% للـ Sidebar الأجنبي في اليمين */
+}
+
+[dir="ltr"] .modern-data-table {
+  text-align: left !important;
+}
+
+[dir="ltr"] .card-header-title {
+  /* لضمان اتجاه مرن للأيقونة والنصوص بالإنجليزية */
+  flex-direction: row;
 }

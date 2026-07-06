@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsReplyAll } from "react-icons/bs";
 import { useAuth } from '../../context/Auth';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import { 
   FaScaleBalanced, 
   FaDollarSign, 
-  FaShieldHalved, 
+  FaGears, // استبدال الأيقونة الفنية بأيقونة التروس المعتمدة
   FaTriangleExclamation,
   FaRegBell,
   FaCalendarDays,
@@ -34,8 +35,10 @@ const normalizeTime = (val) => {
   if (cleanVal === 'بعد' || cleanVal === 'الاستلام والتشغيل') return 'الاستلام والتشغيل';
   return cleanVal || 'التنفيذ'; 
 };
+
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation(['dashboard']); // تهيئة ملف الترجمة الخاص بالصفحة
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState(localStorage.getItem('projectId') || '');
   const [allProjectRisks, setAllProjectRisks] = useState([]); 
@@ -156,9 +159,6 @@ const Dashboard = () => {
     fetchProjectRisks();
   }, [selectedProjectId, token]);
 
-  // ==========================================
-  // الفلترة الصارمة بالاعتماد على دالة normalizeTime المشتركة لحقل time فقط
-  // ==========================================
   const filteredRisks = allProjectRisks.filter(risk => {
     return normalizeTime(risk.time) === activeStage;
   });
@@ -213,12 +213,12 @@ const Dashboard = () => {
     if (criticalRisk) {
       return {
         hasWarning: true,
-        text: `خطر نشط: ${criticalRisk.riskText}`
+        text: `${t('warning_active_prefix')}: ${criticalRisk.riskText}`
       };
     }
     return {
       hasWarning: false,
-      text: "جميع المخاطر الحالية تقع ضمن الحدود الآمنة."
+      text: t('warning_safe_text')
     };
   };
   
@@ -230,13 +230,13 @@ const Dashboard = () => {
 
   const getAxisBadgeDetails = (risk) => {
     const type = getAxisType(risk);
-    if (type === 'law') return { text: 'قانوني', class: 'law' };
-    if (type === 'money') return { text: 'مالي', class: 'money' };
-    return { text: 'فني', class: 'tech' };
+    if (type === 'law') return { text: t('axis_law'), class: 'law' };
+    if (type === 'money') return { text: t('axis_money'), class: 'money' };
+    return { text: t('axis_tech'), class: 'tech' };
   };
+  
   const { user } = useAuth();
 
-  // دالة لجلب كلاس الحالة بناءً على الملف السابق لتنسيق الألوان لو أردت
   const getStatusClassName = (risk) => {
     if (risk.type === 'ثابت' || risk.type === 'fixed' || risk.operationalStatus === 'مغلقة بقرار مؤسسي') {
       return 'status-type-institutional-close';
@@ -250,15 +250,22 @@ const Dashboard = () => {
     return 'status-type-open';
   };
 
+  const renderTranslatedStage = (stageName) => {
+    if (stageName === 'ما قبل التنفيذ') return t('stage_pre_execution');
+    if (stageName === 'التنفيذ') return t('stage_execution');
+    if (stageName === 'الاستلام والتشغيل') return t('stage_operation');
+    return stageName;
+  };
+
   return (
     <div className="dashboard-wrapper">
       <div className="dashboard-content-area">
         
         <header className="dashboard-filters">
           <div className="filter-group project-select">
-            <label>المشروع الحالي</label>
+            <label>{t('lbl_current_project')}</label>
             {loadingProjects ? (
-              <select disabled><option>جاري تحميل قائمة المشاريع...</option></select>
+              <select disabled><option>{t('loading_projects_list')}</option></select>
             ) : (
               <select 
                 value={selectedProjectId} 
@@ -266,7 +273,7 @@ const Dashboard = () => {
               >
                 {projects.map((project) => (
                   <option key={project._id} value={project._id}>
-                    {project.projectName || `مشروع خط 400kV الموصل - كركوك`}
+                    {project.projectName || t('fallback_project_name')}
                   </option>
                 ))}
               </select>
@@ -276,17 +283,18 @@ const Dashboard = () => {
           <div className="last-update">
             <div className="update-title">
               <FaClock className="icon-time" />
-              <span>توقيت التحديث الفعال</span>
+              <span>{t('lbl_effective_update_time')}</span>
             </div>
-            <strong>{lastUpdateDate || "جاري المعالجة..."}</strong>
+            <strong>{lastUpdateDate || t('processing')}</strong>
             <small>{lastUpdateTime || "..."}</small>
           </div>
         </header>
 
         <section className="metrics-grid">
+          {/* كارت الخطر القانوني */}
           <div className="metric-card">
             <div className="card-header">
-              <span>نسبة الخطر القانوني</span>
+              <span>{t('metric_law_title')}</span>
               <FaScaleBalanced className="icon-law-badge" />
             </div>
             <div className="progress-gauge">
@@ -294,18 +302,19 @@ const Dashboard = () => {
                 <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path className="circle" strokeDasharray={`${lawMetrics.percentage}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <text x="18" y="20.3" className="percentage">{lawMetrics.percentage}%</text>
-                <text x="18" y="27" className="sub-text">Risk Score حالي</text>
+                <text x="18" y="27" className="sub-text">{t('lbl_current_risk_score')}</text>
               </svg>
             </div>
             <div className="card-footer">
-              <span>المعيار الثابت: {STUDY_AVERAGES.law}</span>
+              <span>{t('lbl_study_average')}: {STUDY_AVERAGES.law}</span>
               <span className="chart-bar-icon isn"><FaSignal/></span>
             </div>
           </div>
 
+          {/* كارت الخطر المالي */}
           <div className="metric-card">
             <div className="card-header">
-              <span>نسبة الخطر المالي</span>
+              <span>{t('metric_money_title')}</span>
               <FaDollarSign className="icon-money-badge" />
             </div>
             <div className="progress-gauge">
@@ -313,42 +322,44 @@ const Dashboard = () => {
                 <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path className="circle" strokeDasharray={`${moneyMetrics.percentage}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <text x="18" y="20.3" className="percentage">{moneyMetrics.percentage}%</text>
-                <text x="18" y="27" className="sub-text">Risk Score حالي</text>
+                <text x="18" y="27" className="sub-text">{t('lbl_current_risk_score')}</text>
               </svg>
             </div>
             <div className="card-footer">
-              <span>المعيار الثابت: {STUDY_AVERAGES.money}</span>
+              <span>{t('lbl_study_average')}: {STUDY_AVERAGES.money}</span>
               <span className="chart-bar-icon isn"><FaSignal/></span>
             </div>
           </div>
 
+          {/* كارت الخطر الفني */}
           <div className="metric-card">
             <div className="card-header">
-              <span>نسبة الخطر الفني</span>
-              <FaShieldHalved className="icon-tech-badge" />
+              <span>{t('metric_tech_title')}</span>
+              <FaGears className="icon-tech-badge" />
             </div>
             <div className="progress-gauge">
               <svg viewBox="0 0 36 36" className={`circular-chart ${techMetrics.colorClass}`}>
                 <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path className="circle" strokeDasharray={`${techMetrics.percentage}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <text x="18" y="20.3" className="percentage">{techMetrics.percentage}%</text>
-                <text x="18" y="27" className="sub-text">Risk Score حالي</text>
+                <text x="18" y="27" className="sub-text">{t('lbl_current_risk_score')}</text>
               </svg>
             </div>
             <div className="card-footer">
-              <span>المعيار الثابت: {STUDY_AVERAGES.tech}</span>
+              <span>{t('lbl_study_average')}: {STUDY_AVERAGES.tech}</span>
               <span className="chart-bar-icon isn"><FaSignal/></span>
             </div>
           </div>
 
+          {/* كارت الإنذار المبكر */}
           <div className={`alert-card ${warningSystem.hasWarning ? 'trigger-active' : ''}`}>
             <div className="alert-header">
-              <span>مؤشر الإنذار المبكر</span>
+              <span>{t('early_warning_title')}</span>
               <FaRegBell className="bell-icon" />
             </div>
             <div className="alert-content">
               <FaTriangleExclamation className="warning-tri" />
-              <h3>{warningSystem.hasWarning ? "رصد خطر غير مستقر" : "الوضعية آمنة"}</h3>
+              <h3>{warningSystem.hasWarning ? t('warning_detected') : t('warning_stable')}</h3>
               <p>(RII ≥ 85%)</p>
               <small className="warning-desc-text" title={warningSystem.text}>
                 {warningSystem.text}
@@ -357,29 +368,30 @@ const Dashboard = () => {
           </div>
         </section>
 
+        {/* أقسام فلترة المراحل الزمنية */}
         <section className="timeline-filter-section">
           <div className="timeline-title">
             <FaCalendarDays className="calendar-icon" />
-            <span>فلتر المرحلة الزمنية الحالي </span>
+            <span>{t('lbl_timeline_filter')}</span>
           </div>
           <div className="tabs-container">
             <button 
               className={`tab-btn ${activeStage === 'ما قبل التنفيذ' ? 'active' : ''}`}
               onClick={() => setActiveStage('ما قبل التنفيذ')}
             >
-              ما قبل التنفيذ
+              {t('stage_pre_execution')}
             </button>
             <button 
               className={`tab-btn ${activeStage === 'التنفيذ' ? 'active' : ''}`}
               onClick={() => setActiveStage('التنفيذ')}
             >
-              التنفيذ
+              {t('stage_execution')}
             </button>
             <button 
               className={`tab-btn ${activeStage === 'الاستلام والتشغيل' ? 'active' : ''}`}
               onClick={() => setActiveStage('الاستلام والتشغيل')}
             >
-              الاستلام والتشغيل
+              {t('stage_operation')}
             </button>
           </div>
         </section>
@@ -390,32 +402,29 @@ const Dashboard = () => {
             <div className="table-section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="trend-icon"><HiMiniArrowTrendingUp /></span>
-                <h2>أعلى المخاطر لمرحلة "{activeStage}" (أعلى 5)</h2>
+                <h2>{t('table_section_header', { stage: renderTranslatedStage(activeStage) })}</h2>
               </div>
-              <h5 style={{color:"blue",cursor:"pointer"}} onClick={()=>{
-                navigate('/RiskRegistry')
-              }}> 
-                كل المخاطر   
-                ... <BsReplyAll size={15} />
+              <h5 style={{color:"blue", cursor:"pointer"}} onClick={() => navigate('/RiskRegistry')}> 
+                {t('btn_all_risks')} ... <BsReplyAll size={15} />
               </h5>
             </div>
             
             <div className="custom-table-wrapper">
               {loadingDetails ? (
-                <div className="table-loading">جاري معالجة مصفوفة البيانات...</div>
+                <div className="table-loading">{t('table_processing')}</div>
               ) : topFiveRisks.length === 0 ? (
-                <div className="table-loading">لا توجد سجلات مخاطر مضافة تحت هذه المرحلة حالياً.</div>
+                <div className="table-loading">{t('table_no_data')}</div>
               ) : (
                 <table className="energy-modern-table">
                   <thead>
                     <tr>
                       <th style={{ width: '40px' }}>#</th>
-                      <th style={{ width: '90px' }}>كود الخطر</th>
-                      <th>وصف الخطر</th>
-                      <th style={{ width: '80px' }}>المحور</th>
-                      <th style={{ width: '120px' }}>المرحلة الزمنية</th>
+                      <th style={{ width: '90px' }}>{t('th_risk_code')}</th>
+                      <th>{t('th_risk_desc')}</th>
+                      <th style={{ width: '80px' }}>{t('th_axis')}</th>
+                      <th style={{ width: '120px' }}>{t('th_timeline_stage')}</th>
                       <th style={{ width: '100px' }}>Risk Score (%)</th>
-                      <th style={{ width: '140px' }}>الحالة</th>
+                      <th style={{ width: '140px' }}>{t('th_status')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -436,18 +445,17 @@ const Dashboard = () => {
                             </span>
                           </td>
                           <td className="cell-stage">
-                            {normalizeTime(risk.time)}
+                            {renderTranslatedStage(normalizeTime(risk.time))}
                           </td>
                           <td>
                             <span className="cell-score-badge text-danger-score">
                               {risk.riskScore || risk.riiPercentage}
                             </span>
                           </td>
-                          <td >
-                            {/* تم استبدال الحالة القديمة بالنظام الحقيقي للملف السابق بالتفصيل */}
+                          <td>
                             <span style={{textAlign:"center"}} className={`status-tag-new ${getStatusClassName(risk)}`}>
                               <span style={{textAlign:"center"}} className="status-dot"></span>
-                              {isFixedRisk ? 'مغلقة بقرار مؤسسي' : (risk.operationalStatus || 'مفتوحة')}
+                              {isFixedRisk ? t('status_institutional_close') : (risk.operationalStatus || t('status_open'))}
                             </span>
                           </td>
                         </tr>
@@ -459,11 +467,12 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {/* القائمة الجانبية للأزرار السريعة */}
           <div className="action-cards-sidebar">
             <div className="action-card-btn blue-action" onClick={() => navigate('/add-risk')}>
               <div className="action-card-content">
-                <h3>إضافة خطر جديد</h3>
-                <p>إرسال خطر مباشر ومكثف إلى السيرفر</p>
+                <h3>{t('btn_add_risk_title')}</h3>
+                <p>{t('btn_add_risk_desc')}</p>
               </div>
               <div className="action-card-icon-circle"><FaPlus /></div>
               <FaArrowLeft className="action-arrow-hover" />
@@ -471,8 +480,8 @@ const Dashboard = () => {
 
             <div className="action-card-btn green-action" onClick={() => navigate('/sjlmacater')}>
               <div className="action-card-content">
-                <h3>عرض سجل المخاطر</h3>
-                <p>استعراض وتحليل الملفات الشاملة</p>
+                <h3>{t('btn_view_registry_title')}</h3>
+                <p>{t('btn_view_registry_desc')}</p>
               </div>
               <div className="action-card-icon-circle"><FaFolderOpen /></div>
               <FaArrowLeft className="action-arrow-hover" />

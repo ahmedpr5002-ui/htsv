@@ -1,0 +1,53 @@
+{
+  "title": "إنشاء حساب جديد",
+  "placeholders": {
+    "username": "اسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "select_company": "اختر الشركة",
+    "select_company_first": "اختر الشركة أولاً",
+    "select_governorate": "اختر المحافظة"
+  },
+  "buttons": {
+    "register": "تسجيل الحساب",
+    "login": "تسجيل الدخول"
+  },
+  "footer": {
+    "has_account": "لديك حساب بالفعل؟"
+  },
+  "companies": {
+    "north": "الشمال",
+    "middle": "الوسط",
+    "euphrates": "فرات أوسط",
+    "south": "الجنوب"
+  },
+  "governorates": {
+    "nineveh": "نينوى",
+    "kirkuk": "كركوك",
+    "saladin": "صلاح الدين",
+    "baghdad": "بغداد",
+    "diyala": "ديالى",
+    "wasit": "واسط",
+    "anbar": "الأنبار",
+    "babylon": "بابل",
+    "najaf": "النجف",
+    "karbala": "كربلاء",
+    "diwaniyah": "الديوانية",
+    "basra": "البصرة",
+    "dhi_qar": "ذي قار",
+    "maysan": "ميسان",
+    "muthanna": "المثنى"
+  },
+  "notifications": {
+    "image_selected": "تم اختيار الصورة بنجاح",
+    "validation_error": "يرجى اختيار الشركة والمحافظة التابعة لها أولاً",
+    "register_failed": "فشلت عملية إنشاء الحساب",
+    "register_success": "تم تسجيل حسابك بنجاح أهلاً بك!",
+    "required_image": "يرجى رفع الصورة الشخصية أولاً",
+    "required_username": "يرجى إدخال اسم المستخدم",
+    "required_email": "يرجى إدخال البريد الإلكتروني",
+    "required_password": "يرجى إدخال كلمة المرور",
+    "required_company": "يرجى اختيار الشركة التابع لها",
+    "required_governorate": "يرجى تحديد المحافظة المعنية"
+  }
+}

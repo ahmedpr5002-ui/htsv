@@ -1,0 +1,47 @@
+{
+  "dashboard": {
+    "title": "Available Report Types",
+    "subtitle": "Generate, preview, and download reports instantly in multiple formats using live project data",
+    "target_project": "Target Project:",
+    "all_projects": "All Projects (Comparative & Overview Report)",
+    "report_includes": "Report Includes:",
+    "export_options": "Export Options:"
+  },
+  "buttons": {
+    "back_to_reports": "Back to Reports",
+    "refresh_projects": "Refresh Projects",
+    "preview": "Preview"
+  },
+  "labels": {
+    "under_development": "Project Under Development"
+  },
+  "messages": {
+    "export_failed": "Export failed: Server returned an internal error (500)."
+  },
+  "reportCards": {
+    "risk_register": {
+      "title": "Risk Register Report",
+      "desc": "All project risks with their scores, actions, statuses, and details.",
+      "include_1": "Full risk elements log",
+      "include_2": "Evaluation indicators and RII scores"
+    },
+    "project_comparison": {
+      "title": "Pattern Analysis & Comparison Report",
+      "desc": "Displays the most frequent and selected risks across the system to identify common gaps.",
+      "include_1": "Descending risk ranking based on frequency rate",
+      "include_2": "Average severity score of the overall pattern"
+    },
+    "lessons_learned": {
+      "title": "Lessons Learned Report",
+      "desc": "Collects content from the lessons learned field and engineers' notes, categorized by risk type.",
+      "include_1": "Logs of past lessons and experiences",
+      "include_2": "Extracted preventive recommendations"
+    },
+    "overdue_actions": {
+      "title": "Overdue Actions Report",
+      "desc": "Risks that exceeded their action deadlines without being closed, sending alerts to the relevant manager.",
+      "include_1": "List of overdue risks",
+      "include_2": "Identification of parties responsible for delays and warnings"
+    }
+  }
+}

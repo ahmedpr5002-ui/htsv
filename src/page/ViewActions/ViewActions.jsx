@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import RightBar from '../../components/rightBar/rightBar';
 import { 
   FaScaleBalanced, 
@@ -10,12 +11,13 @@ import {
   FaFilter,
   FaArrowLeft,
   FaLink,
-  FaClock // أيقونة حقل المرحلة (Phase)
+  FaClock 
 } from 'react-icons/fa6';
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import './ViewActions.css'; 
 
 const ViewActions = () => {
+  const { t } = useTranslation('viewActions'); // تفعيل التابع وتحديد الـ Namespace
   const navigate = useNavigate();
   const [actions, setActions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,26 +73,26 @@ const ViewActions = () => {
     return '';
   };
 
-  // دالة عرض بادج المحور
+ 
   const renderCategoryBadge = (category) => {
-    if (!category) return <span className="badge-category-axis badge-assignee-default">غير مصنف</span>;
+    if (!category) return <span className="badge-category-axis badge-assignee-default">{t('axis_unclassified')}</span>;
     
     if (category.includes('مالي')) {
-      return <span className="badge-category-axis axis-financial-badge"><FaDollarSign /> مالي</span>;
+      return <span className="badge-category-axis axis-financial-badge"><FaDollarSign /> {t('axis_financial')}</span>;
     }
     if (category.includes('قانوني') || category.includes('القانوني')) {
-      return <span className="badge-category-axis axis-legal-badge"><FaScaleBalanced /> قانوني</span>;
+      return <span className="badge-category-axis axis-legal-badge"><FaScaleBalanced /> {t('axis_legal')}</span>;
     }
     if (category.includes('فني')) {
-      return <span className="badge-category-axis axis-technical-badge"><FaShieldHalved /> فني</span>;
+      return <span className="badge-category-axis axis-technical-badge"><FaShieldHalved /> {t('axis_technical')}</span>;
     }
     if (category.includes('تكامل') || category.includes('تكاملي')) {
-      return <span className="badge-category-axis axis-integrative-badge"><FaLink /> تكاملي</span>;
+      return <span className="badge-category-axis axis-integrative-badge"><FaLink /> {t('axis_integrative')}</span>;
     }
     return <span className="badge-category-axis badge-assignee-default">{category}</span>;
   };
 
-  // دالة عرض بادج المرحلة (Phase) المضافة حديثاً بناء على بياناتك الحقيقية
+  // دالة عرض بادج المرحلة (Phase)
   const renderPhaseBadge = (phase) => {
     if (!phase) return <span className="phase-badge phase-default">-</span>;
     return (
@@ -121,23 +123,23 @@ const ViewActions = () => {
           {/* بنر الهيدر العريض المدمج */}
           <div className="racon-blue-banner header-banner-flex">
             <div className="banner-text-side">
-              <h2 className="banner-title">دليل الإجراءات السائدة</h2>
-              <p className="banner-subtitle">استعراض ومتابعة كافة الإجراءات الوقائية والتصحيحية المسجلة بنظام إدارة المخاطر</p>
+              <h2 className="banner-title">{t('banner_title')}</h2>
+              <p className="banner-subtitle">{t('banner_subtitle')}</p>
             </div>
             <button type="button" className="btn-back-header" onClick={() => navigate(-1)}>
-              العودة للوحة التحكم<FaArrowLeft /> 
+              {t('btn_back')}<FaArrowLeft /> 
             </button>
           </div>
 
           {/* شريط الفلترة والبحث السريع */}
           <div className="action-dropdown-selection-card filter-wrapper-layout">
             <div className="search-box-container">
-              <label className="dropdown-main-label"><FaMagnifyingGlass /> ابحث عن إجراء معين (بالكود، النص):</label>
+              <label className="dropdown-main-label"><FaMagnifyingGlass /> {t('label_search')}</label>
               <div className="input-icon-wrapper">
                 <FaMagnifyingGlass className="inner-icon" />
                 <input 
                   type="text" 
-                  placeholder="اكتب كود الإجراء، المعرف الفريد، أو نص الإجراء للفلترة الفورية..." 
+                  placeholder={t('placeholder_search')} 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input-field"
@@ -146,22 +148,22 @@ const ViewActions = () => {
             </div>
 
             <div className="filter-item">
-              <label className="dropdown-main-label"><FaFilter /> المحور التصنيفي:</label>
+              <label className="dropdown-main-label"><FaFilter /> {t('label_filter_axis')}</label>
               <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="filter-select-control">
-                <option value="all">كل المحاور التشغيلية</option>
-                <option value="مالي">المحور المالي</option>
-                <option value="قانوني">المحور القانوني</option>
-                <option value="فني">المحور الفني</option>
-                <option value="تكامل">المحور التكاملي</option>
+                <option value="all">{t('opt_all_axes')}</option>
+                <option value="مالي">{t('opt_financial')}</option>
+                <option value="قانوني">{t('opt_legal')}</option>
+                <option value="فني">{t('opt_technical')}</option>
+                <option value="تكامل">{t('opt_integrative')}</option>
               </select>
             </div>
           </div>
 
-          {/* الجدول الرئيسي الشامل لكافة البيانات والـ ID والـ Phase */}
+          {/* الجدول الرئيسي */}
           <div className="actions-list-main-card elevated-table-card">
             <div className="card-header-inline">
-              <h3><HiOutlineDocumentText /> مصفوفة الإجراءات المعتمدة بالنظام</h3>
-              <span className="subtitle-hint">إجمالي الإجراءات المتاحة: ({filteredActions.length})</span>
+              <h3><HiOutlineDocumentText /> {t('table_main_title')}</h3>
+              <span className="subtitle-hint">{t('total_actions_hint', { count: filteredActions.length })}</span>
             </div>
 
             <div className="table-responsive">
@@ -169,20 +171,19 @@ const ViewActions = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '50px' }}>#</th>
-                    <th style={{ width: '130px' }}>كود الإجراء</th>
-                    <th style={{ width: '110px' }}>المحور</th>
-                    <th style={{ width: '120px' }}>المرحلة</th>
-                    <th style={{}}>نص الإجراء </th>
-                    <th style={{ width: '110px' }}>الفاعلية (RII)</th>
-                    <th style={{ width: '120px' }}>تاريخ التسجيل</th>
-                    
+                    <th style={{ width: '130px' }}>{t('th_action_code')}</th>
+                    <th style={{ width: '110px' }}>{t('th_axis')}</th>
+                    <th style={{ width: '120px' }}>{t('th_phase')}</th>
+                    <th>{t('th_action_text')}</th>
+                    <th style={{ width: '110px' }}>{t('th_rii')}</th>
+                    <th style={{ width: '120px' }}>{t('th_created_at')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan="8" className="text-center table-status-msg">جاري تحميل البيانات من الخادم السحابي...</td></tr>
+                    <tr><td colSpan="7" className="text-center table-status-msg">{t('table_loading')}</td></tr>
                   ) : filteredActions.length === 0 ? (
-                    <tr><td colSpan="8" className="text-center no-data-inside-table">لا توجد إجراءات مسجلة تطابق خيارات الفلترة والبحث الحالية.</td></tr>
+                    <tr><td colSpan="7" className="text-center no-data-inside-table">{t('table_no_data')}</td></tr>
                   ) : filteredActions.map((action, index) => {
                     const rowClass = getActionRowClass(action.category);
                     const codeColorClass = getCodeColorClass(action.category);
@@ -195,7 +196,6 @@ const ViewActions = () => {
                           {action.code || `ACT-${index + 1}`}
                         </td>
                         <td>{renderCategoryBadge(action.category)}</td>
-                        {/* عرض حقل المرحلة المضاف حديثاً */}
                         <td>{renderPhaseBadge(action.phase)}</td>
                         <td className="text-right action-text-bold-style">{action.actionText}</td>
                         <td className="rii-cell-styled">{action.riiPercentage ? action.riiPercentage.toFixed(2) : '85.30'}%</td>
@@ -204,8 +204,6 @@ const ViewActions = () => {
                             <FaCalendarDays className="calendar-icon-table" /> {formattedDate}
                           </span>
                         </td>
-                        {/* عرض حقل المعرف الفريد للتأكد التام من اكتمال البيانات */}
-                       
                       </tr>
                     );
                   })}

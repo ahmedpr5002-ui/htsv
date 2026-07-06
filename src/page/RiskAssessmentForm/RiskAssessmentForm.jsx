@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import { useTranslation } from 'react-i18next'; // استيراد خطاف الترجمة
 import Rightbar from '../../components/rightBar/rightBar';
 import { 
   FaDatabase, 
@@ -27,6 +29,7 @@ const normalizeTimeValue = (val) => {
 };
 
 const RiskAssessmentForm = () => {
+  const { t } = useTranslation('riskForm'); // استخدام خطاف الترجمة مع تحديد الـ Namespace
   const navigate = useNavigate();
   const projId = localStorage.getItem('projectId');
 
@@ -90,8 +93,8 @@ const RiskAssessmentForm = () => {
           }
         }
       } catch (error) {
-        console.error("خطأ في جلب المخاطر:", error);
-      } finally {
+        console.error("Error fetching risks:", error);
+      } {
         setLoadingRisks(false);
       }
     };
@@ -149,13 +152,13 @@ const RiskAssessmentForm = () => {
     setRiskScore(score.toFixed(2));
 
     if (score < 50) {
-      setRiskLevel({ text: 'منخفض', colorClass: 'level-low' });
+      setRiskLevel({ text: t('level_low'), colorClass: 'level-low' });
     } else if (score >= 50 && score <= 75) {
-      setRiskLevel({ text: 'مرتفع', colorClass: 'level-medium' });
+      setRiskLevel({ text: t('level_medium'), colorClass: 'level-medium' });
     } else {
-      setRiskLevel({ text: 'حرج جداً', colorClass: 'level-high' });
+      setRiskLevel({ text: t('level_high'), colorClass: 'level-high' });
     }
-  }, [formData.probability, formData.impact, formData.riiValue]);
+  }, [formData.probability, formData.impact, formData.riiValue, t]);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -164,43 +167,26 @@ const RiskAssessmentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputType === 'manual' && !formData.riskText.trim()) {
-      showToastMessage("يرجى إدخال وصف الخطر أولاً للاضافة اليدوية!", 'error');
+      showToastMessage(t('error_manual_description_required'), 'error');
       return;
     }
     setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      // const payload = {
-      //   projectId: formData.projectId || localStorage.getItem('projectId'),
-      //   riskId: formData.riskId || null, 
-      //   riskCode: formData.riskCode,
-      //   riskText: formData.riskText, 
-      //   time: formData.time, 
-      //   stage: formData.time === 'ما قبل التنفيذ' ? 'قبل' : formData.time === 'الاستلام والتشغيل' ? 'بعد' : 'اثناء', 
-      //   probability: Number(formData.probability), 
-      //   impact: Number(formData.impact),          
-      //   type: formData.nature, 
-      //   axis: formData.axis,
-      //   riiPercentage: Number(formData.riiValue), 
-      //   riskScore: Number(riskScore) 
-      // };
       const payload = {
-  projectId: formData.projectId || localStorage.getItem('projectId'),
-  riskId: formData.riskId || null, 
-  riskCode: formData.riskCode,
-  riskText: formData.riskText, 
-  time: formData.time, 
-  
-  // التعديل الجذري هنا: نرسل نفس القيم الثلاثة الصريحة التي حددتها في الـ Select
-  stage: formData.time === 'ما قبل التنفيذ' ? 'ما قبل التنفيذ' : formData.time === 'الاستلام والتشغيل' ? 'الاستلام والتشغيل' : 'التنفيذ', 
-  
-  probability: Number(formData.probability), 
-  impact: Number(formData.impact),          
-  type: formData.nature, 
-  axis: formData.axis,
-  riiPercentage: Number(formData.riiValue), 
-  riskScore: Number(riskScore) 
-};
+        projectId: formData.projectId || localStorage.getItem('projectId'),
+        riskId: formData.riskId || null, 
+        riskCode: formData.riskCode,
+        riskText: formData.riskText, 
+        time: formData.time, 
+        stage: formData.time === 'ما قبل التنفيذ' ? 'ما قبل التنفيذ' : formData.time === 'الاستلام والتشغيل' ? 'الاستلام والتشغيل' : 'التنفيذ', 
+        probability: Number(formData.probability), 
+        impact: Number(formData.impact),          
+        type: formData.nature, 
+        axis: formData.axis,
+        riiPercentage: Number(formData.riiValue), 
+        riskScore: Number(riskScore) 
+      };
 
       const response = await fetch('https://ahmedpr5002-irs-hvtl.hf.space/dang', {
         method: 'POST',
@@ -213,15 +199,15 @@ const RiskAssessmentForm = () => {
 
       const data = await response.json();
       if (response.ok || response.status === 201) {
-        showToastMessage("تم حفظ وإرسال الخطر بنجاح!", 'success');
+        showToastMessage(t('success_save_message'), 'success');
         if (inputType === 'manual') {
           setFormData(prev => ({ ...prev, riskText: "" }));
         }
       } else {
-        showToastMessage(data.message || "فشل الإرسال، تحقق من المدخلات.", 'error');
+        showToastMessage(data.message || t('error_failed_submission'), 'error');
       }
     } catch (error) {
-      showToastMessage("خطأ في الاتصال بالسيرفر.", 'error');
+      showToastMessage(t('error_server_connection'), 'error');
     } finally {
       setSubmitting(false);
     }
@@ -236,10 +222,10 @@ const RiskAssessmentForm = () => {
             <div className="no-project-icon-box">
               <FaFolderPlus />
             </div>
-            <h2>لم يتم تحديد مشروع نشط!</h2>
-            <p>عذراً، لا يمكنك البدء في عملية تقييم المخاطر دون اختيار مشروع أو إنشائه أولاً لربط البيانات به.</p>
+            <h2>{t('no_project_title')}</h2>
+            <p>{t('no_project_desc')}</p>
             <button className="btn-redirect-project" onClick={() => navigate('/createproject')}>
-              الانتقال لوحدة المشاريع واختيار مشروع
+              {t('btn_redirect_project')}
             </button>
           </div>
         </div>
@@ -269,7 +255,7 @@ const RiskAssessmentForm = () => {
 
       <form onSubmit={handleSubmit} className="risk-card">
         <div className="section-title">
-          <FaGears className="section-icon" /> 1. اختيار نوع الإدخال
+          <FaGears className="section-icon" /> {t('section_input_type')}
         </div>
         <div className="input-type-grid">
           <div 
@@ -278,8 +264,8 @@ const RiskAssessmentForm = () => {
           >
             <div className="type-icon-wrapper"><FaDatabase /></div>
             <div className="type-text">
-              <strong>قاعدة المخاطر الثابتة</strong>
-              <p>جلب تلقائي مسبق لقيم الـ RII</p>
+              <strong>{t('type_database_title')}</strong>
+              <p>{t('type_database_desc')}</p>
             </div>
           </div>
           
@@ -289,8 +275,8 @@ const RiskAssessmentForm = () => {
           >
             <div className="type-icon-wrapper"><FaPenToSquare /></div>
             <div className="type-text">
-              <strong>إضافة خطر يدوي</strong>
-              <p>تعديل كامل بمعرف مؤقت</p>
+              <strong>{t('type_manual_title')}</strong>
+              <p>{t('type_manual_desc')}</p>
             </div>
           </div>
         </div>
@@ -300,8 +286,8 @@ const RiskAssessmentForm = () => {
         <div className="form-grid">
           {inputType === 'database' && (
             <div className="form-group select-custom-wrapper">
-              <label><FaDatabase className="input-field-icon" /> اختيار الخطر من مصفوفة النظام</label>
-<select 
+              <label> {t('label_select_system_risk')}</label>
+              <select 
                 disabled={loadingRisks}
                 value={formData.riskCode} 
                 className="enhanced-dropdown-select"
@@ -313,33 +299,33 @@ const RiskAssessmentForm = () => {
                 }}
                 style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }}
               >
-                {loadingRisks ? <option>جاري تحميل مصفوفة المخاطر الرقمية...</option> : null}
+                {loadingRisks ? <option>{t('loading_risks')}</option> : null}
                 
                 {technicalRisks.length > 0 && (
-                  <optgroup label="⚙ ⁩ المخاطر الفنية" style={{ fontWeight: 'bold', color: '#1e40af', background: '#f8fafc' }}>
+                  <optgroup label={t('group_technical')} style={{ fontWeight: 'bold', color: '#1e40af', background: '#f8fafc' }}>
                     {technicalRisks.map((risk, idx) => (
                       <option key={`tech-${idx}`} value={risk.riskCode} style={{ background: '#e0f2fe', color: '#0369a1' }}>
-                         [{risk.riskCode}] (خطر فني) - {risk.riskText}
+                         [{risk.riskCode}] ({t('axis_technical')}) - {risk.riskText}
                       </option>
                     ))}
                   </optgroup>
                 )}
 
                 {financialRisks.length > 0 && (
-                  <optgroup label="❖ ⁩ المخاطر المالية" style={{ fontWeight: 'bold', color: '#166534', background: '#f8fafc' }}>
+                  <optgroup label={t('group_financial')} style={{ fontWeight: 'bold', color: '#166534', background: '#f8fafc' }}>
                     {financialRisks.map((risk, idx) => (
                       <option key={`fin-${idx}`} value={risk.riskCode} style={{ background: '#dcfce7', color: '#15803d' }}>
-                        [{risk.riskCode}] (خطر مالي) - {risk.riskText}
+                        [{risk.riskCode}] ({t('axis_financial')}) - {risk.riskText}
                       </option>
                     ))}
                   </optgroup>
                 )}
 
                 {legalRisks.length > 0 && (
-                  <optgroup label="⚖ ⁩ المخاطر القانونية" style={{ fontWeight: 'bold', color: '#6b21a8', background: '#f8fafc' }}>
+                  <optgroup label={t('group_legal')} style={{ fontWeight: 'bold', color: '#6b21a8', background: '#f8fafc' }}>
                     {legalRisks.map((risk, idx) => (
                       <option key={`leg-${idx}`} value={risk.riskCode} style={{ background: '#f3e8ff', color: '#7e22ce' }}>
-                        [{risk.riskCode}] (خطر قانوني) - {risk.riskText}
+                        [{risk.riskCode}] ({t('axis_legal')}) - {risk.riskText}
                       </option>
                     ))}
                   </optgroup>
@@ -349,7 +335,7 @@ const RiskAssessmentForm = () => {
           )}
 
           <div className="form-group">
-            <label><FaKey className="input-field-icon" /> كود الخطر</label>
+            <label> {t('label_risk_code')}</label>
             <input 
               type="text" 
               value={formData.riskCode} 
@@ -360,41 +346,41 @@ const RiskAssessmentForm = () => {
           </div>
 
           <div className="form-group">
-            <label><HiMiniArrowTrendingUp className="input-field-icon" /> طبيعة الخطر</label>
+            <label> {t('label_risk_nature')}</label>
             {inputType === 'database' ? (
-              <input type="text" value={formData.nature} readOnly className="bg-locked highlighted-text" />
+              <input type="text" value={formData.nature === 'ثابت' ? t('nature_static') : t('nature_dynamic')} readOnly className="bg-locked highlighted-text" />
             ) : (
               <select value={formData.nature} onChange={(e) => handleInputChange('nature', e.target.value)}>
-                <option value="ثابت">ثابت</option>
-                <option value="متغير">متغير</option>
+                <option value="ثابت">{t('nature_static')}</option>
+                <option value="متغير">{t('nature_dynamic')}</option>
               </select>
             )}
           </div>
 
           <div className="form-group">
-            <label><FaClock className="input-field-icon" /> المرحلة الزمنية (time)</label>
+            <label> {t('label_time_stage')}</label>
             <select value={formData.time} onChange={(e) => handleInputChange('time', e.target.value)}>
-              <option value="ما قبل التنفيذ">ما قبل التنفيذ</option>
-              <option value="التنفيذ">التنفيذ</option>
-              <option value="الاستلام والتشغيل">الاستلام والتشغيل</option>
+              <option value="ما قبل التنفيذ">{t('stage_pre_execution')}</option>
+              <option value="التنفيذ">{t('stage_execution')}</option>
+              <option value="الاستلام والتشغيل">{t('stage_operation')}</option>
             </select>
           </div>
 
           <div className="form-group">
-            <label><FaScaleBalanced className="input-field-icon" /> المحور</label>
+            <label>{t('label_axis')}</label>
             {inputType === 'database' ? (
-              <input type="text" value={formData.axis} readOnly className="bg-locked" />
+              <input type="text" value={formData.axis === 'فني' ? t('axis_technical') : formData.axis === 'مالي' ? t('axis_financial') : t('axis_legal')} readOnly className="bg-locked" />
             ) : (
               <select value={formData.axis} onChange={(e) => handleInputChange('axis', e.target.value)}>
-                <option value="قانوني">قانوني</option>
-                <option value="فني">فني</option>
-                <option value="مالي">مالي</option>
+                <option value="قانوني">{t('axis_legal')}</option>
+                <option value="فني">{t('axis_technical')}</option>
+                <option value="مالي">{t('axis_financial')}</option>
               </select>
             )}
           </div>
 
           <div className="form-group rii-wrapper">
-            <label><FaCircleExclamation className="input-field-icon" /> مؤشر RII</label>
+            <label> {t('label_rii_index')}</label>
             <div className={`rii-display ${inputType === 'manual' ? 'manual-enforced' : ''}`}>
               {Number(formData.riiValue).toFixed(2)}%
             </div>
@@ -403,7 +389,7 @@ const RiskAssessmentForm = () => {
 
         <div className="sliders-grid">
           <div className="range-card">
-            <label className="range-label"><FaClock className="input-field-icon" /> الاحتمالية P (1-5)</label>
+            <label className="range-label"> {t('label_probability')}</label>
             <div className="range-buttons">
               {[1, 2, 3, 4, 5].map((num) => (
                 <button
@@ -419,7 +405,7 @@ const RiskAssessmentForm = () => {
           </div>
 
           <div className="range-card">
-            <label className="range-label"><FaCircleExclamation className="input-field-icon" /> التأثير I (1-5)</label>
+            <label className="range-label">{t('label_impact')}</label>
             <div className="range-buttons">
               {[1, 2, 3, 4, 5].map((num) => (
                 <button
@@ -438,7 +424,7 @@ const RiskAssessmentForm = () => {
         <div className="bottom-grid">
           <div className="form-group text-area-group">
             <label>
-              <FaPenToSquare className="input-field-icon" /> وصف الخطر الحالي 
+              {t('label_current_description')}
               {inputType === 'manual' && <span style={{ color: '#e53e3e', marginRight: '3px' }}>*</span>}
             </label>
             <textarea 
@@ -446,48 +432,44 @@ const RiskAssessmentForm = () => {
               readOnly={inputType === 'database'}
               className={inputType === 'database' ? 'bg-locked' : ''}
               onChange={(e) => handleInputChange('riskText', e.target.value)}
-              placeholder={inputType === 'manual' ? "هذا الحقل مطلوب للاضافة اليدوية..." : "وصف الخطر..."}
+              placeholder={inputType === 'manual' ? t('placeholder_manual') : t('placeholder_database')}
             />
           </div>
 
           <div className="score-panel">
-            <div className="score-header" >Risk Score</div>
+            <div className="score-header">Risk Score</div>
             <div className="score-value">{riskScore}%</div>
             <div className={`score-badge ${riskLevel.colorClass}`}>
               {riskLevel.text}
             </div>
           </div>
-<div className="score-panel">
-  {/* الجزء الأول: صندوق المعادلة الرياضية الحيّة */}
-  <div className="formula-box">
-    
-    <div className="formula-math">
-      <span className="math-label">Score</span>
-      <span className="math-op">=</span>
-      <div className="math-fraction">
-        <span className="fraction-top">
-          {formData.probability}<small>(P)</small> × {formData.impact}<small>(I)</small>
-        </span>
-        <span className="fraction-bottom">25</span>
-      </div>
-      <span className="math-op">×</span>
-      <span className="fraction-rii">
-        {Number(formData.riiValue).toFixed(2)}% <small>(RII)</small>
-      </span>
-    </div>
-  </div>
-
-  {/* الجزء الثاني: بطاقة عرض النتيجة النهائية ومستوى الخطر */}
-
-</div>
+          
+          <div className="score-panel">
+            <div className="formula-box">
+              <div className="formula-math">
+                <span className="math-label">Score</span>
+                <span className="math-op">=</span>
+                <div className="math-fraction">
+                  <span className="fraction-top">
+                    {formData.probability}<small>(P)</small> × {formData.impact}<small>(I)</small>
+                  </span>
+                  <span className="fraction-bottom">25</span>
+                </div>
+                <span className="math-op">×</span>
+                <span className="fraction-rii">
+                  {Number(formData.riiValue).toFixed(2)}% <small>(RII)</small>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="actions-wrapper">
           <button type="submit" className="btn-submit" disabled={submitting}>
-            <FaFloppyDisk className="btn-icon" /> {submitting ? "جاري الحفظ..." : "حفظ الخطر"}
+            <FaFloppyDisk className="btn-icon" /> {submitting ? t('btn_saving') : t('btn_save')}
           </button>
           <button type="button" className="btn-cancel">
-            <FaXmark className="btn-icon" /> إلغاء
+            <FaXmark className="btn-icon" /> {t('btn_cancel')}
           </button>
         </div>
       </form>

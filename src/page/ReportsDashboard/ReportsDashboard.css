@@ -1,31 +1,56 @@
+
 :root {
   /* --- ألوان الشعار المستخرجة بدقة --- */
   --energy-blue-light: #5ECDF5;  /* الأزرق السماوي الفاتح */
   --energy-blue-medium: #479FD7; /* الأزرق المتوسط */
   --energy-blue-dark: #2F5C9E;   /* الأزرق الداكن العميق */
 
-  /* --- ألوان العناصر والنصوص --- */
-  --energy-plug-white: #FFFFFF;  /* الأبيض النقي */
-  --energy-text-dark: #1E3A60;   /* لون داكن للنصوص ليتماشى مع الهوية */
-  --energy-text-secondary: #5275a1; /* لون نصوص فرعية */
+  /* --- ألوان العناصر والنصوص (الوضع المضيء الافتراضي) --- */
+  --energy-plug-white: #FFFFFF;
+  --energy-text-dark: #1E3A60;
+  --energy-text-secondary: #5275a1;
   --energy-border-color: #cbd5e1;
+  --energy-card-bg: #FFFFFF;
+  --energy-header-bg: #FFFFFF;
+  --energy-badge-bg: #eff6ff;
+  --energy-table-th-bg: #f1f5f9;
+  --energy-table-hover: #f8fafc;
+  --energy-divider: #e2e8f0;
 
   /* --- تدرجات الألوان (Gradients) --- */
   --energy-gradient-linear: linear-gradient(135deg, var(--energy-blue-light) 0%, var(--energy-blue-medium) 50%, var(--energy-blue-dark) 100%);
   --energy-gradient-bg: linear-gradient(180deg, #F4FAFD 0%, #E6F2F9 100%);
 
   /* --- تأثيرات إضافية وهندسة التصميم --- */
-  --energy-shadow-glow: 0 8px 24px rgba(71, 159, 215, 0.15);
+  --energy-shadow-glow: 0 8px 24px rgba(71, 159, 215, 0.12);
   --energy-radius-circle: 50%;
   --energy-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* الحاوية الأساسية - ضبط دقيق للمساحات والمحاذاة */
+/* 🌙 تفعيل الوضع المظلم المتكامل للوحة المؤشرات (Dark Dashboard Mode) */
+[data-theme="dark"] {
+  --energy-plug-white: #111b35;
+  --energy-text-dark: #f8fafc;
+  --energy-text-secondary: #94a3b8;
+  --energy-border-color: #1e294b;
+  --energy-card-bg: #111b35;
+  --energy-header-bg: #162247;
+  --energy-badge-bg: rgba(71, 159, 215, 0.15);
+  --energy-table-th-bg: #0f172a;
+  --energy-table-hover: #162241;
+  --energy-divider: #1e294b;
+  --energy-gradient-bg: linear-gradient(180deg, #0b1329 0%, #0f172a 100%);
+  --energy-shadow-glow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   1. الحاوية الأساسية وضبط عزل الشاشة (Dashboard Base Layout)
+   ========================================================================== */
 .reports-dashboard-content {
   width: 82%;
   min-height: 100vh;
   padding: 24px;
-  margin-right: 18%;
+  margin-inline-start: 18%; /* المحاذاة المنطقية الديناميكية بجانب الـ Sidebar */
   background: var(--energy-gradient-bg) !important;
   color: var(--energy-text-dark) !important;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,20 +58,23 @@
   flex-direction: column;
   gap: 24px;
   box-sizing: border-box;
-  direction: rtl; /* لضمان انسيابية العناصر العربية من اليمين للشمال */
-  float: right;
+  direction: rtl; 
+  transition: var(--energy-transition);
 }
 
-/* الهيدر العلوي */
+/* ==========================================================================
+   2. الهيدر العلوي وأدوات التحكم الذكية (Header Dashboard Controls)
+   ========================================================================== */
 .reports-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--energy-plug-white) !important;
+  background: var(--energy-header-bg) !important;
   padding: 20px 24px;
   border-radius: 14px;
   box-shadow: var(--energy-shadow-glow);
-  border: 1px solid rgba(71, 159, 215, 0.1);
+  border: 1px solid var(--energy-border-color);
+  transition: var(--energy-transition);
 }
 
 .header-title-zone h1 {
@@ -82,16 +110,24 @@
 }
 
 .project-select-box select {
-  background: var(--energy-plug-white) !important;
+  background: var(--energy-card-bg) !important;
   color: var(--energy-text-dark) !important;
-  border: 1.5px solid #cbd5e1;
-  padding: 10px 16px;
+  border: 1.5px solid var(--energy-border-color);
+  padding: 10px 36px 10px 16px;
   border-radius: 8px;
   outline: none;
   font-size: 0.88rem;
   cursor: pointer;
   min-width: 260px;
   transition: var(--energy-transition);
+  
+  /* معالجة مظهر السهم للتوافق الكامل والعربي */
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23479FD7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center;
+  background-size: 14px;
 }
 
 .project-select-box select:focus {
@@ -100,8 +136,8 @@
 }
 
 .btn-refresh {
-  background: var(--energy-plug-white);
-  border: 1.5px solid #cbd5e1;
+  background: var(--energy-card-bg);
+  border: 1.5px solid var(--energy-border-color);
   color: var(--energy-text-dark);
   padding: 10px 14px;
   border-radius: 8px;
@@ -113,24 +149,26 @@
 }
 
 .btn-refresh:hover {
-  background: #f1f5f9;
+  background: var(--energy-table-hover);
   border-color: var(--energy-blue-medium);
   color: var(--energy-blue-dark);
 }
 
-/* شبكة الكروت الهندسية (توزيع متناسق وعربي بالكامل) */
+/* ==========================================================================
+   3. شبكة الكروت الذكية المتجاوبة (Responsive Metrics Grid)
+   ========================================================================== */
 .reports-cards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   width: 100%;
 }
 
-/* الكروت الذكية بتأثيرات بصرية متناسقة */
 .report-spec-card {
-  background: var(--energy-plug-white) !important;
+  background: var(--energy-card-bg) !important;
   border-radius: 14px;
-  border: 1px solid rgba(71, 159, 215, 0.1);
+  border: 1px solid var(--energy-border-color);
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
@@ -145,13 +183,12 @@
   box-shadow: var(--energy-shadow-glow);
 }
 
-/* توزيع ألوان الهوية الرقمية على حدود الكروت بدلاً من الألوان العشوائية القديمة */
+/* ربط تدرجات الحدود بالهوية الرقمية للمنصة */
 .theme-blue { border-top: 4px solid var(--energy-blue-light) !important; }
 .theme-green { border-top: 4px solid var(--energy-blue-medium) !important; }
 .theme-purple { border-top: 4px solid var(--energy-blue-dark) !important; }
-.theme-red { border-top: 4px solid var(--energy-text-dark) !important; } /* تلوين التنبيه فقط بالأحمر التحذيري */
+.theme-red { border-top: 4px solid #EF4444 !important; } /* لون الخطر والإنذار القياسي الفعلي */
 
-/* الأيقونات الدائرية المستوحاة من دوائر الشعار */
 .icon-wrapper {
   width: 48px;
   height: 48px;
@@ -161,13 +198,9 @@
   justify-content: center;
   font-size: 1.3rem;
   margin: 0 auto 14px auto;
-  background: #f0f9ff;
+  background: var(--energy-badge-bg);
   color: var(--energy-blue-medium);
-}
-
-.theme-red .icon-wrapper {
-  background:#f0f9ff;
-  color: var(--energy-blue-medium);
+  transition: var(--energy-transition);
 }
 
 .card-top-info h3 {
@@ -187,12 +220,12 @@
   text-align: right;
 }
 
-/* أقسام محتويات التقارير */
 .card-include-section {
   margin: 16px 0;
   text-align: right;
-  border-top: 1px dashed #e2e8f0;
+  border-top: 1px dashed var(--energy-divider);
   padding-top: 12px;
+  transition: var(--energy-transition);
 }
 
 .card-include-section h4 {
@@ -223,7 +256,9 @@
   line-height: 1;
 }
 
-/* أزرار العمليات السفلية */
+/* ==========================================================================
+   4. أزرار تصدير الملفات والعمليات (Export & Action Footer)
+   ========================================================================== */
 .card-footer-actions {
   display: flex;
   flex-direction: column;
@@ -258,54 +293,56 @@
   transition: var(--energy-transition);
 }
 
-/* تناسق ألوان تصدير الملفات الرسمية */
+/* حماية ألوان التصدير الرسمية ضد تداخل الوضع المظلم لتبقى مقروءة ومميزة */
 .btn-pdf { 
-  background: #fee2e2; 
-  color: #dc2626 !important; 
+  background: rgba(239, 68, 68, 0.15); 
+  color: #f87171 !important; 
   flex: 1; 
 }
 .btn-pdf:hover { 
   background: #dc2626; 
-  color: var(--energy-plug-white) !important; 
+  color: #ffffff !important; 
 }
 
 .btn-excel { 
-  background: #dcfce7; 
-  color: #16a34a !important; 
+  background: rgba(16, 185, 129, 0.15); 
+  color: #34d399 !important; 
   flex: 1; 
 }
 .btn-excel:hover { 
   background: #16a34a; 
-  color: var(--energy-plug-white) !important; 
+  color: #ffffff !important; 
 }
 
-/* زر المعاينة بهوية التدرج اللوني للشعار عند التمرير الماوس */
 .btn-preview-outline {
-  background: #f1f5f9;
+  background: var(--energy-badge-bg);
   color: var(--energy-text-dark) !important;
   border: 1px solid var(--energy-border-color);
   flex: 1.3;
 }
 .btn-preview-outline:hover { 
   background: var(--energy-gradient-linear);
-  color: var(--energy-plug-white) !important;
+  color: #ffffff !important;
   border-color: transparent;
 }
 
-/* جدول المعاينة السفلي */
+/* ==========================================================================
+   5. جدول معاينة البيانات المباشرة (Live Preview Data Table)
+   ========================================================================== */
 .live-preview-section {
-  background: var(--energy-plug-white) !important;
+  background: var(--energy-card-bg) !important;
   border-radius: 14px;
-  border: 1px solid rgba(71, 159, 215, 0.1);
+  border: 1px solid var(--energy-border-color);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-shadow: var(--energy-shadow-glow);
   margin-top: 12px;
+  transition: var(--energy-transition);
 }
 
 .preview-section-title {
-  background: #f8fafc;
+  background: var(--energy-table-th-bg);
   padding: 14px 20px;
   font-weight: 700;
   font-size: 0.9rem;
@@ -313,12 +350,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--energy-divider);
+  transition: var(--energy-transition);
 }
 
 .preview-data-container {
   max-height: 320px;
   overflow-y: auto;
+  overflow-x: auto; /* تأمين التفاف الجدول أفقياً في الشاشات الضيقة */
+  width: 100%;
 }
 
 .preview-state-msg {
@@ -328,53 +368,88 @@
   font-size: 0.85rem;
 }
 
-/* تصميم الجداول والمحاذاة المباشرة */
 .live-preview-table {
   width: 100%;
   border-collapse: collapse;
   text-align: right;
   font-size: 0.85rem;
+  white-space: nowrap; /* منع تشوه نصوص ومقاييس الأعمدة الهامة */
 }
 
 .live-preview-table th {
-  background: #f1f5f9 !important;
+  background: var(--energy-table-th-bg) !important;
   color: var(--energy-text-dark) !important;
   padding: 12px 16px;
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 2px solid #cbd5e1;
+  border-bottom: 2px solid var(--energy-border-color);
   font-weight: 700;
+  transition: var(--energy-transition);
 }
 
 .live-preview-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--energy-divider);
   color: var(--energy-text-secondary) !important;
+  transition: var(--energy-transition);
 }
 
 .live-preview-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--energy-table-hover);
 }
 
-/* عناصر داعمة وعلامات تقييم المخاطر (RII) */
+/* ==========================================================================
+   6. العناصر المساعدة وعلامات تقييم المخاطر (UI Utilities)
+   ========================================================================== */
 .code-highlight { color: var(--energy-blue-dark) !important; font-weight: 700; }
+[data-theme="dark"] .code-highlight { color: var(--energy-blue-light) !important; }
+
 .text-truncate { max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.axis-badge { background: #eff6ff; color: var(--energy-blue-dark); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+.axis-badge { background: var(--energy-badge-bg); color: var(--energy-blue-dark); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+[data-theme="dark"] .axis-badge { color: var(--energy-blue-light); }
+
 .rii-bold { color: var(--energy-blue-medium) !important; font-weight: 700; }
 .score-bold { color: var(--energy-text-dark) !important; font-weight: 700; }
 
-/* أنيميشن التحديث */
 .spin-icon { animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* دعم لصفحة المعاينة المستقلة */
 .standalone-preview {
   margin-top: 0 !important;
   min-height: calc(100vh - 50px);
-  background: var(--energy-plug-white) !important;
+  background: var(--energy-card-bg) !important;
 }
 
 .standalone-preview .preview-data-container {
   max-height: none !important; 
+}
+
+/* ==========================================================================
+   📱 7. الشاشات والأجهزة المحمولة المتوسطة (Media Queries)
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .reports-dashboard-content {
+    width: 100%;
+    margin-inline-start: 0; /* التكيف الفوري وإلغاء الهامش عند إخفاء الـ Sidebar في الأجهزة اللوحية */
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .header-controls-zone {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .project-select-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .project-select-box select {
+    min-width: 100%;
+  }
 }

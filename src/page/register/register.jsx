@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
+import { useTranslation } from "react-i18next"; 
 import toast, { Toaster } from "react-hot-toast";
 import "./register.css";
 
-// هيكلية البيانات الجغرافية التابعة لكل شركة حسب منطقتها
-const companyStructure = {
-  "الشمال": ["نينوى", "كركوك", "صلاح الدين"],
-  "الوسط": ["بغداد", "ديالى", "واسط", "الأنبار"],
-  "فرات أوسط": ["بابل", "النجف", "كربلاء", "الديوانية"],
-  "الجنوب": ["البصرة", "ذي قار", "ميسان", "المثنى"]
-};
-
 const Register = () => {
+  const { t, i18n } = useTranslation('register'); 
+  const navigate = useNavigate();
+
+  // هيكلية البيانات الجغرافية ثابتة المفاتيح لضمان استقرار الفلترة عند تغيير اللغة
+  const companyStructure = {
+    north: ["nineveh", "kirkuk", "saladin"],
+    middle: ["baghdad", "diyala", "wasit", "anbar"],
+    euphrates: ["babylon", "najaf", "karbala", "diwaniyah"],
+    south: ["basra", "dhi_qar", "maysan", "muthanna"]
+  };
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -23,14 +27,10 @@ const Register = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  // معالجة تغيير المدخلات
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
     if (name === "company") {
-      // إذا تغيرت الشركة، نقوم بتحديث الشركة وتصفير المحافظة لإجبار المستخدم على اختيار محافظة جديدة تابعة لها
       setFormData({
         ...formData,
         company: value,
@@ -47,20 +47,47 @@ const Register = () => {
       setImage(file);
       setPreviewUrl(URL.createObjectURL(file));
       
-      toast.success("تم اختيار الصورة بنجاح", {
+      toast.success(t('notifications.image_selected'), {
         style: { border: '1px solid #5ECDF5', padding: '12px', color: '#1A2B49', background: '#ffffff' },
         iconTheme: { primary: '#479FD7', secondary: '#FFF' },
       });
     }
   };
 
+  // دالة التحقق الصارم من الحقول وإظهار التوست المناسب للنقص
+  const validateForm = () => {
+    if (!image) {
+      toast.error(t('notifications.required_image'));
+      return false;
+    }
+    if (!formData.username.trim()) {
+      toast.error(t('notifications.required_username'));
+      return false;
+    }
+    if (!formData.email.trim()) {
+      toast.error(t('notifications.required_email'));
+      return false;
+    }
+    if (!formData.password.trim()) {
+      toast.error(t('notifications.required_password'));
+      return false;
+    }
+    if (!formData.company) {
+      toast.error(t('notifications.required_company'));
+      return false;
+    }
+    if (!formData.governorate) {
+      toast.error(t('notifications.required_governorate'));
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.company || !formData.governorate) {
-      toast.error("يرجى اختيار الشركة والمحافظة التابعة لها أولاً");
-      return;
-    }
+    // تفعيل فحص المدخلات الصارم
+    if (!validateForm()) return;
 
     setLoading(true);
 
@@ -68,9 +95,10 @@ const Register = () => {
     dataToSend.append("username", formData.username);
     dataToSend.append("email", formData.email);
     dataToSend.append("password", formData.password);
-    dataToSend.append("company", formData.company);
-    dataToSend.append("governorate", formData.governorate);
-    if (image) dataToSend.append("image", image);
+    // إرسال الاسم المترجم الفعلي أو المفتاح الثابت حسب متطلبات الباك إند لديك
+    dataToSend.append("company", t(`companies.${formData.company}`));
+    dataToSend.append("governorate", t(`governorates.${formData.governorate}`));
+    dataToSend.append("image", image);
 
     try {
       const response = await fetch("https://ahmedpr5002-irs-hvtl.hf.space/user/register", {
@@ -81,10 +109,10 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "فشلت عملية إنشاء الحساب");
+        throw new Error(data.message || t('notifications.register_failed'));
       }
 
-      toast.success("تم تسجيل حسابك بنجاح أهلاً بك!", {
+      toast.success(t('notifications.register_success'), {
         duration: 4000,
         position: "top-center",
         style: {
@@ -93,7 +121,7 @@ const Register = () => {
           fontWeight: '600',
           borderRadius: '12px',
           fontSize: '14px',
-          direction: 'rtl'
+          direction: i18n.language === 'ar' ? 'rtl' : 'ltr'
         },
         iconTheme: { primary: '#ffffff', secondary: '#2F5C9E' },
       });
@@ -110,29 +138,37 @@ const Register = () => {
       toast.error(err.message, {
         duration: 4000,
         position: "top-center",
-        style: { border: '1px solid #ef4444', background: '#fef2f2', color: '#ef4444', fontWeight: '500', borderRadius: '12px', fontSize: '14px', direction: 'rtl' },
+        style: { 
+          border: '1px solid #ef4444', 
+          background: '#fef2f2', 
+          color: '#ef4444', 
+          fontWeight: '500', 
+          borderRadius: '12px', 
+          fontSize: '14px', 
+          direction: i18n.language === 'ar' ? 'rtl' : 'ltr'
+        },
       });
     } finally {
       setLoading(false);
     }
   };
 
-  // جلب قائمة المحافظات المتاحة بناءً على الشركة المختارة حالياً
   const availableGovernorates = formData.company ? companyStructure[formData.company] : [];
+  const currentDir = i18n.language === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <div className="light-glass-wrapper">
+    <div className="light-glass-wrapper" dir={currentDir}>
       <Toaster />
 
       <div className="light-glow-blob blob-1"></div>
       <div className="light-glow-blob blob-2"></div>
 
       <div className="light-glass-card">
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="light-form">
+        <form onSubmit={handleSubmit} className="light-form" noValidate>
           
           <div className="avatar-upload-section">
             <label className="avatar-label">
-              <input type="file" name="image" accept="image/*" required onChange={handleFileChange} />
+              <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
               <div className="avatar-preview-box">
                 {previewUrl ? (
                   <img src={previewUrl} alt="Preview" className="avatar-img" />
@@ -146,7 +182,7 @@ const Register = () => {
                 </div>
               </div>
             </label>
-            <h3>إنشاء حساب جديد</h3>
+            <h3>{t('title')}</h3>
           </div>
 
           <div className="form-row-grid">
@@ -155,8 +191,7 @@ const Register = () => {
               <input
                 type="text"
                 name="username"
-                required
-                placeholder="اسم المستخدم"
+                placeholder={t('placeholders.username')}
                 value={formData.username}
                 onChange={handleInputChange}
               />
@@ -167,8 +202,7 @@ const Register = () => {
               <input
                 type="email"
                 name="email"
-                required
-                placeholder="البريد الإلكتروني"
+                placeholder={t('placeholders.email')}
                 value={formData.email}
                 onChange={handleInputChange}
               />
@@ -180,66 +214,67 @@ const Register = () => {
             <input
               type="password"
               name="password"
-              required
-              placeholder="كلمة المرور"
+              placeholder={t('placeholders.password')}
               value={formData.password}
               onChange={handleInputChange}
             />
           </div>
 
           <div className="form-row-grid">
-            {/* 1. قائمة اختيار الشركة (إجبارية أولاً) */}
+            {/* 1. قائمة اختيار الشركة */}
             <div className="input-field-container">
               <i className="fa-solid fa-building field-icon"></i>
               <select
                 name="company"
-                required
                 className="governorate-select"
                 value={formData.company}
                 onChange={handleInputChange}
               >
-                <option value="" disabled hidden>اختر الشركة</option>
-                {Object.keys(companyStructure).map((companyName) => (
-                  <option key={companyName} value={companyName}>{companyName}</option>
+                <option value="" disabled hidden>{t('placeholders.select_company')}</option>
+                {Object.keys(companyStructure).map((companyKey) => (
+                  <option key={companyKey} value={companyKey}>
+                    {t(`companies.${companyKey}`)}
+                  </option>
                 ))}
               </select>
             </div>
 
-            {/* 2. قائمة اختيار المحافظة (تعتمد كلياً على تفعيل حقل الشركة) */}
+            {/* 2. قائمة اختيار المحافظة */}
             <div className="input-field-container">
               <i className="fa-solid fa-map-location-dot field-icon"></i>
               <select
                 name="governorate"
-                required
                 className={`governorate-select ${!formData.company ? "disabled-select" : ""}`}
                 value={formData.governorate}
                 onChange={handleInputChange}
-                disabled={!formData.company} // يغلق الحقل تماماً إذا لم يتم اختيار شركة
+                disabled={!formData.company}
               >
                 <option value="" disabled hidden>
-                  {!formData.company ? "اختر الشركة أولاً" : "اختر المحافظة"}
+                  {!formData.company ? t('placeholders.select_company_first') : t('placeholders.select_governorate')}
                 </option>
-                {availableGovernorates.map((gov) => (
-                  <option key={gov} value={gov}>{gov}</option>
+                {availableGovernorates.map((govKey) => (
+                  <option key={govKey} value={govKey}>
+                    {t(`governorates.${govKey}`)}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
 
           <button type="submit" className="light-btn-submit" disabled={loading}>
-            {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : "تسجيل الحساب"}
+            {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : t('buttons.register')}
           </button>
 
           <hr className="form-divider-light" />
 
           <div className="login-redirect-footer">
-            <span>لديك حساب بالفعل؟</span>
+            <span>{t('footer.has_account')}</span>
             <button 
               type="button" 
               className="login-link-btn" 
               onClick={() => navigate("/login")}
             >
-              تسجيل الدخول
+              {t('buttons.login')}
             </button>
           </div>
 

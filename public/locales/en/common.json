@@ -1,0 +1,18 @@
+{
+  "dashboard": "Dashboard",
+  "add_project": "Add Project",
+  "add_risk": "Add Risk",
+  "risk_registry": "Risk Registry",
+  "risk_base": "Risk Base",
+  "actions_base": "Actions Base",
+  "knowledge_base": "Knowledge Base",
+  "Linking_risks":"Linking risks",
+  "reports": "Reports",
+  "projects": "Projects",
+  "admin_add_central_risk": "Add Central Risk",
+  "admin_new_Mitigation": "Add Actions",
+  "admin_new_risks": "New Risks",
+  "admin_system_control": "System Control",
+  "username_placeholder": "Username",
+  "logout": "Logout"
+}
